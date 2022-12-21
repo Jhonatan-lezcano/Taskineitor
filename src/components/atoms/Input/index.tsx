@@ -1,7 +1,25 @@
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useState} from 'react';
 import {Controller} from 'react-hook-form';
 import {lightMode} from '../../../theme/colors';
+import EyeIcon from '../../../assets/svgs/EyeIcon';
+import ClosedEyeIcon from '../../../assets/svgs/ClosedEyeIcon';
+import TextMessageError from '../TextMessageError';
+
+export type InputTypes =
+  | 'default'
+  | 'number-pad'
+  | 'decimal-pad'
+  | 'numeric'
+  | 'email-address'
+  | 'phone-pad'
+  | 'url';
 
 interface Props {
   label?: string;
@@ -12,7 +30,7 @@ interface Props {
   rules?: any;
   name: string;
   password?: boolean;
-  inputType?: any;
+  inputType?: InputTypes;
   variant: 'line' | 'borders';
   borderColor?: string;
 }
@@ -30,7 +48,7 @@ const Input = ({
   variant,
   borderColor,
 }: Props) => {
-  const [secureText, setSecureText] = useState(false);
+  const [secureText, setSecureText] = useState(password);
   return (
     <View style={[{width}]}>
       {label && (
@@ -69,6 +87,20 @@ const Input = ({
           />
         )}
       />
+      <TextMessageError
+        message={err[name] && (err[name]?.message || 'error')}
+      />
+      {password && (
+        <TouchableOpacity
+          style={styles.btnPassword}
+          onPress={() => setSecureText(!secureText)}>
+          {secureText ? (
+            <EyeIcon fillColor={lightMode.colors.primary} />
+          ) : (
+            <ClosedEyeIcon fillColor={lightMode.colors.primary} />
+          )}
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -85,7 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
   btnPassword: {
-    bottom: 25,
+    bottom: 20,
     position: 'absolute',
     right: 10,
     width: 25,
@@ -96,3 +128,11 @@ const styles = StyleSheet.create({
 });
 
 export default Input;
+
+Input.defaultProps = {
+  placeholder: '',
+  value: '',
+  width: '100%',
+  password: false,
+  inputTypes: 'default',
+};

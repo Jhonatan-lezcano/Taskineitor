@@ -1,16 +1,19 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 
+type TextAlignTypes = 'auto' | 'center' | 'justify' | 'left' | 'right';
+
 interface Props {
   title: string;
   fontSize: number;
-  textAlign: 'auto' | 'center' | 'justify' | 'left' | 'right';
+  textAlign: TextAlignTypes;
   customStyles?: {};
+  width?: string | number;
 }
 
-const Title = ({title, fontSize, textAlign, customStyles}: Props) => {
+const Title = ({title, fontSize, textAlign, customStyles, width}: Props) => {
   return (
-    <View>
+    <View style={[customStyles, {width}]}>
       <Text style={[customStyles, {fontSize, textAlign}]}>{title}</Text>
     </View>
   );
@@ -22,4 +25,6 @@ const styles = StyleSheet.create({});
 
 Title.defaultProps = {
   textAlign: 'center',
+  width: '100%',
+  fontSize: 20,
 };
