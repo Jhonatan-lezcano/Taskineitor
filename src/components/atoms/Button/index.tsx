@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {size} from '../../../theme/fonts';
-import {lightMode} from '../../../theme/colors';
+import useTheme from '../../../hooks/useTheme';
 
 interface Props {
   text: string;
@@ -22,8 +22,9 @@ const Button = ({
   shadow,
   width,
 }: Props) => {
+  const {colors} = useTheme();
   const shadowButton = {
-    shadowColor: lightMode.colors.shadowColor,
+    shadowColor: colors.surfaceVariant,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -57,3 +58,7 @@ const styles = StyleSheet.create({
     fontSize: size.font14,
   },
 });
+
+Button.defaultProps = {
+  width: '100%',
+};

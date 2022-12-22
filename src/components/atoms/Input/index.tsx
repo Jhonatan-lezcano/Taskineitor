@@ -11,6 +11,7 @@ import {lightMode} from '../../../theme/colors';
 import EyeIcon from '../../../assets/svgs/EyeIcon';
 import ClosedEyeIcon from '../../../assets/svgs/ClosedEyeIcon';
 import TextMessageError from '../TextMessageError';
+import useTheme from '../../../hooks/useTheme';
 
 export type InputTypes =
   | 'default'
@@ -49,12 +50,11 @@ const Input = ({
   borderColor,
 }: Props) => {
   const [secureText, setSecureText] = useState(password);
+  const {colors} = useTheme();
   return (
     <View style={[{width}]}>
       {label && (
-        <Text style={[styles.label, {color: lightMode.colors.textSecondary}]}>
-          {label}
-        </Text>
+        <Text style={[styles.label, {color: colors.outline}]}>{label}</Text>
       )}
       <Controller
         control={control}
@@ -63,11 +63,11 @@ const Input = ({
         render={({field: {onChange, value, onBlur}, fieldState: {error}}) => (
           <TextInput
             placeholder={placeholder}
-            placeholderTextColor={lightMode.colors.textSecondary}
+            placeholderTextColor={colors.surfaceVariant}
             value={value}
             onChangeText={onChange}
             keyboardType={inputType}
-            selectionColor={lightMode.colors.primary}
+            selectionColor={colors.primary}
             secureTextEntry={secureText}
             onBlur={onBlur}
             style={[
@@ -76,10 +76,8 @@ const Input = ({
                 ? styles.line
                 : variant === 'borders' && styles.borders,
               {
-                color: lightMode.colors.text,
-                borderColor: error
-                  ? lightMode.colors.alertColors.danger
-                  : borderColor,
+                color: colors.onBackground,
+                borderColor: error ? colors.alertColors.danger : borderColor,
                 paddingHorizontal:
                   variant === 'line' ? 5 : variant === 'borders' ? 15 : 0,
               },

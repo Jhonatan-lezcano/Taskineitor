@@ -10,6 +10,7 @@ import Button from '../../components/atoms/Button';
 import ButtonText from '../../components/atoms/ButtonText';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackAuthParams} from '../../navigation/StackAuthNavigation';
+import useTheme from '../../hooks/useTheme';
 
 interface SignInForm {
   email: string;
@@ -20,6 +21,7 @@ interface Props
   extends NativeStackScreenProps<RootStackAuthParams, 'signInScreen'> {}
 
 const SignIn = ({navigation: {navigate}}: Props) => {
+  const {colors, containerScreen} = useTheme();
   const {
     control,
     handleSubmit,
@@ -33,7 +35,7 @@ const SignIn = ({navigation: {navigate}}: Props) => {
   const onSubmit: SubmitHandler<SignInForm> = data => console.log(data);
   return (
     <KeyboardAvoidingView
-      style={styles.containerScreen}
+      style={[containerScreen.container, {paddingHorizontal: 30}]}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Title
         title="Login"
@@ -49,6 +51,7 @@ const SignIn = ({navigation: {navigate}}: Props) => {
         variant="line"
         width="100%"
         inputType="email-address"
+        borderColor={colors.outline}
         err={errors}
       />
       <Spacer vertical={40} />
@@ -59,45 +62,46 @@ const SignIn = ({navigation: {navigate}}: Props) => {
         variant="line"
         width="100%"
         err={errors}
+        borderColor={colors.outline}
         password
       />
       <Spacer vertical={18} />
       <ButtonText
         title="Forgot password?"
-        titleColor={lightMode.colors.primary}
+        titleColor={colors.primary}
         onPress={() => console.log('si')}
       />
       <Spacer vertical={30} />
       <Button
         text="Sign in with Google"
-        backgroundColor={lightMode.colors.primary}
+        backgroundColor={colors.primary}
         radius={50}
-        titleColor={lightMode.colors.white}
+        titleColor={colors.onPrimary}
         onPress={() => console.log('sign in Wiht Google')}
         width="100%"
       />
       <Spacer vertical={20} />
       <Button
         text="Sign in with Apple"
-        backgroundColor={lightMode.colors.primary}
+        backgroundColor={colors.primary}
         radius={50}
-        titleColor={lightMode.colors.white}
+        titleColor={colors.onPrimary}
         onPress={() => console.log('sign in Wiht Apple')}
         width="100%"
       />
       <Spacer vertical={20} />
       <Button
         text="Sign in"
-        backgroundColor={lightMode.colors.primary}
+        backgroundColor={colors.primary}
         radius={50}
-        titleColor={lightMode.colors.white}
+        titleColor={colors.onPrimary}
         onPress={handleSubmit(onSubmit)}
         width="100%"
       />
       <Spacer vertical={20} />
       <ButtonText
         title="Do not you have an account yet? Sign up"
-        titleColor={lightMode.colors.primary}
+        titleColor={colors.primary}
         onPress={() => navigate('signUpScreen')}
       />
     </KeyboardAvoidingView>
@@ -106,11 +110,4 @@ const SignIn = ({navigation: {navigate}}: Props) => {
 
 export default SignIn;
 
-const styles = StyleSheet.create({
-  containerScreen: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 30,
-  },
-});
+const styles = StyleSheet.create({});
