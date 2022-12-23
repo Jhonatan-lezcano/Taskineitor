@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Title from '../../components/atoms/Title';
 import {size} from '../../theme/fonts';
 import {lightMode} from '../../theme/colors';
@@ -23,6 +23,7 @@ import {
   Required,
 } from '../../utils/validations';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 interface SignUpForm {
   username: '';
@@ -38,8 +39,10 @@ const SignUp = ({navigation: {navigate}}: Props) => {
   const {
     handleSubmit,
     control,
-    formState: {errors},
+    formState: {errors, isSubmitSuccessful},
+    formState,
     watch,
+    reset,
   } = useForm<SignUpForm>({
     defaultValues: {
       username: '',
@@ -51,14 +54,21 @@ const SignUp = ({navigation: {navigate}}: Props) => {
   const pwd = watch('password');
 
   const onSubmit: SubmitHandler<SignUpForm> = async data => {
-    const {email, password, username} = data;
     try {
+      const {email, password, username} = data;
+
       const userCredential = await auth().createUserWithEmailAndPassword(
         email,
         password,
       );
 
-      console.log(userCredential.user);
+      firestore().collection('usernames').add({
+        userId: userCredential.user.uid,
+        username,
+      });
+
+      reset({username: '', email: '', password: '', confirmPassword: ''});
+      navigate('signInScreen');
     } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
         console.log('That email address is already in use!');

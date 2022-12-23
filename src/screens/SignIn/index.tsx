@@ -11,6 +11,9 @@ import ButtonText from '../../components/atoms/ButtonText';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackAuthParams} from '../../navigation/StackAuthNavigation';
 import useTheme from '../../hooks/useTheme';
+import auth from '@react-native-firebase/auth';
+import {useAppDispatch} from '../../store/hooks/hooks';
+import {isAuth} from '../../store/slices/auth/authSlice';
 
 interface SignInForm {
   email: string;
@@ -22,6 +25,7 @@ interface Props
 
 const SignIn = ({navigation: {navigate}}: Props) => {
   const {colors, containerScreen} = useTheme();
+  const dispatch = useAppDispatch();
   const {
     control,
     handleSubmit,
@@ -32,7 +36,15 @@ const SignIn = ({navigation: {navigate}}: Props) => {
       password: '',
     },
   });
-  const onSubmit: SubmitHandler<SignInForm> = data => console.log(data);
+  const onSubmit: SubmitHandler<SignInForm> = async data => {
+    try {
+      const {email, password} = data;
+      await auth().signInWithEmailAndPassword(email, password);
+      dispatch(isAuth());
+    } catch (error: any) {
+      console.log(error.message, 'errorrrr');
+    }
+  };
   return (
     <KeyboardAvoidingView
       style={[containerScreen.container, {paddingHorizontal: 30}]}
