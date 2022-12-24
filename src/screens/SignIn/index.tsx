@@ -1,5 +1,5 @@
 import {KeyboardAvoidingView, Platform, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Title from '../../components/atoms/Title';
 import {size} from '../../theme/fonts';
 import {lightMode} from '../../theme/colors';
@@ -36,6 +36,16 @@ const SignIn = ({navigation: {navigate}}: Props) => {
       password: '',
     },
   });
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(user => {
+      if (user) {
+        dispatch(isAuth());
+      }
+    });
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
   const onSubmit: SubmitHandler<SignInForm> = async data => {
     try {
       const {email, password} = data;
