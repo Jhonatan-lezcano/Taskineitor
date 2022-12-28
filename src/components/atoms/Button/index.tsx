@@ -4,13 +4,18 @@ import {size} from '../../../theme/fonts';
 import useTheme from '../../../hooks/useTheme';
 
 interface Props {
-  text: string;
+  text?: string;
   backgroundColor: string;
-  titleColor: string;
+  titleColor?: string;
   radius: number;
   onPress: () => void;
   shadow?: boolean;
-  width: string | number;
+  width?: string | number;
+  icon?: React.ElementType;
+  colorIcon?: string;
+  sizeIcon?: number;
+  borderColor?: string;
+  customStyle?: {};
 }
 
 const Button = ({
@@ -21,6 +26,11 @@ const Button = ({
   onPress,
   shadow,
   width,
+  icon: Icon,
+  colorIcon,
+  sizeIcon,
+  borderColor,
+  customStyle,
 }: Props) => {
   const {colors} = useTheme();
   const shadowButton = {
@@ -38,11 +48,24 @@ const Button = ({
     <TouchableOpacity
       style={[
         styles.button,
+        customStyle,
         shadow && shadowButton,
-        {backgroundColor, borderRadius: radius, width},
+        {
+          backgroundColor,
+          borderRadius: radius,
+          borderColor,
+          borderWidth: borderColor ? 2 : 0,
+          width,
+        },
       ]}
       onPress={onPress}>
-      <Text style={[styles.text, {color: titleColor}]}>{text}</Text>
+      {Icon && <Icon fillColor={colorIcon} size={sizeIcon} />}
+      {text && (
+        <Text
+          style={[styles.text, {color: titleColor, backgroundColor: 'red'}]}>
+          {text}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
