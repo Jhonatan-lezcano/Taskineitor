@@ -10,7 +10,7 @@ import {size} from '../../theme/fonts';
 import Button from '../../components/atoms/Button';
 import CodePlus from '../../assets/svgs/CodePlus';
 import Spacer from '../../components/atoms/Spacer';
-import SliderLists from '../../components/molecules/SliderLists';
+import SliderLists from '../../components/organisms/SliderLists';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 
@@ -71,5 +71,6 @@ export default Home;
 const styles = StyleSheet.create({
   labelBtn: {
     paddingTop: 10,
+    fontWeight: '600',
   },
 });

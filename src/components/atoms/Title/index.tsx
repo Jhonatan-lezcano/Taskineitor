@@ -9,12 +9,22 @@ interface Props {
   textAlign: TextAlignTypes;
   customStyles?: {};
   width?: string | number;
+  lines?: number;
 }
 
-const Title = ({title, fontSize, textAlign, customStyles, width}: Props) => {
+const Title = ({
+  title,
+  fontSize,
+  textAlign,
+  customStyles,
+  width,
+  lines,
+}: Props) => {
   return (
     <View style={[customStyles, {width}]}>
-      <Text style={[customStyles, {fontSize, textAlign}]}>{title}</Text>
+      <Text style={[customStyles, {fontSize, textAlign}]} numberOfLines={lines}>
+        {title}
+      </Text>
     </View>
   );
 };
