@@ -60,12 +60,7 @@ const Button = ({
       ]}
       onPress={onPress}>
       {Icon && <Icon fillColor={colorIcon} size={sizeIcon} />}
-      {text && (
-        <Text
-          style={[styles.text, {color: titleColor, backgroundColor: 'red'}]}>
-          {text}
-        </Text>
-      )}
+      {text && <Text style={[styles.text, {color: titleColor}]}>{text}</Text>}
     </TouchableOpacity>
   );
 };

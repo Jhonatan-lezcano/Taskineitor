@@ -9,15 +9,40 @@ interface Props {
 }
 
 const CardList = ({list}: Props) => {
+  const {color, name, todos} = list;
+  const completed = todos.filter(item => item.completed).length;
+  const pending = todos.length - completed;
+  const textColor = {
+    color: 'white',
+  };
   return (
-    <TouchableOpacity style={[styles.container, {backgroundColor: list.color}]}>
+    <TouchableOpacity style={[styles.container, {backgroundColor: color}]}>
       <Title
-        title={list.name}
+        title={name}
         fontSize={size.font22}
-        customStyles={{fontWeight: '700', color: 'white'}}
+        customStyles={{fontWeight: '700', ...textColor}}
         lines={1}
       />
-      <Title title="0" />
+      <Title
+        title={completed.toString()}
+        fontSize={size.font48}
+        customStyles={{...textColor, fontWeight: '100'}}
+      />
+      <Title
+        title="Completed"
+        fontSize={size.font16}
+        customStyles={{...textColor}}
+      />
+      <Title
+        title={pending.toString()}
+        fontSize={size.font48}
+        customStyles={{...textColor, fontWeight: '100'}}
+      />
+      <Title
+        title="Pending to do"
+        fontSize={size.font16}
+        customStyles={{...textColor}}
+      />
     </TouchableOpacity>
   );
 };

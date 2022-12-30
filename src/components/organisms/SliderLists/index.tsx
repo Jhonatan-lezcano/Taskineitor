@@ -25,6 +25,5 @@ const styles = StyleSheet.create({
   container: {
     height: 310,
     width: '100%',
-    backgroundColor: 'red',
   },
 });
