@@ -4,16 +4,20 @@ import useTheme from '../../hooks/useTheme';
 import Title from '../../components/atoms/Title';
 import {size} from '../../theme/fonts';
 import Input from '../../components/atoms/Input';
-import {useForm} from 'react-hook-form';
+import {SubmitHandler, useForm} from 'react-hook-form';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import Spacer from '../../components/atoms/Spacer';
 import {Required} from '../../utils/validations';
 import Button from '../../components/atoms/Button';
 import useColorPalettes from '../../hooks/useColorPalettes';
+import Select from '../../components/atoms/Select';
+import {dataPalettesSelect} from '../../utils/colorPalettes';
 
 interface ListInput {
   name: string;
+  colorPalette: string;
+  color: string;
 }
 
 interface Props
@@ -26,11 +30,16 @@ const AddList = ({}: Props) => {
     control,
     handleSubmit,
     formState: {errors},
+    setValue,
   } = useForm<ListInput>({
     defaultValues: {
       name: '',
+      colorPalette: 'default_Palette',
+      color: '#5CD859',
     },
   });
+
+  const onSubmit: SubmitHandler<ListInput> = data => console.log(data);
   return (
     <View style={[containerScreen.container, {paddingHorizontal: 42}]}>
       <Title
@@ -48,6 +57,13 @@ const AddList = ({}: Props) => {
         variant="borders"
         rules={Required}
       />
+      <Spacer vertical={10} />
+      <Select
+        control={control}
+        name="colorPalette"
+        options={dataPalettesSelect}
+        onChange={setValue}
+      />
       <Spacer vertical={20} />
       <View
         style={{
@@ -59,7 +75,10 @@ const AddList = ({}: Props) => {
           <TouchableOpacity
             key={color}
             style={[styles.colorSelected, {backgroundColor: color}]}
-            onPress={() => changeColor(color)}></TouchableOpacity>
+            onPress={() => {
+              setValue('color', color);
+              changeColor(color);
+            }}></TouchableOpacity>
         ))}
       </View>
       <Spacer vertical={20} />
@@ -68,7 +87,7 @@ const AddList = ({}: Props) => {
         backgroundColor={color}
         radius={10}
         titleColor="white"
-        onPress={() => console.log('first')}
+        onPress={handleSubmit(onSubmit)}
       />
     </View>
   );

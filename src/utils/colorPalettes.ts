@@ -93,3 +93,14 @@ export const dataPalettes: ColorpalettesType[] = [
   {id: 7, namePalette: 'Vintage', colors: vintage},
   {id: 8, namePalette: 'Grayscale', colors: grayscale},
 ];
+
+export const dataPalettesSelect = [
+  {value: 'default_Palette', label: 'Default Palette'},
+  {value: 'happy_Hue', label: 'Happy Hue'},
+  {value: 'halloween', label: 'Halloween'},
+  {value: 'christmas', label: 'Christmas'},
+  {value: 'water', label: 'Water'},
+  {value: 'rainbow', label: 'Rainbow'},
+  {value: 'vintage', label: 'Vintage'},
+  {value: 'grayscale', label: 'Grayscale'},
+];
