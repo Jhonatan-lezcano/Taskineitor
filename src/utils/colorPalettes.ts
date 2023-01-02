@@ -95,12 +95,12 @@ export const dataPalettes: ColorpalettesType[] = [
 ];
 
 export const dataPalettesSelect = [
-  {value: 'default_Palette', label: 'Default Palette'},
-  {value: 'happy_Hue', label: 'Happy Hue'},
-  {value: 'halloween', label: 'Halloween'},
-  {value: 'christmas', label: 'Christmas'},
-  {value: 'water', label: 'Water'},
-  {value: 'rainbow', label: 'Rainbow'},
-  {value: 'vintage', label: 'Vintage'},
-  {value: 'grayscale', label: 'Grayscale'},
+  {value: 'Default Palette', label: 'Default Palette'},
+  {value: 'Happy Hue', label: 'Happy Hue'},
+  {value: 'Halloween', label: 'Halloween'},
+  {value: 'Christmas', label: 'Christmas'},
+  {value: 'Water', label: 'Water'},
+  {value: 'Rainbow', label: 'Rainbow'},
+  {value: 'Vintage', label: 'Vintage'},
+  {value: 'Grayscale', label: 'Grayscale'},
 ];

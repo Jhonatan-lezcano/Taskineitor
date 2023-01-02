@@ -1,5 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import useTheme from '../../hooks/useTheme';
 import Title from '../../components/atoms/Title';
 import {size} from '../../theme/fonts';
@@ -24,20 +24,22 @@ interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'AddListScreen'> {}
 
 const AddList = ({}: Props) => {
-  const {containerScreen, colors} = useTheme();
-  const {palette, changeColor, color} = useColorPalettes();
   const {
     control,
     handleSubmit,
     formState: {errors},
     setValue,
+    watch,
   } = useForm<ListInput>({
     defaultValues: {
       name: '',
-      colorPalette: 'default_Palette',
+      colorPalette: 'Default Palette',
       color: '#5CD859',
     },
   });
+  let selected = watch('colorPalette');
+  const {containerScreen, colors} = useTheme();
+  const {palette, changeColor, color} = useColorPalettes({selected});
 
   const onSubmit: SubmitHandler<ListInput> = data => console.log(data);
   return (

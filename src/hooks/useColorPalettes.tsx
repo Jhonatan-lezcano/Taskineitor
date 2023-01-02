@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {ColorpalettesType, dataPalettes} from '../utils/colorPalettes';
 
-const useColorPalettes = () => {
-  const [selected, setSelected] = useState(dataPalettes[0].namePalette);
+interface Props {
+  selected: string;
+}
+const useColorPalettes = ({selected}: Props) => {
   const [color, setColor] = useState(dataPalettes[0].colors[0]);
   const [palette, setPalette] = useState<ColorpalettesType>({
     id: 0,
     namePalette: '',
     colors: [],
   });
-
-  const changeSelected = (value: string) => setSelected(value);
 
   const changeColor = (color: string) => setColor(color);
 
@@ -21,7 +21,7 @@ const useColorPalettes = () => {
     setColor(palette.colors[0]);
   }, [selected, palette]);
 
-  return {selected, changeSelected, palette, changeColor, color};
+  return {palette, changeColor, color};
 };
 
 export default useColorPalettes;
