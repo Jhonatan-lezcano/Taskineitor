@@ -13,6 +13,7 @@ import Spacer from '../../components/atoms/Spacer';
 import SliderLists from '../../components/organisms/SliderLists';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
+import useTodoList from '../../hooks/useTodoList';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'HomeScreen'> {}
@@ -21,6 +22,7 @@ const Home = ({navigation: {navigate}}: Props) => {
   const {containerScreen, colors} = useTheme();
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.authUser);
+  const {} = useTodoList();
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(async user => {

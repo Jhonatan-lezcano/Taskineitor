@@ -31,6 +31,7 @@ const TabAppNavigation = () => {
           paddingBottom: Platform.OS === 'android' ? 10 : 30,
           paddingHorizontal: 10,
           paddingTop: Platform.OS === 'android' ? 10 : 10,
+          backgroundColor: colors.background,
         },
         tabBarIcon: ({focused}) => {
           return (

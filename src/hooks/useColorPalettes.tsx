@@ -4,7 +4,8 @@ import {ColorpalettesType, dataPalettes} from '../utils/colorPalettes';
 interface Props {
   selected: string;
 }
-const useColorPalettes = ({selected}: Props) => {
+const useColorPalettes = () => {
+  const [selected, setSelected] = useState(dataPalettes[0].namePalette);
   const [color, setColor] = useState(dataPalettes[0].colors[0]);
   const [palette, setPalette] = useState<ColorpalettesType>({
     id: 0,
@@ -14,6 +15,8 @@ const useColorPalettes = ({selected}: Props) => {
 
   const changeColor = (color: string) => setColor(color);
 
+  const changeSelected = (value: string) => setSelected(value);
+
   useEffect(() => {
     dataPalettes.forEach(
       palette => palette.namePalette === selected && setPalette(palette),
@@ -21,7 +24,7 @@ const useColorPalettes = ({selected}: Props) => {
     setColor(palette.colors[0]);
   }, [selected, palette]);
 
-  return {palette, changeColor, color};
+  return {palette, changeColor, color, changeSelected, selected};
 };
 
 export default useColorPalettes;
