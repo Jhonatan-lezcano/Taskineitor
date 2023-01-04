@@ -1,7 +1,12 @@
 import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import {createSlice} from '@reduxjs/toolkit';
 
-interface Todo {
+interface date {
+  nanoseconds: number;
+  seconds: number;
+}
+
+export interface Todo {
   completed: boolean;
   createAt: FirebaseFirestoreTypes.Timestamp;
   description: string;
@@ -9,28 +14,44 @@ interface Todo {
   name: string;
 }
 
-export interface List {
+export interface TodoList {
+  id: string;
   color: string;
-  createAt: FirebaseFirestoreTypes.Timestamp | null;
+  createAt: FirebaseFirestoreTypes.Timestamp;
   name: string;
   todos: Todo[];
   userId: string;
 }
 
-const initialState: List = {
-  color: '',
-  createAt: null,
-  name: '',
-  todos: [],
-  userId: '',
+interface InitialState {
+  isLoading: boolean;
+  todoList: TodoList[];
+}
+
+const initialState: InitialState = {
+  isLoading: false,
+  todoList: [],
 };
 
 export const todoListSlice = createSlice({
   name: 'todoList',
   initialState,
-  reducers: {},
+  reducers: {
+    getTodoList: (state, action) => {
+      return {
+        ...state,
+        todoList: action.payload,
+      };
+    },
+    loading: (state, action) => {
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+    },
+  },
 });
 
-export const {} = todoListSlice.actions;
+export const {getTodoList, loading} = todoListSlice.actions;
 
 export default todoListSlice.reducer;

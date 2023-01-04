@@ -22,7 +22,7 @@ const Home = ({navigation: {navigate}}: Props) => {
   const {containerScreen, colors} = useTheme();
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.authUser);
-  const {} = useTodoList();
+  const {isLoading, todoList} = useTodoList();
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(async user => {
@@ -41,6 +41,10 @@ const Home = ({navigation: {navigate}}: Props) => {
     });
     return subscriber; // unsubscribe on unmount
   }, []);
+
+  console.log(isLoading);
+  console.log(todoList);
+  console.log(isLoading);
 
   return (
     <View style={containerScreen.container}>
