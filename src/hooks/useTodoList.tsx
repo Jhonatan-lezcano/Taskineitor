@@ -11,8 +11,9 @@ const useTodoList = () => {
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.authUser);
   const {isLoading, todoList} = useAppSelector(state => state.todoList);
+
   useEffect(() => {
-    dispatch(loading(!isLoading));
+    dispatch(loading(true));
     const suscriber = firestore()
       .collection('list')
       .where('userId', '==', user.userId)
@@ -27,10 +28,10 @@ const useTodoList = () => {
           id: list.id,
         }));
         dispatch(getTodoList(result));
-        dispatch(loading(!isLoading));
+        dispatch(loading(false));
       });
     return () => suscriber();
-  }, []);
+  }, [user]);
 
   return {isLoading, todoList};
 };

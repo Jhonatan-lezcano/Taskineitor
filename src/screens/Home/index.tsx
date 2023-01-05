@@ -24,28 +24,6 @@ const Home = ({navigation: {navigate}}: Props) => {
   const {user} = useAppSelector(state => state.authUser);
   const {isLoading, todoList} = useTodoList();
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(async user => {
-      if (user) {
-        await firestore()
-          .collection('usernames')
-          .where('userId', '==', user.uid)
-          .get()
-          .then(querySnapshot => {
-            const dataUsername = querySnapshot.docs.map(list => ({
-              ...list.data(),
-            }));
-            dispatch(getUser(dataUsername[0]));
-          });
-      }
-    });
-    return subscriber; // unsubscribe on unmount
-  }, []);
-
-  console.log(isLoading);
-  console.log(todoList);
-  console.log(isLoading);
-
   return (
     <View style={containerScreen.container}>
       <Title
@@ -67,7 +45,7 @@ const Home = ({navigation: {navigate}}: Props) => {
       />
       <Text style={[styles.labelBtn, {color: colors.primary}]}>Add List</Text>
       <Spacer vertical={30} />
-      <SliderLists />
+      <SliderLists data={todoList} isLoading={isLoading} />
     </View>
   );
 };
