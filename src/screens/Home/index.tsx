@@ -14,6 +14,7 @@ import SliderLists from '../../components/organisms/SliderLists';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import useTodoList from '../../hooks/useTodoList';
+import {TodoList} from '../../store/slices/todoList/todoListSlice';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'HomeScreen'> {}
@@ -23,6 +24,10 @@ const Home = ({navigation: {navigate}}: Props) => {
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.authUser);
   const {isLoading, todoList} = useTodoList();
+
+  const navigateTodosScreen = (todos: TodoList) => {
+    navigate('TodosScreen', todos);
+  };
 
   return (
     <View style={containerScreen.container}>
@@ -45,7 +50,11 @@ const Home = ({navigation: {navigate}}: Props) => {
       />
       <Text style={[styles.labelBtn, {color: colors.primary}]}>Add List</Text>
       <Spacer vertical={30} />
-      <SliderLists data={todoList} isLoading={isLoading} />
+      <SliderLists
+        data={todoList}
+        isLoading={isLoading}
+        navigate={navigateTodosScreen}
+      />
     </View>
   );
 };

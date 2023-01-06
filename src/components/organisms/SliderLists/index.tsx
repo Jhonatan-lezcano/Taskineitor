@@ -14,9 +14,10 @@ import useTheme from '../../../hooks/useTheme';
 interface Props {
   data: TodoList[];
   isLoading: boolean;
+  navigate: (todos: TodoList) => void;
 }
 
-const SliderLists = ({data, isLoading}: Props) => {
+const SliderLists = ({data, isLoading, navigate}: Props) => {
   const {colors} = useTheme();
   return (
     <View style={styles.container}>
@@ -37,7 +38,7 @@ const SliderLists = ({data, isLoading}: Props) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => {
-            return <CardList list={item} />;
+            return <CardList list={item} navigate={navigate} />;
           }}
         />
       )}

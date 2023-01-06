@@ -7,9 +7,10 @@ import {Todo, TodoList} from '../../../store/slices/todoList/todoListSlice';
 
 interface Props {
   list: TodoList;
+  navigate: (todos: TodoList) => void;
 }
 
-const CardList = ({list}: Props) => {
+const CardList = ({list, navigate}: Props) => {
   const {color, name, todos} = list;
   const completed = todos.filter(item => item.completed).length;
   const pending = todos.length - completed;
@@ -17,7 +18,10 @@ const CardList = ({list}: Props) => {
     color: 'white',
   };
   return (
-    <TouchableOpacity style={[styles.container, {backgroundColor: color}]}>
+    <TouchableOpacity
+      style={[styles.container, {backgroundColor: color}]}
+      activeOpacity={0.9}
+      onPress={() => navigate(list)}>
       <Title
         title={name}
         fontSize={size.font22}

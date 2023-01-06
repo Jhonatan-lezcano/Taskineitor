@@ -4,16 +4,26 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../screens/Home';
 import AddList from '../screens/AddList';
 import useTheme from '../hooks/useTheme';
+import Todos from '../screens/Todos';
+import {TodoList} from '../store/slices/todoList/todoListSlice';
 
 export type RootStackTodosParams = {
   HomeScreen: undefined;
   AddListScreen: undefined;
+  TodosScreen: TodoList;
 };
 
 const Stack = createNativeStackNavigator<RootStackTodosParams>();
 
 const StackTodosNavigation = () => {
   const {colors} = useTheme();
+  const optionsScreens = {
+    headerShown: true,
+    headerBackTitleVisible: false,
+    headerShadowVisible: false,
+    headerStyle: {backgroundColor: colors.background},
+    headerTitle: '',
+  };
   return (
     <Stack.Navigator
       initialRouteName="HomeScreen"
@@ -22,13 +32,12 @@ const StackTodosNavigation = () => {
       <Stack.Screen
         name="AddListScreen"
         component={AddList}
-        options={{
-          headerShown: true,
-          headerBackTitleVisible: false,
-          headerShadowVisible: false,
-          headerStyle: {backgroundColor: colors.background},
-          headerTitle: '',
-        }}
+        options={optionsScreens}
+      />
+      <Stack.Screen
+        name="TodosScreen"
+        component={Todos}
+        options={optionsScreens}
       />
     </Stack.Navigator>
   );
