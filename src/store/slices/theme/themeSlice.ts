@@ -5,6 +5,7 @@ export interface AlertColors {
   update: string;
   success: string;
   danger: string;
+  warning: string;
 }
 
 export interface Colors {

@@ -2,6 +2,7 @@ export const alertColors = {
   update: '#064789',
   success: '#388659',
   danger: '#FF3A3A',
+  warning: '#FFCC00',
 };
 
 export const lightMode = {
