@@ -21,10 +21,12 @@ const useTodoList = () => {
         const result = querySnapshot.docs.map(list => ({
           ...list.data(),
           createAt: list.data().createAt.toMillis(),
-          todos: list.data().todos.map((todo: Todo) => ({
-            ...todo,
-            createAt: todo.createAt.toMillis(),
-          })),
+          todos: list.data().todos
+            ? list.data().todos.map((todo: Todo) => ({
+                ...todo,
+                createAt: todo.createAt.toMillis(),
+              }))
+            : [],
           id: list.id,
         }));
         dispatch(getTodoList(result));

@@ -13,6 +13,8 @@ import Button from '../../components/atoms/Button';
 import useColorPalettes from '../../hooks/useColorPalettes';
 import Select from '../../components/atoms/Select';
 import {dataPalettesSelect} from '../../utils/colorPalettes';
+import firestore from '@react-native-firebase/firestore';
+import {useAppSelector} from '../../store/hooks/hooks';
 
 interface ListInput {
   name: string;
@@ -22,9 +24,10 @@ interface ListInput {
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'AddListScreen'> {}
 
-const AddList = ({}: Props) => {
+const AddList = ({navigation: {navigate}}: Props) => {
   const {palette, changeColor, color, changeSelected, selected} =
     useColorPalettes();
+  const {user} = useAppSelector(state => state.authUser);
   const {
     control,
     handleSubmit,
@@ -38,7 +41,20 @@ const AddList = ({}: Props) => {
   });
   const {containerScreen, colors} = useTheme();
 
-  const onSubmit: SubmitHandler<ListInput> = data => console.log(data);
+  const onSubmit: SubmitHandler<ListInput> = data => {
+    firestore()
+      .collection('list')
+      .add({
+        ...data,
+        createAt: firestore.FieldValue.serverTimestamp(),
+        todos: [],
+        userId: user.userId,
+      })
+      .then(() => {
+        console.log('User added!');
+        navigate('HomeScreen');
+      });
+  };
   return (
     <View style={[containerScreen.container, {paddingHorizontal: 42}]}>
       <Title
