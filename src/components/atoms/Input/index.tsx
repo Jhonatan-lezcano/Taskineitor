@@ -54,7 +54,9 @@ const Input = ({
   return (
     <View style={[{width}]}>
       {label && (
-        <Text style={[styles.label, {color: colors.outline}]}>{label}</Text>
+        <Text style={[styles.label, {color: colors.onBackground}]}>
+          {label}
+        </Text>
       )}
       <Controller
         control={control}

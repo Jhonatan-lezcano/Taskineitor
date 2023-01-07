@@ -1,5 +1,12 @@
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {
+  FlatList,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import Title from '../../components/atoms/Title';
@@ -8,6 +15,8 @@ import {size} from '../../theme/fonts';
 import useTheme from '../../hooks/useTheme';
 import TodoItem from '../../components/atoms/TodoItem';
 import PlusIcon from '../../assets/svgs/PlusIcon';
+import AddTodoForm from '../../components/organisms/AddTodoForm';
+import ModalContainer from '../../components/organisms/ModalContainer/Index';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
@@ -17,6 +26,8 @@ const Todos = ({navigation: {navigate}, route: {params}}: Props) => {
   const {name, todos, color} = params;
   const tasks = todos.length;
   const tasksCompleted = todos.filter(todo => todo.completed).length;
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <View style={containerScreen.container}>
       <View style={[styles.containerTitle, {borderBottomColor: color}]}>
@@ -41,9 +52,15 @@ const Todos = ({navigation: {navigate}, route: {params}}: Props) => {
         />
       </View>
       <TouchableOpacity
-        style={[styles.floatingButton, {backgroundColor: color}]}>
+        style={[styles.floatingButton, {backgroundColor: color}]}
+        onPress={() => setShowModal(!showModal)}>
         <PlusIcon size={32} />
       </TouchableOpacity>
+      <ModalContainer
+        visible={showModal}
+        closeModal={() => setShowModal(!showModal)}>
+        <AddTodoForm />
+      </ModalContainer>
     </View>
   );
 };
