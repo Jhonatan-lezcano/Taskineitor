@@ -22,9 +22,12 @@ export type InputTypes =
   | 'phone-pad'
   | 'url';
 
+type TextAlignVertical = 'center' | 'auto' | 'bottom' | 'top' | undefined;
+
 interface Props {
   label?: string;
   width?: string | number;
+  height?: string | number;
   placeholder?: string;
   err?: any;
   control: any;
@@ -34,6 +37,9 @@ interface Props {
   inputType?: InputTypes;
   variant: 'line' | 'borders';
   borderColor?: string;
+  multiline?: boolean;
+  numberOfLines?: number;
+  textAlignVertical?: TextAlignVertical;
 }
 
 const Input = ({
@@ -48,6 +54,10 @@ const Input = ({
   inputType,
   variant,
   borderColor,
+  height,
+  multiline,
+  numberOfLines,
+  textAlignVertical,
 }: Props) => {
   const [secureText, setSecureText] = useState(password);
   const {colors} = useTheme();
@@ -72,12 +82,16 @@ const Input = ({
             selectionColor={colors.primary}
             secureTextEntry={secureText}
             onBlur={onBlur}
+            multiline={multiline}
+            numberOfLines={numberOfLines}
+            textAlignVertical={textAlignVertical}
             style={[
               styles.input,
               variant === 'line'
                 ? styles.line
                 : variant === 'borders' && styles.borders,
               {
+                height,
                 color: colors.onBackground,
                 borderColor: error ? colors.alertColors.danger : borderColor,
                 paddingHorizontal:
@@ -106,9 +120,7 @@ const Input = ({
 };
 
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-  },
+  input: {},
   line: {
     borderBottomWidth: 1,
   },
@@ -133,6 +145,7 @@ Input.defaultProps = {
   placeholder: '',
   value: '',
   width: '100%',
+  height: 40,
   password: false,
   inputTypes: 'default',
 };

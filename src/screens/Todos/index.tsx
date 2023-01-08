@@ -59,7 +59,7 @@ const Todos = ({navigation: {navigate}, route: {params}}: Props) => {
       <ModalContainer
         visible={showModal}
         closeModal={() => setShowModal(!showModal)}>
-        <AddTodoForm />
+        <AddTodoForm list={params} />
       </ModalContainer>
     </View>
   );

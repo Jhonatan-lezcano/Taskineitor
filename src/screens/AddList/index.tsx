@@ -46,12 +46,12 @@ const AddList = ({navigation: {navigate}}: Props) => {
       .collection('list')
       .add({
         ...data,
-        createAt: firestore.FieldValue.serverTimestamp(),
+        createAt: firestore.Timestamp.now(),
         todos: [],
         userId: user.userId,
       })
       .then(() => {
-        console.log('User added!');
+        console.log('List added!');
         navigate('HomeScreen');
       });
   };

@@ -1,5 +1,13 @@
-import {Dimensions, Modal, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
+import CloseIcon from '../../../assets/svgs/CloseIcon';
 
 interface Props {
   visible: boolean;
@@ -17,7 +25,12 @@ const ModalContainer = ({visible, closeModal, children}: Props) => {
       onRequestClose={closeModal}
       transparent>
       <View style={styles.modalBackground}>
-        <View style={styles.modalView}>{children}</View>
+        <View style={styles.modalView}>
+          {children}
+          <TouchableOpacity style={styles.btnClose} onPress={closeModal}>
+            <CloseIcon size={23} />
+          </TouchableOpacity>
+        </View>
       </View>
     </Modal>
   );
@@ -37,5 +50,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 20,
     width: width * 0.9,
+  },
+  btnClose: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
   },
 });
