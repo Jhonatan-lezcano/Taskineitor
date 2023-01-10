@@ -18,23 +18,18 @@ const useTodoList = () => {
       .collection('list')
       .where('userId', '==', user.userId)
       .onSnapshot(querySnapshot => {
-        const result = querySnapshot.docs.map(list => ({
-          ...list.data(),
-          createAt: list.data().createAt.toMillis(),
-          todos:
-            list.data().todos.length > 0
-              ? list.data().todos.map((todo: Todo) => ({
-                  ...todo,
-                  createAt: todo.createAt.toMillis(),
-                }))
-              : [],
-          id: list.id,
-        }));
-        dispatch(getTodoList(result));
+        dispatch(
+          getTodoList(
+            querySnapshot.docs.map(list => ({
+              ...list.data(),
+              id: list.id,
+            })),
+          ),
+        );
         dispatch(loading(false));
       });
-    return () => suscriber();
-  }, []);
+    return suscriber;
+  }, [user]);
 
   return {isLoading, todoList};
 };

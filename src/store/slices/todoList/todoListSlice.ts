@@ -8,7 +8,7 @@ interface date {
 
 export interface Todo {
   completed: boolean;
-  createAt: FirebaseFirestoreTypes.Timestamp;
+  createAt: number;
   description: string;
   label: number;
   name: string;
@@ -17,7 +17,7 @@ export interface Todo {
 export interface TodoList {
   id: string;
   color: string;
-  createAt: FirebaseFirestoreTypes.Timestamp;
+  createAt: number;
   name: string;
   todos: Todo[];
   userId: string;

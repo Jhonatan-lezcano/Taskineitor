@@ -8,7 +8,12 @@ import firestore from '@react-native-firebase/firestore';
 import useTheme from '../../../hooks/useTheme';
 import Button from '../../atoms/Button';
 import {Required} from '../../../utils/validations';
-import {TodoList} from '../../../store/slices/todoList/todoListSlice';
+import {
+  getTodoList,
+  TodoList,
+} from '../../../store/slices/todoList/todoListSlice';
+import useTodoList from '../../../hooks/useTodoList';
+import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
 
 interface TodoForm {
   description: string;
@@ -17,10 +22,12 @@ interface TodoForm {
 
 interface Props {
   list: TodoList;
+  closeModal: () => void;
 }
 
-const AddTodoForm = ({list}: Props) => {
+const AddTodoForm = ({list, closeModal}: Props) => {
   const {color, id} = list;
+  useTodoList();
   const {colors} = useTheme();
   const {
     control,
@@ -39,15 +46,17 @@ const AddTodoForm = ({list}: Props) => {
       .doc(id)
       .update({
         todos: [
+          ...list.todos,
           {
             ...data,
             label: 0,
             completed: false,
-            createAt: firestore.Timestamp.now(),
+            createAt: Date.now(),
           },
         ],
       });
-    console.log(data, list);
+    closeModal();
+    // console.log(data, list);
   };
 
   return (

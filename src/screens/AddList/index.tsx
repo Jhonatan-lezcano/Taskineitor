@@ -42,11 +42,12 @@ const AddList = ({navigation: {navigate}}: Props) => {
   const {containerScreen, colors} = useTheme();
 
   const onSubmit: SubmitHandler<ListInput> = data => {
+    console.log(user.userId);
     firestore()
       .collection('list')
       .add({
         ...data,
-        createAt: firestore.Timestamp.now(),
+        createAt: Date.now(),
         todos: [],
         userId: user.userId,
       })
