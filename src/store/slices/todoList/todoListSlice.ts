@@ -26,11 +26,20 @@ export interface TodoList {
 interface InitialState {
   isLoading: boolean;
   todoList: TodoList[];
+  currentTodos: TodoList;
 }
 
 const initialState: InitialState = {
   isLoading: false,
   todoList: [],
+  currentTodos: {
+    id: '',
+    color: '',
+    createAt: 0,
+    name: '',
+    todos: [],
+    userId: '',
+  },
 };
 
 export const todoListSlice = createSlice({
@@ -49,9 +58,15 @@ export const todoListSlice = createSlice({
         isLoading: action.payload,
       };
     },
+    addCurrentTodos: (state, action) => {
+      return {
+        ...state,
+        currentTodos: action.payload,
+      };
+    },
   },
 });
 
-export const {getTodoList, loading} = todoListSlice.actions;
+export const {getTodoList, loading, addCurrentTodos} = todoListSlice.actions;
 
 export default todoListSlice.reducer;

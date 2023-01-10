@@ -10,7 +10,7 @@ import {TodoList} from '../store/slices/todoList/todoListSlice';
 export type RootStackTodosParams = {
   HomeScreen: undefined;
   AddListScreen: undefined;
-  TodosScreen: TodoList;
+  TodosScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackTodosParams>();

@@ -17,16 +17,27 @@ import TodoItem from '../../components/atoms/TodoItem';
 import PlusIcon from '../../assets/svgs/PlusIcon';
 import AddTodoForm from '../../components/organisms/AddTodoForm';
 import ModalContainer from '../../components/organisms/ModalContainer/Index';
+import {useAppSelector} from '../../store/hooks/hooks';
+import useTodoList from '../../hooks/useTodoList';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
 
-const Todos = ({navigation: {navigate}, route: {params}}: Props) => {
+const Todos = ({navigation: {navigate}}: Props) => {
   const {colors, containerScreen} = useTheme();
-  const {name, todos, color} = params;
+  const {todoComplete, todoInProcess, deleteTodo} = useTodoList();
+  const {currentTodos} = useAppSelector(state => state.todoList);
+  const {name, todos, color} = currentTodos;
   const tasks = todos.length;
   const tasksCompleted = todos.filter(todo => todo.completed).length;
   const [showModal, setShowModal] = useState(false);
+
+  const toggleComplete = (index: number) => todoComplete(currentTodos, index);
+
+  const toggleInProcess = (index: number) => todoInProcess(currentTodos, index);
+
+  const toggleDeleteTodo = (index: number) => deleteTodo(currentTodos, index);
 
   return (
     <View style={containerScreen.container}>
@@ -42,15 +53,23 @@ const Todos = ({navigation: {navigate}, route: {params}}: Props) => {
           {tasksCompleted}/{tasks}
         </Text>
       </View>
-      <View style={styles.containerTodos}>
+      <GestureHandlerRootView style={styles.containerTodos}>
         <FlatList
           data={todos}
           keyExtractor={(item, index) => `${item.name}-${index}`}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{paddingVertical: 20}}
-          renderItem={({item}) => <TodoItem todo={item} />}
+          renderItem={({item, index}) => (
+            <TodoItem
+              todo={item}
+              index={index}
+              toggleComplete={toggleComplete}
+              toggleInProcess={toggleInProcess}
+              toggleDeleteTodo={toggleDeleteTodo}
+            />
+          )}
         />
-      </View>
+      </GestureHandlerRootView>
       <TouchableOpacity
         style={[styles.floatingButton, {backgroundColor: color}]}
         onPress={() => setShowModal(!showModal)}>
@@ -60,7 +79,7 @@ const Todos = ({navigation: {navigate}, route: {params}}: Props) => {
         visible={showModal}
         closeModal={() => setShowModal(!showModal)}>
         <AddTodoForm
-          list={params}
+          list={currentTodos}
           closeModal={() => setShowModal(!showModal)}
         />
       </ModalContainer>

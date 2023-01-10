@@ -14,7 +14,10 @@ import SliderLists from '../../components/organisms/SliderLists';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import useTodoList from '../../hooks/useTodoList';
-import {TodoList} from '../../store/slices/todoList/todoListSlice';
+import {
+  addCurrentTodos,
+  TodoList,
+} from '../../store/slices/todoList/todoListSlice';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'HomeScreen'> {}
@@ -26,7 +29,8 @@ const Home = ({navigation: {navigate}}: Props) => {
   const {isLoading, todoList} = useTodoList();
 
   const navigateTodosScreen = (todos: TodoList) => {
-    navigate('TodosScreen', todos);
+    navigate('TodosScreen');
+    dispatch(addCurrentTodos(todos));
   };
 
   return (

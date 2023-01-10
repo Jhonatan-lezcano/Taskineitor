@@ -27,7 +27,7 @@ interface Props {
 
 const AddTodoForm = ({list, closeModal}: Props) => {
   const {color, id} = list;
-  useTodoList();
+  const {createTodo, todoComplete} = useTodoList();
   const {colors} = useTheme();
   const {
     control,
@@ -41,22 +41,9 @@ const AddTodoForm = ({list, closeModal}: Props) => {
   });
 
   const onSubmit: SubmitHandler<TodoForm> = data => {
-    firestore()
-      .collection('list')
-      .doc(id)
-      .update({
-        todos: [
-          ...list.todos,
-          {
-            ...data,
-            label: 0,
-            completed: false,
-            createAt: Date.now(),
-          },
-        ],
-      });
+    createTodo(data, list);
     closeModal();
-    // console.log(data, list);
+    console.log(data, list);
   };
 
   return (
