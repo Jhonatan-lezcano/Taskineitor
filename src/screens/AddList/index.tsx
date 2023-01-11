@@ -36,7 +36,6 @@ const AddList = ({navigation: {navigate}}: Props) => {
   } = useForm<ListInput>({
     defaultValues: {
       name: '',
-      color: color,
     },
   });
   const {containerScreen, colors} = useTheme();
@@ -47,6 +46,7 @@ const AddList = ({navigation: {navigate}}: Props) => {
       .collection('list')
       .add({
         ...data,
+        color,
         createAt: Date.now(),
         todos: [],
         userId: user.userId,
