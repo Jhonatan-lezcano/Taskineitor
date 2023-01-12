@@ -15,7 +15,8 @@ import Select from '../../components/atoms/Select';
 import {dataPalettesSelect} from '../../utils/colorPalettes';
 import firestore from '@react-native-firebase/firestore';
 import {useAppDispatch, useAppSelector} from '../../store/hooks/hooks';
-import {infoToast} from '../../store/slices/toastNotification/toastNotificationSlice';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import CheckIcon from '../../assets/svgs/CheckIcon';
 
 interface ListInput {
   name: string;
@@ -43,7 +44,6 @@ const AddList = ({navigation: {navigate}}: Props) => {
   const {containerScreen, colors} = useTheme();
 
   const onSubmit: SubmitHandler<ListInput> = data => {
-    console.log(user.userId);
     firestore()
       .collection('list')
       .add({
@@ -54,9 +54,14 @@ const AddList = ({navigation: {navigate}}: Props) => {
         userId: user.userId,
       })
       .then(() => {
-        dispatch(
-          infoToast({type: 'Success', message: 'List created successfully'}),
-        );
+        Toast.show({
+          type: 'customToast',
+          props: {
+            message: 'List created successfully',
+            borderLeftColor: colors.alertColors.success,
+            icon: CheckIcon,
+          },
+        });
         navigate('HomeScreen');
       });
   };

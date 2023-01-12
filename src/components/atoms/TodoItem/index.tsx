@@ -83,8 +83,6 @@ const TodoItem = ({
   const {name, completed, label} = todo;
   const {colors} = useTheme();
 
-  const onDeleteHandler = (index: number) => console.log(index);
-
   return (
     <Swipeable
       renderRightActions={(dragX, progress) =>

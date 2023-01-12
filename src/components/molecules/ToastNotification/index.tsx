@@ -11,13 +11,13 @@ import AlertCircleIcon from '../../../assets/svgs/AlertCircleIcon';
 
 const {width, height} = Dimensions.get('screen');
 
-const SUCCESS_TYPE = 'Success';
-const WARNING_TYPE = 'Warning';
-const DANGER_TYPE = 'Danger';
-const UPDATE_TYPE = 'Update';
+interface Props {
+  icon?: React.ElementType;
+  message: string;
+  borderLeftColor: string;
+}
 
-const ToastNotification = () => {
-  const {type, message} = useAppSelector(state => state.toastNotification);
+const ToastNotification = ({icon: Icon, message, borderLeftColor}: Props) => {
   const {colors} = useTheme();
   return (
     <View
@@ -26,20 +26,10 @@ const ToastNotification = () => {
         {
           backgroundColor: colors.background,
           shadowColor: colors.onBackground,
+          borderLeftColor,
         },
       ]}>
-      {type === SUCCESS_TYPE && (
-        <CheckIcon size={30} fillColor={colors.alertColors.success} />
-      )}
-      {type === WARNING_TYPE && (
-        <AlertTriangleIcon size={30} fillColor={colors.alertColors.warning} />
-      )}
-      {type === UPDATE_TYPE && (
-        <RefreshCircleIcon size={30} fillColor={colors.alertColors.update} />
-      )}
-      {type === DANGER_TYPE && (
-        <AlertCircleIcon size={30} fillColor={colors.alertColors.danger} />
-      )}
+      {Icon && <Icon fillColor={borderLeftColor} size={size.font28} />}
       <Spacer vertical={30} horizontal={10} />
       <Text
         style={[
@@ -59,13 +49,11 @@ export default ToastNotification;
 const styles = StyleSheet.create({
   toastContainer: {
     alignItems: 'center',
-    bottom: height * 0.1,
     borderRadius: 10,
+    borderLeftWidth: 8,
     flexDirection: 'row',
-    height: height * 0.085,
-    left: width * 0.02,
+    height: 70,
     paddingHorizontal: 10,
-    position: 'absolute',
     shadowOffset: {
       width: 0,
       height: 2,

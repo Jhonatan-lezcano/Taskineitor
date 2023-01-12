@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, TurboModuleRegistry, View} from 'react-native';
 import React, {useEffect} from 'react';
 import useTheme from '../../hooks/useTheme';
 import auth from '@react-native-firebase/auth';
@@ -18,6 +18,8 @@ import {
   addCurrentTodos,
   TodoList,
 } from '../../store/slices/todoList/todoListSlice';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import CheckIcon from '../../assets/svgs/CheckIcon';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'HomeScreen'> {}

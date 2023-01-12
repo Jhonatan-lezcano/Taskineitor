@@ -2,12 +2,10 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import authSlice from './slices/auth/authSlice';
 import themeSlice from './slices/theme/themeSlice';
 import todoListSlice from './slices/todoList/todoListSlice';
-import toastNotificationSlice from './slices/toastNotification/toastNotificationSlice';
 const rootReducer = combineReducers({
   authUser: authSlice,
   todoList: todoListSlice,
   theme: themeSlice,
-  toastNotification: toastNotificationSlice,
 });
 
 export const store = configureStore({

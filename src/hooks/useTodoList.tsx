@@ -1,13 +1,18 @@
 import firestore from '@react-native-firebase/firestore';
 import React, {useEffect} from 'react';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import AlertCircleIcon from '../assets/svgs/AlertCircleIcon';
+import AlertTriangleIcon from '../assets/svgs/AlertTriangleIcon';
+import CheckIcon from '../assets/svgs/CheckIcon';
+import RefreshCircleIcon from '../assets/svgs/RefreshCircleIcon';
 import {useAppDispatch, useAppSelector} from '../store/hooks/hooks';
-import {infoToast} from '../store/slices/toastNotification/toastNotificationSlice';
 import {
   addCurrentTodos,
   getTodoList,
   loading,
   TodoList,
 } from '../store/slices/todoList/todoListSlice';
+import useTheme from './useTheme';
 
 interface TodoForm {
   description: string;
@@ -18,11 +23,6 @@ const DEFAULT_LABEL = 0;
 const DEFAULT_COMPLETED = false;
 const DEFAULT_CREATEAT = Date.now();
 
-const SUCCESS_TYPE = 'Success';
-const WARNING_TYPE = 'Warning';
-const DANGER_TYPE = 'Danger';
-const UPDATE_TYPE = 'Update';
-
 const PENDING = 0;
 const IN_PROCESS = 1;
 const COMPLETE = 2;
@@ -31,6 +31,7 @@ const useTodoList = () => {
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.authUser);
   const {isLoading, todoList} = useAppSelector(state => state.todoList);
+  const {colors} = useTheme();
 
   useEffect(() => {
     dispatch(loading(true));
@@ -67,12 +68,14 @@ const useTodoList = () => {
         ],
       })
       .then(() => {
-        dispatch(
-          infoToast({
-            type: SUCCESS_TYPE,
-            message: 'Task created successfully!',
-          }),
-        );
+        Toast.show({
+          type: 'customToast',
+          props: {
+            message: 'Task created successfully',
+            borderLeftColor: colors.alertColors.success,
+            icon: CheckIcon,
+          },
+        });
       });
     dispatch(
       addCurrentTodos({
@@ -106,12 +109,17 @@ const useTodoList = () => {
         ),
       })
       .then(() => {
-        dispatch(
-          infoToast({
-            type: SUCCESS_TYPE,
-            message: 'Task completed!',
-          }),
-        );
+        const todo = list.todos.filter((item, i) => i === index);
+        Toast.show({
+          type: 'customToast',
+          props: {
+            message: todo[0].completed ? 'Pending task' : 'Task completed',
+            borderLeftColor: todo[0].completed
+              ? colors.alertColors.warning
+              : colors.alertColors.success,
+            icon: todo[0].completed ? AlertTriangleIcon : CheckIcon,
+          },
+        });
       });
 
     dispatch(
@@ -146,12 +154,14 @@ const useTodoList = () => {
         ),
       })
       .then(() => {
-        dispatch(
-          infoToast({
-            type: UPDATE_TYPE,
+        Toast.show({
+          type: 'customToast',
+          props: {
             message: 'Now the task is in process',
-          }),
-        );
+            borderLeftColor: colors.alertColors.update,
+            icon: RefreshCircleIcon,
+          },
+        });
       });
 
     dispatch(
@@ -178,12 +188,14 @@ const useTodoList = () => {
         todos: list.todos.filter((item, i) => i !== index),
       })
       .then(() => {
-        dispatch(
-          infoToast({
-            type: DANGER_TYPE,
-            message: 'Task deleted successfully',
-          }),
-        );
+        Toast.show({
+          type: 'customToast',
+          props: {
+            message: 'deleted task',
+            borderLeftColor: colors.alertColors.danger,
+            icon: AlertCircleIcon,
+          },
+        });
       });
 
     dispatch(
@@ -192,7 +204,6 @@ const useTodoList = () => {
         todos: list.todos.filter((item, i) => i !== index),
       }),
     );
-    console.log(index, list);
   };
 
   return {

@@ -43,7 +43,6 @@ const AddTodoForm = ({list, closeModal}: Props) => {
   const onSubmit: SubmitHandler<TodoForm> = data => {
     createTodo(data, list);
     closeModal();
-    console.log(data, list);
   };
 
   return (
