@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../store/hooks/hooks';
+import {infoToast} from '../store/slices/toastNotification/toastNotificationSlice';
 import {
   addCurrentTodos,
   getTodoList,
@@ -16,6 +17,11 @@ interface TodoForm {
 const DEFAULT_LABEL = 0;
 const DEFAULT_COMPLETED = false;
 const DEFAULT_CREATEAT = Date.now();
+
+const SUCCESS_TYPE = 'Success';
+const WARNING_TYPE = 'Warning';
+const DANGER_TYPE = 'Danger';
+const UPDATE_TYPE = 'Update';
 
 const PENDING = 0;
 const IN_PROCESS = 1;
@@ -59,6 +65,14 @@ const useTodoList = () => {
             createAt: DEFAULT_CREATEAT,
           },
         ],
+      })
+      .then(() => {
+        dispatch(
+          infoToast({
+            type: SUCCESS_TYPE,
+            message: 'Task created successfully!',
+          }),
+        );
       });
     dispatch(
       addCurrentTodos({
@@ -90,6 +104,14 @@ const useTodoList = () => {
               }
             : {...item},
         ),
+      })
+      .then(() => {
+        dispatch(
+          infoToast({
+            type: SUCCESS_TYPE,
+            message: 'Task completed!',
+          }),
+        );
       });
 
     dispatch(
@@ -122,6 +144,14 @@ const useTodoList = () => {
               }
             : {...item},
         ),
+      })
+      .then(() => {
+        dispatch(
+          infoToast({
+            type: UPDATE_TYPE,
+            message: 'Now the task is in process',
+          }),
+        );
       });
 
     dispatch(
@@ -146,6 +176,14 @@ const useTodoList = () => {
       .doc(list.id)
       .update({
         todos: list.todos.filter((item, i) => i !== index),
+      })
+      .then(() => {
+        dispatch(
+          infoToast({
+            type: DANGER_TYPE,
+            message: 'Task deleted successfully',
+          }),
+        );
       });
 
     dispatch(

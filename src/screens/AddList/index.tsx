@@ -14,7 +14,8 @@ import useColorPalettes from '../../hooks/useColorPalettes';
 import Select from '../../components/atoms/Select';
 import {dataPalettesSelect} from '../../utils/colorPalettes';
 import firestore from '@react-native-firebase/firestore';
-import {useAppSelector} from '../../store/hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../../store/hooks/hooks';
+import {infoToast} from '../../store/slices/toastNotification/toastNotificationSlice';
 
 interface ListInput {
   name: string;
@@ -25,6 +26,7 @@ interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'AddListScreen'> {}
 
 const AddList = ({navigation: {navigate}}: Props) => {
+  const dispatch = useAppDispatch();
   const {palette, changeColor, color, changeSelected, selected} =
     useColorPalettes();
   const {user} = useAppSelector(state => state.authUser);
@@ -52,7 +54,9 @@ const AddList = ({navigation: {navigate}}: Props) => {
         userId: user.userId,
       })
       .then(() => {
-        console.log('List added!');
+        dispatch(
+          infoToast({type: 'Success', message: 'List created successfully'}),
+        );
         navigate('HomeScreen');
       });
   };
