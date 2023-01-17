@@ -15,6 +15,8 @@
 		5A7D32C41C57524EBA0E419E /* Pods_Taskineitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA035A2A56ED3608E09A6A67 /* Pods_Taskineitor.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A423311C294E1F1A00750900 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A423311B294E1F1A00750900 /* GoogleService-Info.plist */; };
+		A4F4B532297648A500ACF26E /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = A4F4B531297648A500ACF26E /* background.png */; };
+		A4F4B53429764B1B00ACF26E /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A4F4B53329764B1B00ACF26E /* logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-Taskineitor-TaskineitorTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Taskineitor-TaskineitorTests.release.xcconfig"; path = "Target Support Files/Pods-Taskineitor-TaskineitorTests/Pods-Taskineitor-TaskineitorTests.release.xcconfig"; sourceTree = "<group>"; };
 		8C58C5850A0FB5F2DF475821 /* Pods_Taskineitor_TaskineitorTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Taskineitor_TaskineitorTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A423311B294E1F1A00750900 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A4F4B531297648A500ACF26E /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		A4F4B53329764B1B00ACF26E /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		AA035A2A56ED3608E09A6A67 /* Pods_Taskineitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Taskineitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -94,6 +98,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				A4F4B53329764B1B00ACF26E /* logo.png */,
+				A4F4B531297648A500ACF26E /* background.png */,
 				A423311B294E1F1A00750900 /* GoogleService-Info.plist */,
 			);
 			name = Taskineitor;
@@ -211,7 +217,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1420;
 					};
 				};
 			};
@@ -247,6 +253,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				A4F4B53429764B1B00ACF26E /* logo.png in Resources */,
+				A4F4B532297648A500ACF26E /* background.png in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				A423311C294E1F1A00750900 /* GoogleService-Info.plist in Resources */,
 			);
