@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Dimensions,
   FlatList,
   StyleSheet,
   Text,
@@ -10,6 +11,10 @@ import {mockData} from '../../../utils/mockData';
 import CardList from '../../molecules/CardList';
 import {TodoList} from '../../../store/slices/todoList/todoListSlice';
 import useTheme from '../../../hooks/useTheme';
+import AnimationView from '../../atoms/AnimationView';
+import noListtAnimation from '../../../assets/LottieFiles/not-found.json';
+import NoItemsFound from '../../molecules/NoItemsFound';
+import {size} from '../../../theme/fonts';
 
 interface Props {
   data: TodoList[];
@@ -17,21 +22,13 @@ interface Props {
   navigate: (todos: TodoList) => void;
 }
 
+const {width, height} = Dimensions.get('screen');
+
 const SliderLists = ({data, isLoading, navigate}: Props) => {
   const {colors} = useTheme();
   return (
     <View style={styles.container}>
-      {isLoading ? (
-        <View
-          style={{
-            width: '100%',
-            height: 100,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color={colors.secondary} />
-        </View>
-      ) : (
+      {!isLoading && data.length > 0 ? (
         <FlatList
           data={data}
           keyExtractor={item => item.id}
@@ -41,6 +38,26 @@ const SliderLists = ({data, isLoading, navigate}: Props) => {
             return <CardList list={item} navigate={navigate} />;
           }}
         />
+      ) : !isLoading && data.length === 0 ? (
+        <NoItemsFound
+          animation={noListtAnimation}
+          sizeAnimation={width * 0.6}
+          text="No lists found, start creating your lists :)"
+          height="100%"
+          width="100%"
+        />
+      ) : (
+        isLoading && (
+          <View
+            style={{
+              width: '100%',
+              height: 100,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ActivityIndicator size="large" color={colors.secondary} />
+          </View>
+        )
       )}
     </View>
   );
@@ -50,7 +67,7 @@ export default SliderLists;
 
 const styles = StyleSheet.create({
   container: {
-    height: 310,
+    height: height * 0.38,
     width: '100%',
   },
 });

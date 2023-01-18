@@ -20,6 +20,7 @@ import {
 } from '../../store/slices/todoList/todoListSlice';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import CheckIcon from '../../assets/svgs/CheckIcon';
+import AnimationView from '../../components/atoms/AnimationView';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'HomeScreen'> {}
@@ -56,6 +57,7 @@ const Home = ({navigation: {navigate}}: Props) => {
       />
       <Text style={[styles.labelBtn, {color: colors.primary}]}>Add List</Text>
       <Spacer vertical={30} />
+
       <SliderLists
         data={todoList}
         isLoading={isLoading}
