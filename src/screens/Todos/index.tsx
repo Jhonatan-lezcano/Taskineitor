@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   FlatList,
   Modal,
   StyleSheet,
@@ -20,9 +21,13 @@ import ModalContainer from '../../components/organisms/ModalContainer/Index';
 import {useAppSelector} from '../../store/hooks/hooks';
 import useTodoList from '../../hooks/useTodoList';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import NoItemsFound from '../../components/molecules/NoItemsFound';
+import noTasksFound from '../../assets/LottieFiles/checklist.json';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
+
+const {height} = Dimensions.get('screen');
 
 const Todos = ({navigation: {navigate}}: Props) => {
   const {colors, containerScreen} = useTheme();
@@ -53,23 +58,36 @@ const Todos = ({navigation: {navigate}}: Props) => {
           {tasksCompleted}/{tasks}
         </Text>
       </View>
-      <GestureHandlerRootView style={styles.containerTodos}>
-        <FlatList
-          data={todos}
-          keyExtractor={(item, index) => `${item.name}-${index}`}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{paddingVertical: 20}}
-          renderItem={({item, index}) => (
-            <TodoItem
-              todo={item}
-              index={index}
-              toggleComplete={toggleComplete}
-              toggleInProcess={toggleInProcess}
-              toggleDeleteTodo={toggleDeleteTodo}
-            />
-          )}
-        />
-      </GestureHandlerRootView>
+      {todos.length > 0 ? (
+        <GestureHandlerRootView style={styles.containerTodos}>
+          <FlatList
+            data={todos}
+            keyExtractor={(item, index) => `${item.name}-${index}`}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{paddingVertical: 20}}
+            renderItem={({item, index}) => (
+              <TodoItem
+                todo={item}
+                index={index}
+                toggleComplete={toggleComplete}
+                toggleInProcess={toggleInProcess}
+                toggleDeleteTodo={toggleDeleteTodo}
+              />
+            )}
+          />
+        </GestureHandlerRootView>
+      ) : (
+        <View style={[styles.containerTodos, styles.notFoundTodos]}>
+          <NoItemsFound
+            animation={noTasksFound}
+            sizeAnimation={height * 0.3}
+            text="No to-dos found, start creating your to-dos"
+            height="100%"
+            width="100%"
+          />
+        </View>
+      )}
+
       <TouchableOpacity
         style={[styles.floatingButton, {backgroundColor: color}]}
         onPress={() => setShowModal(!showModal)}>
@@ -100,6 +118,10 @@ const styles = StyleSheet.create({
   containerTodos: {
     flex: 7,
     width: '100%',
+  },
+  notFoundTodos: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   taskCount: {
     fontWeight: '600',

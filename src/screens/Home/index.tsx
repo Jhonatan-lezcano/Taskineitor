@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TurboModuleRegistry, View} from 'react-native';
+import {
+  StatusBar,
+  StyleSheet,
+  Text,
+  TurboModuleRegistry,
+  View,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import useTheme from '../../hooks/useTheme';
 import auth from '@react-native-firebase/auth';
@@ -21,12 +27,13 @@ import {
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import CheckIcon from '../../assets/svgs/CheckIcon';
 import AnimationView from '../../components/atoms/AnimationView';
+import Menu from '../../components/organisms/Menu';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'HomeScreen'> {}
 
 const Home = ({navigation: {navigate}}: Props) => {
-  const {containerScreen, colors} = useTheme();
+  const {containerScreen, colors, dark} = useTheme();
   const dispatch = useAppDispatch();
   const {user} = useAppSelector(state => state.authUser);
   const {isLoading, todoList} = useTodoList();
@@ -36,8 +43,15 @@ const Home = ({navigation: {navigate}}: Props) => {
     dispatch(addCurrentTodos(todos));
   };
 
+  console.log(dark);
+
   return (
     <View style={containerScreen.container}>
+      <StatusBar
+        backgroundColor={colors.background}
+        translucent={true}
+        barStyle={dark ? 'light-content' : 'dark-content'}
+      />
       <Title
         title="TodoList"
         fontSize={size.font34}
@@ -63,6 +77,7 @@ const Home = ({navigation: {navigate}}: Props) => {
         isLoading={isLoading}
         navigate={navigateTodosScreen}
       />
+      <Menu />
     </View>
   );
 };

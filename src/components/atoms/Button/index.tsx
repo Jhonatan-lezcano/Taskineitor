@@ -34,7 +34,7 @@ const Button = ({
 }: Props) => {
   const {colors} = useTheme();
   const shadowButton = {
-    shadowColor: colors.surfaceVariant,
+    shadowColor: colors.onBackground,
     shadowOffset: {
       width: 0,
       height: 1,

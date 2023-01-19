@@ -22,7 +22,7 @@ const useTheme = () => {
     },
   });
 
-  return {colors, changeTheme, containerScreen};
+  return {colors, changeTheme, containerScreen, dark};
 };
 
 export default useTheme;
