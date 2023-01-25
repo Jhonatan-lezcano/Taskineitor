@@ -3,8 +3,10 @@ import {
   Modal,
   Platform,
   Pressable,
+  StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -12,7 +14,6 @@ import Button from '../../atoms/Button';
 import useTheme from '../../../hooks/useTheme';
 import MenuIcon from '../../../assets/svgs/MenuIcon';
 import {size} from '../../../theme/fonts';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import LogoutIcon from '../../../assets/svgs/LogoutIcon';
 import SunIcon from '../../../assets/svgs/SunIcon';
 
@@ -39,38 +40,33 @@ const Menu = () => {
         }}
         shadow
       />
-      <Modal
-        visible={showMenu}
-        animationType="fade"
-        onRequestClose={() => setShowMenu(!showMenu)}
-        transparent>
+      {showMenu && (
         <Pressable
           style={styles.closeMenu}
-          onPress={() => setShowMenu(!showMenu)}></Pressable>
-        <View
-          style={[
-            styles.menuContainer,
-            {
-              backgroundColor: colors.background,
-              shadowColor: colors.onBackground,
-            },
-          ]}>
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() => {
-              changeTheme();
-            }}>
-            <SunIcon fillColor={colors.onBackground} size={size.font22} />
-            <Text style={styles.textOption}>
-              {dark ? 'Light mode' : 'Dark mode'}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem}>
-            <LogoutIcon fillColor={colors.onBackground} size={size.font22} />
-            <Text style={styles.textOption}>Sign out</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+          onPress={() => setShowMenu(!showMenu)}>
+          <View
+            style={[
+              styles.menuContainer,
+              {
+                backgroundColor: colors.background,
+                shadowColor: colors.onBackground,
+              },
+            ]}>
+            <TouchableOpacity style={styles.menuItem} onPress={changeTheme}>
+              <SunIcon fillColor={colors.onBackground} size={size.font22} />
+              <Text style={[styles.textOption, {color: colors.onBackground}]}>
+                {dark ? 'Light mode' : 'Dark mode'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem}>
+              <LogoutIcon fillColor={colors.onBackground} size={size.font22} />
+              <Text style={[styles.textOption, {color: colors.onBackground}]}>
+                Sign out
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -85,12 +81,16 @@ const styles = StyleSheet.create({
     top: Platform.OS === 'android' ? 55 : 55,
   },
   closeMenu: {
-    flex: 1,
+    height,
+    position: 'absolute',
+    right: -20,
+    top: -20,
+    width,
   },
   menuContainer: {
     borderRadius: 5,
     position: 'absolute',
-    top: 95,
+    top: Platform.OS === 'ios' ? 95 : 55,
     right: 20,
     width: width * 0.45,
 

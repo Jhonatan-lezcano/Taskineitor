@@ -43,8 +43,6 @@ const Home = ({navigation: {navigate}}: Props) => {
     dispatch(addCurrentTodos(todos));
   };
 
-  console.log(dark);
-
   return (
     <View style={containerScreen.container}>
       <StatusBar

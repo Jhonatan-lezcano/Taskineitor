@@ -25,21 +25,23 @@ const StackTodosNavigation = () => {
     headerTitle: '',
   };
   return (
-    <Stack.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={{headerShown: false}}>
-      <Stack.Screen name="HomeScreen" component={Home} />
-      <Stack.Screen
-        name="AddListScreen"
-        component={AddList}
-        options={optionsScreens}
-      />
-      <Stack.Screen
-        name="TodosScreen"
-        component={Todos}
-        options={optionsScreens}
-      />
-    </Stack.Navigator>
+    <View style={{flex: 1, backgroundColor: colors.background}}>
+      <Stack.Navigator
+        initialRouteName="HomeScreen"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="HomeScreen" component={Home} />
+        <Stack.Screen
+          name="AddListScreen"
+          component={AddList}
+          options={optionsScreens}
+        />
+        <Stack.Screen
+          name="TodosScreen"
+          component={Todos}
+          options={optionsScreens}
+        />
+      </Stack.Navigator>
+    </View>
   );
 };
 
