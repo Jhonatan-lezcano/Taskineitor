@@ -16,12 +16,24 @@ import MenuIcon from '../../../assets/svgs/MenuIcon';
 import {size} from '../../../theme/fonts';
 import LogoutIcon from '../../../assets/svgs/LogoutIcon';
 import SunIcon from '../../../assets/svgs/SunIcon';
+import auth from '@react-native-firebase/auth';
+import {isAuth} from '../../../store/slices/auth/authSlice';
+import {useAppDispatch} from '../../../store/hooks/hooks';
 
 const {width, height} = Dimensions.get('screen');
 
 const Menu = () => {
   const {colors, dark, changeTheme} = useTheme();
   const [showMenu, setShowMenu] = useState(false);
+  const dispatch = useAppDispatch();
+
+  const signOut = () => {
+    auth()
+      .signOut()
+      .then(() => {
+        dispatch(isAuth());
+      });
+  };
   return (
     <View style={styles.containerMenu}>
       <Button
@@ -58,7 +70,7 @@ const Menu = () => {
                 {dark ? 'Light mode' : 'Dark mode'}
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem}>
+            <TouchableOpacity style={styles.menuItem} onPress={signOut}>
               <LogoutIcon fillColor={colors.onBackground} size={size.font22} />
               <Text style={[styles.textOption, {color: colors.onBackground}]}>
                 Sign out
