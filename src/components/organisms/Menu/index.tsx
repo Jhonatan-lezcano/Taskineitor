@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   menuContainer: {
     borderRadius: 5,
     position: 'absolute',
-    top: Platform.OS === 'ios' ? 95 : 55,
+    top: 55,
     right: 20,
     width: width * 0.45,
 

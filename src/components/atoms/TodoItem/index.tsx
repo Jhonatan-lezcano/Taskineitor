@@ -103,7 +103,8 @@ const TodoItem = ({
           index,
         )
       }>
-      <View style={styles.todoContainer}>
+      <View
+        style={[styles.todoContainer, {backgroundColor: colors.background}]}>
         <View style={styles.checkBoxGroup}>
           <TouchableOpacity onPress={() => toggleComplete(index)}>
             <View

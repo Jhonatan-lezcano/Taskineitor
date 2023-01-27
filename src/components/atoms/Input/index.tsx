@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   borders: {
-    borderWidth: StyleSheet.hairlineWidth,
+    borderWidth: 1,
     borderRadius: 6,
   },
   btnPassword: {
