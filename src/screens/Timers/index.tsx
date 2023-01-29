@@ -1,12 +1,13 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import useTheme from '../../hooks/useTheme';
+import Pomodoro from './Pomodoro';
 
 const Timers = () => {
   const {containerScreen} = useTheme();
   return (
     <View style={containerScreen.container}>
-      <Text>Timer</Text>
+      <Pomodoro />
     </View>
   );
 };

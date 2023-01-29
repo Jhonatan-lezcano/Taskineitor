@@ -17,7 +17,7 @@ const AnimationView = ({animation, size}: Props) => {
     <Lottie
       ref={animationRef}
       source={animation}
-      style={{height: size, width: size}}
+      style={{width: size}}
       autoPlay
       loop
     />
