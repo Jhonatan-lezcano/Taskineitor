@@ -60,7 +60,15 @@ const Button = ({
       ]}
       onPress={onPress}>
       {Icon && <Icon fillColor={colorIcon} size={sizeIcon} />}
-      {text && <Text style={[styles.text, {color: titleColor}]}>{text}</Text>}
+      {text && (
+        <Text
+          style={[
+            styles.text,
+            {color: titleColor, paddingLeft: Icon ? 10 : 0},
+          ]}>
+          {text}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -70,6 +78,8 @@ export default Button;
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
     padding: 16,
   },
   text: {

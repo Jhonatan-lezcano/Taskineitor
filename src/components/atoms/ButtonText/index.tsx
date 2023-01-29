@@ -5,16 +5,24 @@ interface Props {
   title: string;
   titleColor: string;
   onPress: () => void;
-  underLine: boolean;
+  underLine?: boolean;
+  fontSize?: number;
 }
 
-const ButtonText = ({title, titleColor, onPress, underLine}: Props) => {
+const ButtonText = ({
+  title,
+  titleColor,
+  onPress,
+  underLine,
+  fontSize,
+}: Props) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Text
         style={{
           color: titleColor,
           textDecorationLine: underLine ? 'underline' : 'none',
+          fontSize,
         }}>
         {title}
       </Text>
