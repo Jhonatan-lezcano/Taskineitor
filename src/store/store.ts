@@ -1,11 +1,13 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import authSlice from './slices/auth/authSlice';
+import pomodoroSlice from './slices/pomodoro/pomodoroSlice';
 import themeSlice from './slices/theme/themeSlice';
 import todoListSlice from './slices/todoList/todoListSlice';
 const rootReducer = combineReducers({
   authUser: authSlice,
   todoList: todoListSlice,
   theme: themeSlice,
+  pomodoro: pomodoroSlice,
 });
 
 export const store = configureStore({
