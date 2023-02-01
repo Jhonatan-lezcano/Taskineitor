@@ -10,7 +10,7 @@ interface InitialState {
   timerMode: TimerMode;
 }
 
-const FOCUS_TIME_MINUTES = 1 * 60 * 1000;
+const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
 
 const initialState: InitialState = {
   timerCount: FOCUS_TIME_MINUTES,

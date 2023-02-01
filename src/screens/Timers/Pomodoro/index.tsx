@@ -21,7 +21,7 @@ import {
 } from '../../../store/slices/pomodoro/pomodoroSlice';
 
 const {width, height} = Dimensions.get('screen');
-const FOCUS_TIME_MINUTES = 1 * 60 * 1000;
+const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
 const BREAK_TIME_MINUTES = 0.1 * 60 * 1000;
 const TIMER_MODE_WORK = 'work';
 const TIMER_MODE_BREAK = 'break';
@@ -69,7 +69,7 @@ const Pomodoro = () => {
   return (
     <>
       <View style={styles.header}>
-        {Platform.OS === 'ios' && <Spacer vertical={45} />}
+        <Spacer vertical={45} />
         <View style={styles.btnHeader}>
           <Button
             backgroundColor={colors.background}
@@ -108,8 +108,12 @@ const Pomodoro = () => {
           <View
             style={[
               styles.indicator,
+              styles.radiusIndicatorLeft,
               {
-                backgroundColor: colors.secondaryContainer,
+                backgroundColor:
+                  timerMode === TIMER_MODE_WORK
+                    ? colors.secondaryContainer
+                    : colors.background,
                 borderRightColor: colors.outline,
                 borderRightWidth: 1,
               },
@@ -117,26 +121,59 @@ const Pomodoro = () => {
             <Text
               style={[
                 styles.indicatorText,
-                {color: colors.OnSecondaryContainer},
+                {
+                  color:
+                    timerMode === TIMER_MODE_WORK
+                      ? colors.OnSecondaryContainer
+                      : colors.primary,
+                },
               ]}>
               Work
             </Text>
           </View>
-          <View style={styles.indicator}>
-            <Text style={[styles.indicatorText, {color: colors.primary}]}>
+          <View
+            style={[
+              styles.indicator,
+              styles.radiusIndicatorRight,
+              {
+                backgroundColor:
+                  timerMode === TIMER_MODE_BREAK
+                    ? colors.secondaryContainer
+                    : colors.background,
+              },
+            ]}>
+            <Text
+              style={[
+                styles.indicatorText,
+                {
+                  color:
+                    timerMode === TIMER_MODE_BREAK
+                      ? colors.OnSecondaryContainer
+                      : colors.primary,
+                },
+              ]}>
               Break
             </Text>
           </View>
         </View>
         <Spacer vertical="15%" />
         <Title
-          title="¡Stay focused!"
+          title={
+            timerMode === TIMER_MODE_WORK
+              ? '¡Stay focused! 👨‍💻'
+              : '!Take a break! 💆'
+          }
           fontSize={size.font18}
           customStyles={{color: colors.onBackground}}
         />
       </View>
       <View style={styles.center}>
-        <AnimationView animation={workTime} size={width * 0.8} />
+        {timerMode === TIMER_MODE_WORK && (
+          <AnimationView animation={workTime} size={width * 0.8} />
+        )}
+        {timerMode === TIMER_MODE_BREAK && (
+          <AnimationView animation={meditation} size={width * 0.8} />
+        )}
       </View>
 
       <View style={styles.timerAndActions}>
@@ -191,9 +228,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: width * 0.5,
   },
-  indicator: {
+  radiusIndicatorLeft: {
     borderBottomLeftRadius: 10,
     borderTopLeftRadius: 10,
+  },
+  radiusIndicatorRight: {
+    borderBottomRightRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  indicator: {
     paddingVertical: 15,
     textAlign: 'center',
     width: '50%',
