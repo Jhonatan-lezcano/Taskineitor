@@ -1,5 +1,5 @@
 import {Dimensions, Platform, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import AnimationView from '../../../components/atoms/AnimationView';
 import meditation from '../../../assets/LottieFiles/meditation.json';
 import workTime from '../../../assets/LottieFiles/work-on-home.json';
@@ -12,11 +12,60 @@ import Title from '../../../components/atoms/Title';
 import Spacer from '../../../components/atoms/Spacer';
 import SettingsIcon from '../../../assets/svgs/SettingsIcon';
 import MusicIcon from '../../../assets/svgs/MusicIcon';
+import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
+import {
+  changeTimerModeValue,
+  changeTimerValue,
+  handlerTimerInterval,
+  startTimer,
+} from '../../../store/slices/pomodoro/pomodoroSlice';
 
 const {width, height} = Dimensions.get('screen');
+const FOCUS_TIME_MINUTES = 1 * 60 * 1000;
+const BREAK_TIME_MINUTES = 0.1 * 60 * 1000;
+const TIMER_MODE_WORK = 'work';
+const TIMER_MODE_BREAK = 'break';
 
 const Pomodoro = () => {
   const {colors} = useTheme();
+  const {timerCount, timerInterval, timerMode} = useAppSelector(
+    state => state.pomodoro,
+  );
+  const dispatch = useAppDispatch();
+
+  const handlerStartTimer = () => {
+    const interval = setInterval(() => dispatch(startTimer()), 1000);
+    dispatch(handlerTimerInterval(interval));
+  };
+
+  const stopTimer = () => {
+    clearInterval(timerInterval ?? 0);
+  };
+
+  useEffect(() => {
+    if (timerCount < 0) {
+      if (timerMode === TIMER_MODE_WORK) {
+        dispatch(changeTimerValue(BREAK_TIME_MINUTES));
+        dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
+      } else {
+        dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
+        dispatch(changeTimerModeValue(TIMER_MODE_WORK));
+      }
+    }
+  }, [timerCount]);
+
+  const timerDate = new Date(timerCount);
+
+  const formatDate = (date: Date) => {
+    const MM = date.getMinutes();
+    const SS = date.getSeconds();
+
+    return `${MM.toString().padStart(2, '0')}:${SS.toString().padStart(
+      2,
+      '0',
+    )}`;
+  };
+
   return (
     <>
       <View style={styles.header}>
@@ -92,7 +141,7 @@ const Pomodoro = () => {
 
       <View style={styles.timerAndActions}>
         <Title
-          title="25:00"
+          title={formatDate(timerDate)}
           fontSize={size.font48}
           customStyles={{fontWeight: '200', color: colors.onBackground}}
         />
@@ -106,12 +155,12 @@ const Pomodoro = () => {
           sizeIcon={15}
           colorIcon={colors.onPrimary}
           customStyle={{padding: 10}}
-          onPress={() => {}}
+          onPress={handlerStartTimer}
         />
         <ButtonText
           title="Associate task"
           titleColor={colors.primary}
-          onPress={() => {}}
+          onPress={stopTimer}
           fontSize={size.font16}
         />
       </View>
