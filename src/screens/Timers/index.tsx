@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import useTheme from '../../hooks/useTheme';
-import Pomodoro from './Pomodoro';
+import Pomodoro from '../../components/templates/Pomodoro';
 
 const Timers = () => {
   const {containerScreen} = useTheme();

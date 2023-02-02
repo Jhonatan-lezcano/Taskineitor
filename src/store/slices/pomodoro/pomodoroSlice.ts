@@ -48,6 +48,12 @@ export const pomodoroSlice = createSlice({
         timerMode: action.payload,
       };
     },
+    setIsTimerRunning: state => {
+      return {
+        ...state,
+        isTimerRunning: !state.isTimerRunning,
+      };
+    },
   },
 });
 
@@ -56,6 +62,7 @@ export const {
   handlerTimerInterval,
   changeTimerValue,
   changeTimerModeValue,
+  setIsTimerRunning,
 } = pomodoroSlice.actions;
 
 export default pomodoroSlice.reducer;
