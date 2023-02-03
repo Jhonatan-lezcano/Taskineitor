@@ -14,9 +14,10 @@ const TIMER_MODE_BREAK = 'break';
 
 interface Props {
   timerMode: 'work' | 'break';
+  settingsAction: () => void;
 }
 
-const HeaderTimers = ({timerMode}: Props) => {
+const HeaderTimers = ({timerMode, settingsAction}: Props) => {
   const {colors} = useTheme();
   return (
     <View style={styles.header}>
@@ -45,7 +46,7 @@ const HeaderTimers = ({timerMode}: Props) => {
           icon={SettingsIcon}
           sizeIcon={size.font22}
           colorIcon={colors.primary}
-          onPress={() => {}}
+          onPress={settingsAction}
           customStyle={{
             padding: 0,
             height: 32,

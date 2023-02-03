@@ -55,7 +55,7 @@ const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
         sizeIcon={15}
         colorIcon={colors.onPrimary}
         customStyle={{padding: 10}}
-        onPress={startTimer}
+        onPress={() => {}}
       />
     </View>
   );
