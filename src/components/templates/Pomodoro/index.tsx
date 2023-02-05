@@ -1,5 +1,5 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import AnimationView from '../../atoms/AnimationView';
 import meditation from '../../../assets/LottieFiles/meditation.json';
 import workTime from '../../../assets/LottieFiles/work-on-home.json';
@@ -20,24 +20,37 @@ import {formatDate} from '../../../utils/helpers';
 import TimerToggleButtons from '../../molecules/TimerToggleButtons';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
-const {width} = Dimensions.get('screen');
+const {width, height} = Dimensions.get('screen');
 const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
 const BREAK_TIME_MINUTES = 0.1 * 60 * 1000;
 const TIMER_MODE_WORK = 'work';
 const TIMER_MODE_BREAK = 'break';
 
 const Pomodoro = () => {
+  const [showModal, setshowModal] = useState(false);
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const {colors} = useTheme();
+  const dispatch = useAppDispatch();
   const {timerCount, timerInterval, timerMode, isTimerRunning} = useAppSelector(
     state => state.pomodoro,
   );
-  const dispatch = useAppDispatch();
+
   const snapPoints = useMemo(() => ['25%', '50%'], []);
 
-  const handlePresentModalPress = useCallback(() => {
+  const handlePresentModalPress = () => {
     bottomSheetModalRef.current?.present();
-  }, []);
+    setshowModal(!showModal);
+  };
+
+  const handleCloseModalPress = () => {
+    bottomSheetModalRef.current?.close();
+  };
+
+  const handleSheetChanges = (index: number) => {
+    if (index === -1) {
+      setshowModal(!showModal);
+    }
+  };
 
   const handlerStartTimer = () => {
     const interval = setInterval(() => dispatch(startTimer()), 1000);
@@ -97,12 +110,32 @@ const Pomodoro = () => {
             fontSize={size.font16}
           />
         </View>
+        {showModal && (
+          <Pressable
+            style={[
+              styles.backgoundModal,
+              {backgroundColor: colors.surfaceVariant, opacity: 0.5},
+            ]}
+            onPress={handleCloseModalPress}
+          />
+        )}
         <BottomSheetModal
           ref={bottomSheetModalRef}
           index={1}
-          snapPoints={snapPoints}>
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          handleIndicatorStyle={{backgroundColor: colors.onBackground}}
+          style={{paddingHorizontal: 30}}
+          backgroundStyle={{
+            borderRadius: 50,
+            backgroundColor: colors.background,
+          }}>
           <View style={styles.contentContainer}>
-            <Text>Awesome 🎉</Text>
+            <Title
+              title="Customize the pomodoro"
+              fontSize={size.font18}
+              customStyles={{color: colors.onBackground, fontWeight: '500'}}
+            />
           </View>
         </BottomSheetModal>
       </BottomSheetModalProvider>
@@ -126,6 +159,14 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   contentContainer: {
-    backgroundColor: 'red',
+    flex: 1,
+    paddingVertical: 30,
+  },
+  backgoundModal: {
+    height,
+    left: 0,
+    position: 'absolute',
+    top: 0,
+    width,
   },
 });

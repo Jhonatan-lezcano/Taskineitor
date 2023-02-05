@@ -163,10 +163,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingVertical: 15,
+    width: '100%',
   },
   checkBoxGroup: {
     alignItems: 'center',
     flexDirection: 'row',
+    width: '73%',
   },
   checkBox: {
     borderWidth: 1,
