@@ -19,12 +19,15 @@ import HeaderTimers from '../../organisms/HeaderTimers';
 import {formatDate} from '../../../utils/helpers';
 import TimerToggleButtons from '../../molecules/TimerToggleButtons';
 import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {
+  BREAK_TIME_MINUTES,
+  FOCUS_TIME_MINUTES,
+  TIMER_MODE_BREAK,
+  TIMER_MODE_WORK,
+} from '../../../utils/constants';
+import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
 
 const {width, height} = Dimensions.get('screen');
-const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
-const BREAK_TIME_MINUTES = 0.1 * 60 * 1000;
-const TIMER_MODE_WORK = 'work';
-const TIMER_MODE_BREAK = 'break';
 
 const Pomodoro = () => {
   const [showModal, setshowModal] = useState(false);
@@ -110,26 +113,13 @@ const Pomodoro = () => {
             fontSize={size.font16}
           />
         </View>
-        {showModal && (
-          <Pressable
-            style={[
-              styles.backgoundModal,
-              {backgroundColor: colors.surfaceVariant, opacity: 0.5},
-            ]}
-            onPress={handleCloseModalPress}
-          />
-        )}
-        <BottomSheetModal
-          ref={bottomSheetModalRef}
-          index={1}
+        <BottomSheetModalBackground
+          refBottomSheet={bottomSheetModalRef}
+          indexSnapPoints={1}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
-          handleIndicatorStyle={{backgroundColor: colors.onBackground}}
-          style={{paddingHorizontal: 30}}
-          backgroundStyle={{
-            borderRadius: 50,
-            backgroundColor: colors.background,
-          }}>
+          handleCloseModalPress={handleCloseModalPress}
+          showModalBackground={showModal}>
           <View style={styles.contentContainer}>
             <Title
               title="Customize the pomodoro"
@@ -137,7 +127,7 @@ const Pomodoro = () => {
               customStyles={{color: colors.onBackground, fontWeight: '500'}}
             />
           </View>
-        </BottomSheetModal>
+        </BottomSheetModalBackground>
       </BottomSheetModalProvider>
     </>
   );
