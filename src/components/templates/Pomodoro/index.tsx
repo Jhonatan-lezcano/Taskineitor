@@ -1,5 +1,5 @@
-import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {Dimensions, StyleSheet, View} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import AnimationView from '../../atoms/AnimationView';
 import meditation from '../../../assets/LottieFiles/meditation.json';
 import workTime from '../../../assets/LottieFiles/work-on-home.json';

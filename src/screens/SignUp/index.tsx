@@ -5,7 +5,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import Title from '../../components/atoms/Title';
 import {size} from '../../theme/fonts';
 import {lightMode} from '../../theme/colors';
@@ -39,8 +39,7 @@ const SignUp = ({navigation: {navigate}}: Props) => {
   const {
     handleSubmit,
     control,
-    formState: {errors, isSubmitSuccessful},
-    formState,
+    formState: {errors},
     watch,
     reset,
   } = useForm<SignUpForm>({

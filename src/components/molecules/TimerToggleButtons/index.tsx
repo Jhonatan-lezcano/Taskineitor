@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {StyleSheet, View, Dimensions} from 'react-native';
 import React from 'react';
 import Button from '../../atoms/Button';
 import useTheme from '../../../hooks/useTheme';
@@ -6,7 +6,7 @@ import PlayIcon from '../../../assets/svgs/PlayIcon';
 import StopIcon from '../../../assets/svgs/StopIcon';
 import PauseIcon from '../../../assets/svgs/PauseIcon';
 
-const {width, height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
 interface Props {
   startTimer: () => void;

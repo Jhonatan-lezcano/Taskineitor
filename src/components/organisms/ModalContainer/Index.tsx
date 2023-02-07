@@ -2,7 +2,6 @@ import {
   Dimensions,
   Modal,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';

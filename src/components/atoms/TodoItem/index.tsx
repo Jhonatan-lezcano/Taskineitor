@@ -1,6 +1,6 @@
 import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {Todo, TodoList} from '../../../store/slices/todoList/todoListSlice';
+import {Todo} from '../../../store/slices/todoList/todoListSlice';
 import {size} from '../../../theme/fonts';
 import useTheme from '../../../hooks/useTheme';
 import Spacer from '../Spacer';

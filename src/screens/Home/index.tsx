@@ -1,16 +1,7 @@
-import {
-  StatusBar,
-  StyleSheet,
-  Text,
-  TurboModuleRegistry,
-  View,
-} from 'react-native';
-import React, {useEffect} from 'react';
+import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import React from 'react';
 import useTheme from '../../hooks/useTheme';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
-import {useAppDispatch, useAppSelector} from '../../store/hooks/hooks';
-import {getUser} from '../../store/slices/auth/authSlice';
+import {useAppDispatch} from '../../store/hooks/hooks';
 import Title from '../../components/atoms/Title';
 import {size} from '../../theme/fonts';
 import Button from '../../components/atoms/Button';
@@ -24,9 +15,6 @@ import {
   addCurrentTodos,
   TodoList,
 } from '../../store/slices/todoList/todoListSlice';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
-import CheckIcon from '../../assets/svgs/CheckIcon';
-import AnimationView from '../../components/atoms/AnimationView';
 import Menu from '../../components/organisms/Menu';
 
 interface Props
@@ -35,7 +23,6 @@ interface Props
 const Home = ({navigation: {navigate}}: Props) => {
   const {containerScreen, colors, dark} = useTheme();
   const dispatch = useAppDispatch();
-  const {user} = useAppSelector(state => state.authUser);
   const {isLoading, todoList} = useTodoList();
 
   const navigateTodosScreen = (todos: TodoList) => {

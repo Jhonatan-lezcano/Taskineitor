@@ -1,9 +1,8 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {List} from '../../../utils/mockData';
 import Title from '../../atoms/Title';
 import {size} from '../../../theme/fonts';
-import {Todo, TodoList} from '../../../store/slices/todoList/todoListSlice';
+import {TodoList} from '../../../store/slices/todoList/todoListSlice';
 
 interface Props {
   list: TodoList;

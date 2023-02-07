@@ -1,19 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import Title from '../../atoms/Title';
 import {size} from '../../../theme/fonts';
 import Input from '../../atoms/Input';
 import {SubmitHandler, useForm} from 'react-hook-form';
-import firestore from '@react-native-firebase/firestore';
 import useTheme from '../../../hooks/useTheme';
 import Button from '../../atoms/Button';
 import {Required} from '../../../utils/validations';
-import {
-  getTodoList,
-  TodoList,
-} from '../../../store/slices/todoList/todoListSlice';
+import {TodoList} from '../../../store/slices/todoList/todoListSlice';
 import useTodoList from '../../../hooks/useTodoList';
-import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
 
 interface TodoForm {
   description: string;
@@ -26,8 +21,8 @@ interface Props {
 }
 
 const AddTodoForm = ({list, closeModal}: Props) => {
-  const {color, id} = list;
-  const {createTodo, todoComplete} = useTodoList();
+  const {color} = list;
+  const {createTodo} = useTodoList();
   const {colors} = useTheme();
   const {
     control,

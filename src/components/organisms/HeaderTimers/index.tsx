@@ -8,7 +8,7 @@ import SettingsIcon from '../../../assets/svgs/SettingsIcon';
 import {size} from '../../../theme/fonts';
 import Title from '../../atoms/Title';
 
-const {width, height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 const TIMER_MODE_WORK = 'work';
 const TIMER_MODE_BREAK = 'break';
 

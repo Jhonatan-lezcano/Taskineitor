@@ -1,9 +1,7 @@
 import {
   Dimensions,
-  Modal,
   Platform,
   Pressable,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,

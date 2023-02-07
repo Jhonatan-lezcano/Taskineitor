@@ -1,15 +1,10 @@
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import useTheme from '../../../hooks/useTheme';
-import CheckIcon from '../../../assets/svgs/CheckIcon';
 import Spacer from '../../atoms/Spacer';
 import {size} from '../../../theme/fonts';
-import {useAppSelector} from '../../../store/hooks/hooks';
-import AlertTriangleIcon from '../../../assets/svgs/AlertTriangleIcon';
-import RefreshCircleIcon from '../../../assets/svgs/RefreshCircleIcon';
-import AlertCircleIcon from '../../../assets/svgs/AlertCircleIcon';
 
-const {width, height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
 interface Props {
   icon?: React.ElementType;

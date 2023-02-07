@@ -1,4 +1,4 @@
-import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Pressable, StyleSheet} from 'react-native';
 import React from 'react';
 import useTheme from '../../../hooks/useTheme';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';

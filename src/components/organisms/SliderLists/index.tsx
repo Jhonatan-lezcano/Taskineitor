@@ -3,18 +3,14 @@ import {
   Dimensions,
   FlatList,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import React from 'react';
-import {mockData} from '../../../utils/mockData';
 import CardList from '../../molecules/CardList';
 import {TodoList} from '../../../store/slices/todoList/todoListSlice';
 import useTheme from '../../../hooks/useTheme';
-import AnimationView from '../../atoms/AnimationView';
 import noListtAnimation from '../../../assets/LottieFiles/not-found.json';
 import NoItemsFound from '../../molecules/NoItemsFound';
-import {size} from '../../../theme/fonts';
 
 interface Props {
   data: TodoList[];
