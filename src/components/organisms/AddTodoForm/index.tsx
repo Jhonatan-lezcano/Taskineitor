@@ -9,6 +9,7 @@ import Button from '../../atoms/Button';
 import {Required} from '../../../utils/validations';
 import {TodoList} from '../../../store/slices/todoList/todoListSlice';
 import useTodoList from '../../../hooks/useTodoList';
+import Spacer from '../../atoms/Spacer';
 
 interface TodoForm {
   description: string;
@@ -41,12 +42,13 @@ const AddTodoForm = ({list, closeModal}: Props) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <Title
         title="New Todo"
         fontSize={size.font26}
-        customStyles={{fontWeight: '600'}}
+        customStyles={{fontWeight: '600', color: colors.onBackground}}
       />
+      <Spacer vertical={20} />
       <Input
         label="Name Todo"
         control={control}
@@ -57,6 +59,7 @@ const AddTodoForm = ({list, closeModal}: Props) => {
         err={errors}
         rules={Required}
       />
+      <Spacer vertical={10} />
       <Input
         label="Description"
         control={control}
@@ -69,6 +72,7 @@ const AddTodoForm = ({list, closeModal}: Props) => {
         height={100}
         textAlignVertical="top"
       />
+      <Spacer vertical={10} />
       <Button
         text="Create todo!"
         backgroundColor={color}
@@ -83,5 +87,7 @@ const AddTodoForm = ({list, closeModal}: Props) => {
 export default AddTodoForm;
 
 const styles = StyleSheet.create({
-  algo: {},
+  container: {
+    paddingVertical: 30,
+  },
 });

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import Title from '../../components/atoms/Title';
@@ -22,6 +22,9 @@ import useTodoList from '../../hooks/useTodoList';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NoItemsFound from '../../components/molecules/NoItemsFound';
 import noTasksFound from '../../assets/LottieFiles/checklist.json';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
+import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
@@ -35,7 +38,14 @@ const Todos = ({navigation: {navigate}}: Props) => {
   const {name, todos, color} = currentTodos;
   const tasks = todos.length;
   const tasksCompleted = todos.filter(todo => todo.completed).length;
-  const [showModal, setShowModal] = useState(false);
+  const {
+    showModal,
+    bottomSheetModalRef,
+    handleCloseModalPress,
+    handlePresentModalPress,
+    handleSheetChanges,
+  } = useBottomSheetModal();
+  const snapPoints = useMemo(() => ['65%'], []);
 
   const toggleComplete = (index: number) => todoComplete(currentTodos, index);
 
@@ -44,63 +54,71 @@ const Todos = ({navigation: {navigate}}: Props) => {
   const toggleDeleteTodo = (index: number) => deleteTodo(currentTodos, index);
 
   return (
-    <View style={containerScreen.container}>
-      <View style={[styles.containerTitle, {borderBottomColor: color}]}>
-        <Title
-          title={capitalizeFirstLetter(name)}
-          textAlign="left"
-          fontSize={size.font30}
-          customStyles={{fontWeight: '800', color: colors.onBackground}}
-          lines={1}
-        />
-        <Text style={[styles.taskCount, {color: colors.outline}]}>
-          {tasksCompleted}/{tasks}
-        </Text>
-      </View>
-      {todos.length > 0 ? (
-        <GestureHandlerRootView style={styles.containerTodos}>
-          <FlatList
-            data={todos}
-            keyExtractor={(item, index) => `${item.name}-${index}`}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{paddingVertical: 20}}
-            renderItem={({item, index}) => (
-              <TodoItem
-                todo={item}
-                index={index}
-                toggleComplete={toggleComplete}
-                toggleInProcess={toggleInProcess}
-                toggleDeleteTodo={toggleDeleteTodo}
-              />
-            )}
+    <BottomSheetModalProvider>
+      <View style={containerScreen.container}>
+        <View style={[styles.containerTitle, {borderBottomColor: color}]}>
+          <Title
+            title={capitalizeFirstLetter(name)}
+            textAlign="left"
+            fontSize={size.font30}
+            customStyles={{fontWeight: '800', color: colors.onBackground}}
+            lines={1}
           />
-        </GestureHandlerRootView>
-      ) : (
-        <View style={[styles.containerTodos, styles.notFoundTodos]}>
-          <NoItemsFound
-            animation={noTasksFound}
-            sizeAnimation={height * 0.3}
-            text="No to-dos found, start creating your to-dos"
-            height="100%"
-            width="100%"
-          />
+          <Text style={[styles.taskCount, {color: colors.outline}]}>
+            {tasksCompleted}/{tasks}
+          </Text>
         </View>
-      )}
+        {todos.length > 0 ? (
+          <GestureHandlerRootView style={styles.containerTodos}>
+            <FlatList
+              data={todos}
+              keyExtractor={(item, index) => `${item.name}-${index}`}
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{paddingVertical: 20}}
+              renderItem={({item, index}) => (
+                <TodoItem
+                  todo={item}
+                  index={index}
+                  toggleComplete={toggleComplete}
+                  toggleInProcess={toggleInProcess}
+                  toggleDeleteTodo={toggleDeleteTodo}
+                />
+              )}
+            />
+          </GestureHandlerRootView>
+        ) : (
+          <View style={[styles.containerTodos, styles.notFoundTodos]}>
+            <NoItemsFound
+              animation={noTasksFound}
+              sizeAnimation={height * 0.3}
+              text="No to-dos found, start creating your to-dos"
+              height="100%"
+              width="100%"
+            />
+          </View>
+        )}
 
-      <TouchableOpacity
-        style={[styles.floatingButton, {backgroundColor: color}]}
-        onPress={() => setShowModal(!showModal)}>
-        <PlusIcon size={32} />
-      </TouchableOpacity>
-      <ModalContainer
-        visible={showModal}
-        closeModal={() => setShowModal(!showModal)}>
-        <AddTodoForm
-          list={currentTodos}
-          closeModal={() => setShowModal(!showModal)}
-        />
-      </ModalContainer>
-    </View>
+        <TouchableOpacity
+          style={[styles.floatingButton, {backgroundColor: color}]}
+          onPress={handlePresentModalPress}>
+          <PlusIcon size={32} />
+        </TouchableOpacity>
+        <BottomSheetModalBackground
+          refBottomSheet={bottomSheetModalRef}
+          indexSnapPoints={0}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}
+          handleCloseModalPress={handleCloseModalPress}
+          showModalBackground={showModal}>
+          <AddTodoForm
+            list={currentTodos}
+            closeModal={() => {
+              handleCloseModalPress();
+            }}
+          />
+        </BottomSheetModalBackground>
+      </View>
+    </BottomSheetModalProvider>
   );
 };
 

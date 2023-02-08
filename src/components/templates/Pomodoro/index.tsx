@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import AnimationView from '../../atoms/AnimationView';
 import meditation from '../../../assets/LottieFiles/meditation.json';
 import workTime from '../../../assets/LottieFiles/work-on-home.json';
@@ -18,7 +18,7 @@ import {
 import HeaderTimers from '../../organisms/HeaderTimers';
 import {formatDate} from '../../../utils/helpers';
 import TimerToggleButtons from '../../molecules/TimerToggleButtons';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import {
   BREAK_TIME_MINUTES,
   FOCUS_TIME_MINUTES,
@@ -26,34 +26,25 @@ import {
   TIMER_MODE_WORK,
 } from '../../../utils/constants';
 import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
+import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
 
 const {width, height} = Dimensions.get('screen');
 
 const Pomodoro = () => {
-  const [showModal, setshowModal] = useState(false);
-  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const {colors} = useTheme();
   const dispatch = useAppDispatch();
   const {timerCount, timerInterval, timerMode, isTimerRunning} = useAppSelector(
     state => state.pomodoro,
   );
+  const {
+    showModal,
+    bottomSheetModalRef,
+    handleCloseModalPress,
+    handlePresentModalPress,
+    handleSheetChanges,
+  } = useBottomSheetModal();
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
-
-  const handlePresentModalPress = () => {
-    bottomSheetModalRef.current?.present();
-    setshowModal(!showModal);
-  };
-
-  const handleCloseModalPress = () => {
-    bottomSheetModalRef.current?.close();
-  };
-
-  const handleSheetChanges = (index: number) => {
-    if (index === -1) {
-      setshowModal(!showModal);
-    }
-  };
 
   const handlerStartTimer = () => {
     const interval = setInterval(() => dispatch(startTimer()), 1000);
