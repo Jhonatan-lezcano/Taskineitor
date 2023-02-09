@@ -18,7 +18,7 @@ import {
 import HeaderTimers from '../../organisms/HeaderTimers';
 import {formatDate} from '../../../utils/helpers';
 import TimerToggleButtons from '../../molecules/TimerToggleButtons';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {BottomSheetModalProvider, BottomSheetView} from '@gorhom/bottom-sheet';
 import {
   BREAK_TIME_MINUTES,
   FOCUS_TIME_MINUTES,
@@ -27,6 +27,7 @@ import {
 } from '../../../utils/constants';
 import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
+import {NativeViewGestureHandler} from 'react-native-gesture-handler';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -111,13 +112,13 @@ const Pomodoro = () => {
           onChange={handleSheetChanges}
           handleCloseModalPress={handleCloseModalPress}
           showModalBackground={showModal}>
-          <View style={styles.contentContainer}>
+          <BottomSheetView style={styles.contentContainer}>
             <Title
               title="Customize the pomodoro"
               fontSize={size.font18}
               customStyles={{color: colors.onBackground, fontWeight: '500'}}
             />
-          </View>
+          </BottomSheetView>
         </BottomSheetModalBackground>
       </BottomSheetModalProvider>
     </>

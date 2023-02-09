@@ -2,26 +2,35 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
 import {StyleSheet, useColorScheme, AppState, Appearance} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../store/hooks/hooks';
-import {setTheme} from '../store/slices/theme/themeSlice';
+import {setPreferences, setTheme} from '../store/slices/theme/themeSlice';
 import {darkMode, lightMode} from '../theme/colors';
 
 let flag = true;
+
 const LIGHT = 'light';
 const DARK = 'dark';
+const SYSTEM = 'system';
+
+type ThemeOptions = 'light' | 'dark' | 'system';
 
 const useTheme = () => {
-  const {dark, colors} = useAppSelector(state => state.theme);
+  const {
+    preferences,
+    theme: {colors, dark},
+  } = useAppSelector(state => state.theme);
   const dispatch = useAppDispatch();
-  const colorSchema = useColorScheme();
+  const colorScheme = useColorScheme();
 
   const defineTheme = async () => {
     const themeUserPreferences = await AsyncStorage.getItem('@Theme');
-    console.log(themeUserPreferences);
     if (themeUserPreferences === LIGHT) {
       dispatch(setTheme(lightMode));
     } else if (themeUserPreferences === DARK) {
       dispatch(setTheme(darkMode));
-    } else if (!themeUserPreferences) {
+    } else if (!themeUserPreferences || themeUserPreferences === SYSTEM) {
+      if (!themeUserPreferences) {
+        await AsyncStorage.setItem('@Theme', SYSTEM);
+      }
       AppState.addEventListener('change', status => {
         if (status === 'active') {
           Appearance.getColorScheme() === 'light'
@@ -40,14 +49,18 @@ const useTheme = () => {
     }
   }, []);
 
-  const changeTheme = async () => {
+  const changeTheme = async (theme: ThemeOptions) => {
     flag = true;
-    if (!dark) {
-      dispatch(setTheme(darkMode));
-      await AsyncStorage.setItem('@Theme', 'dark');
-    } else {
+    await AsyncStorage.setItem('@Theme', theme);
+    dispatch(setPreferences(theme));
+    if (theme === LIGHT) {
       dispatch(setTheme(lightMode));
-      await AsyncStorage.setItem('@Theme', 'light');
+    } else if (theme === DARK) {
+      dispatch(setTheme(darkMode));
+    } else if (theme === SYSTEM) {
+      colorScheme === 'light'
+        ? dispatch(setTheme(lightMode))
+        : dispatch(setTheme(darkMode));
     }
   };
 
@@ -60,7 +73,7 @@ const useTheme = () => {
     },
   });
 
-  return {colors, changeTheme, containerScreen, dark};
+  return {colors, changeTheme, containerScreen, dark, preferences};
 };
 
 export default useTheme;

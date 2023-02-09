@@ -43,6 +43,8 @@ const BottomSheetModalBackground = ({
         onChange={onChange}
         handleIndicatorStyle={{backgroundColor: colors.onBackground}}
         style={{paddingHorizontal: 30}}
+        animateOnMount
+        enablePanDownToClose={true}
         backgroundStyle={{
           borderRadius: 50,
           backgroundColor: colors.background,

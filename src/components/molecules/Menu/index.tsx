@@ -20,18 +20,15 @@ import {useAppDispatch} from '../../../store/hooks/hooks';
 
 const {width, height} = Dimensions.get('screen');
 
-const Menu = () => {
+interface Props {
+  openMenu: () => void;
+}
+
+const Menu = ({openMenu}: Props) => {
   const {colors, dark, changeTheme} = useTheme();
   const [showMenu, setShowMenu] = useState(false);
   const dispatch = useAppDispatch();
 
-  const signOut = () => {
-    auth()
-      .signOut()
-      .then(() => {
-        dispatch(isAuth());
-      });
-  };
   return (
     <View style={styles.containerMenu}>
       <Button
@@ -41,7 +38,7 @@ const Menu = () => {
         icon={MenuIcon}
         sizeIcon={size.font22}
         colorIcon={colors.primary}
-        onPress={() => setShowMenu(!showMenu)}
+        onPress={openMenu}
         customStyle={{
           padding: 0,
           height: 32,
@@ -50,33 +47,6 @@ const Menu = () => {
         }}
         shadow
       />
-      {showMenu && (
-        <Pressable
-          style={styles.closeMenu}
-          onPress={() => setShowMenu(!showMenu)}>
-          <View
-            style={[
-              styles.menuContainer,
-              {
-                backgroundColor: colors.background,
-                shadowColor: colors.onBackground,
-              },
-            ]}>
-            <TouchableOpacity style={styles.menuItem} onPress={changeTheme}>
-              <SunIcon fillColor={colors.onBackground} size={size.font22} />
-              <Text style={[styles.textOption, {color: colors.onBackground}]}>
-                {dark ? 'Light mode' : 'Dark mode'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.menuItem} onPress={signOut}>
-              <LogoutIcon fillColor={colors.onBackground} size={size.font22} />
-              <Text style={[styles.textOption, {color: colors.onBackground}]}>
-                Sign out
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Pressable>
-      )}
     </View>
   );
 };

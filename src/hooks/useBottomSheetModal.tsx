@@ -11,7 +11,7 @@ const useBottomSheetModal = () => {
   };
 
   const handleCloseModalPress = () => {
-    bottomSheetModalRef.current?.close();
+    bottomSheetModalRef.current?.dismiss();
   };
 
   const handleSheetChanges = (index: number) => {

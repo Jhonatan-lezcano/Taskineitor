@@ -36,7 +36,15 @@ export interface ThemeState {
   colors: Colors;
 }
 
-const initialState: ThemeState = lightMode;
+interface InitialState {
+  preferences: string;
+  theme: ThemeState;
+}
+
+const initialState: InitialState = {
+  preferences: 'system',
+  theme: lightMode,
+};
 
 export const themeSlice = createSlice({
   name: 'theme',
@@ -45,12 +53,18 @@ export const themeSlice = createSlice({
     setTheme: (state, action) => {
       return {
         ...state,
-        ...action.payload,
+        theme: action.payload,
+      };
+    },
+    setPreferences: (state, action) => {
+      return {
+        ...state,
+        preferences: action.payload,
       };
     },
   },
 });
 
-export const {setTheme} = themeSlice.actions;
+export const {setTheme, setPreferences} = themeSlice.actions;
 
 export default themeSlice.reducer;
