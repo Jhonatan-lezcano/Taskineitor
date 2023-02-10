@@ -1,12 +1,5 @@
-import {
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useMemo, useRef, useState} from 'react';
+import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {useMemo} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import Title from '../../components/atoms/Title';
@@ -16,15 +9,15 @@ import useTheme from '../../hooks/useTheme';
 import TodoItem from '../../components/atoms/TodoItem';
 import PlusIcon from '../../assets/svgs/PlusIcon';
 import AddTodoForm from '../../components/organisms/AddTodoForm';
-import ModalContainer from '../../components/organisms/ModalContainer/Index';
 import {useAppSelector} from '../../store/hooks/hooks';
 import useTodoList from '../../hooks/useTodoList';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NoItemsFound from '../../components/molecules/NoItemsFound';
 import noTasksFound from '../../assets/LottieFiles/checklist.json';
-import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../hooks/useBottomSheetModal';
+import Button from '../../components/atoms/Button';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
@@ -57,13 +50,29 @@ const Todos = ({navigation: {navigate}}: Props) => {
     <BottomSheetModalProvider>
       <View style={containerScreen.container}>
         <View style={[styles.containerTitle, {borderBottomColor: color}]}>
-          <Title
-            title={capitalizeFirstLetter(name)}
-            textAlign="left"
-            fontSize={size.font30}
-            customStyles={{fontWeight: '800', color: colors.onBackground}}
-            lines={1}
-          />
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Title
+              title={capitalizeFirstLetter(name)}
+              textAlign="left"
+              fontSize={size.font30}
+              width="78%"
+              lines={1}
+              customStyles={{
+                fontWeight: '800',
+                color: colors.onBackground,
+              }}
+            />
+            <Button
+              icon={PlusIcon}
+              backgroundColor={colors.background}
+              radius={0}
+              onPress={handlePresentModalPress}
+              colorIcon={colors.primary}
+              customStyle={{padding: 0}}
+              sizeIcon={size.font30}
+              width={size.font30}
+            />
+          </View>
           <Text style={[styles.taskCount, {color: colors.outline}]}>
             {tasksCompleted}/{tasks}
           </Text>
@@ -97,12 +106,6 @@ const Todos = ({navigation: {navigate}}: Props) => {
             />
           </View>
         )}
-
-        <TouchableOpacity
-          style={[styles.floatingButton, {backgroundColor: color}]}
-          onPress={handlePresentModalPress}>
-          <PlusIcon size={32} />
-        </TouchableOpacity>
         <BottomSheetModalBackground
           refBottomSheet={bottomSheetModalRef}
           indexSnapPoints={0}

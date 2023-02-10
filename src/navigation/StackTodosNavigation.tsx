@@ -5,7 +5,6 @@ import Home from '../screens/Home';
 import AddList from '../screens/AddList';
 import useTheme from '../hooks/useTheme';
 import Todos from '../screens/Todos';
-import {TodoList} from '../store/slices/todoList/todoListSlice';
 
 export type RootStackTodosParams = {
   HomeScreen: undefined;

@@ -78,7 +78,7 @@ const Home = ({navigation: {navigate}}: Props) => {
         <Menu openMenu={handlePresentModalPress} />
         <BottomSheetModalBackground
           refBottomSheet={bottomSheetModalRef}
-          indexSnapPoints={1}
+          indexSnapPoints={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           handleCloseModalPress={handleCloseModalPress}

@@ -1,19 +1,16 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {Line, Path, Svg} from 'react-native-svg';
+import {PropsIcon} from '../../utils/Interfaces';
 
-interface Props {
-  size: number;
-}
-
-const PlusIcon = ({size}: Props) => {
+const PlusIcon = ({size, fillColor}: PropsIcon) => {
   return (
     <Svg
       width={size}
       height={size}
       viewBox={`0 0 24 24`}
       strokeWidth="2.5"
-      stroke="#ffffff"
+      stroke={fillColor}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round">

@@ -1,22 +1,9 @@
-import {
-  Dimensions,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, {useState} from 'react';
+import {Dimensions, Platform, StyleSheet, View} from 'react-native';
+import React from 'react';
 import Button from '../../atoms/Button';
 import useTheme from '../../../hooks/useTheme';
 import MenuIcon from '../../../assets/svgs/MenuIcon';
 import {size} from '../../../theme/fonts';
-import LogoutIcon from '../../../assets/svgs/LogoutIcon';
-import SunIcon from '../../../assets/svgs/SunIcon';
-import auth from '@react-native-firebase/auth';
-import {isAuth} from '../../../store/slices/auth/authSlice';
-import {useAppDispatch} from '../../../store/hooks/hooks';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -25,9 +12,7 @@ interface Props {
 }
 
 const Menu = ({openMenu}: Props) => {
-  const {colors, dark, changeTheme} = useTheme();
-  const [showMenu, setShowMenu] = useState(false);
-  const dispatch = useAppDispatch();
+  const {colors} = useTheme();
 
   return (
     <View style={styles.containerMenu}>
