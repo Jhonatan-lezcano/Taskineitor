@@ -1,5 +1,5 @@
 import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useMemo} from 'react';
+import React, {useMemo, useRef} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import Title from '../../components/atoms/Title';
@@ -14,7 +14,7 @@ import useTodoList from '../../hooks/useTodoList';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NoItemsFound from '../../components/molecules/NoItemsFound';
 import noTasksFound from '../../assets/LottieFiles/checklist.json';
-import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 import Button from '../../components/atoms/Button';
@@ -33,11 +33,11 @@ const Todos = ({navigation: {navigate}}: Props) => {
   const tasksCompleted = todos.filter(todo => todo.completed).length;
   const {
     showModal,
-    bottomSheetModalRef,
     handleCloseModalPress,
     handlePresentModalPress,
     handleSheetChanges,
   } = useBottomSheetModal();
+  const addTaskRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ['65%'], []);
 
   const toggleComplete = (index: number) => todoComplete(currentTodos, index);
@@ -66,7 +66,7 @@ const Todos = ({navigation: {navigate}}: Props) => {
               icon={PlusIcon}
               backgroundColor={colors.background}
               radius={0}
-              onPress={handlePresentModalPress}
+              onPress={() => handlePresentModalPress(addTaskRef)}
               colorIcon={colors.primary}
               customStyle={{padding: 0}}
               sizeIcon={size.font30}
@@ -107,16 +107,16 @@ const Todos = ({navigation: {navigate}}: Props) => {
           </View>
         )}
         <BottomSheetModalBackground
-          refBottomSheet={bottomSheetModalRef}
+          refBottomSheet={addTaskRef}
           indexSnapPoints={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
-          handleCloseModalPress={handleCloseModalPress}
+          handleCloseModalPress={() => handleCloseModalPress(addTaskRef)}
           showModalBackground={showModal}>
           <AddTodoForm
             list={currentTodos}
             closeModal={() => {
-              handleCloseModalPress();
+              handleCloseModalPress(addTaskRef);
             }}
           />
         </BottomSheetModalBackground>

@@ -1,5 +1,5 @@
 import {StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useMemo} from 'react';
+import React, {useMemo, useRef} from 'react';
 import useTheme from '../../hooks/useTheme';
 import {useAppDispatch} from '../../store/hooks/hooks';
 import Title from '../../components/atoms/Title';
@@ -18,7 +18,11 @@ import {
 import Menu from '../../components/molecules/Menu';
 import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
-import {BottomSheetView, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {
+  BottomSheetView,
+  BottomSheetModalProvider,
+  BottomSheetModal,
+} from '@gorhom/bottom-sheet';
 import MenuContent from '../../components/organisms/MenuContent';
 
 interface Props
@@ -29,12 +33,12 @@ const Home = ({navigation: {navigate}}: Props) => {
   const dispatch = useAppDispatch();
   const {isLoading, todoList} = useTodoList();
   const {
-    bottomSheetModalRef,
     handleCloseModalPress,
     handleSheetChanges,
     showModal,
     handlePresentModalPress,
   } = useBottomSheetModal();
+  const openMenuRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ['38%', '50%'], []);
 
   const navigateTodosScreen = (todos: TodoList) => {
@@ -75,13 +79,13 @@ const Home = ({navigation: {navigate}}: Props) => {
           isLoading={isLoading}
           navigate={navigateTodosScreen}
         />
-        <Menu openMenu={handlePresentModalPress} />
+        <Menu openMenu={() => handlePresentModalPress(openMenuRef)} />
         <BottomSheetModalBackground
-          refBottomSheet={bottomSheetModalRef}
+          refBottomSheet={openMenuRef}
           indexSnapPoints={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
-          handleCloseModalPress={handleCloseModalPress}
+          handleCloseModalPress={() => handleCloseModalPress(openMenuRef)}
           showModalBackground={showModal}>
           <BottomSheetView style={styles.contentContainer}>
             <MenuContent />

@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {Todo} from '../todoList/todoListSlice';
 
 type TimerMode = 'work' | 'break';
 
@@ -8,6 +9,7 @@ interface InitialState {
   timerInterval: ReturnType<typeof setInterval> | null;
   isTimerRunning: boolean;
   timerMode: TimerMode;
+  associatedTask: Todo | null;
 }
 
 const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
@@ -18,6 +20,7 @@ const initialState: InitialState = {
   timerInterval: null,
   isTimerRunning: false,
   timerMode: 'work',
+  associatedTask: null,
 };
 
 export const pomodoroSlice = createSlice({
@@ -52,6 +55,12 @@ export const pomodoroSlice = createSlice({
       return {
         ...state,
         isTimerRunning: !state.isTimerRunning,
+      };
+    },
+    associateTask: (state, action) => {
+      return {
+        ...state,
+        associatedTask: action.payload,
       };
     },
   },

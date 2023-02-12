@@ -23,6 +23,7 @@ const useTheme = () => {
 
   const defineTheme = async () => {
     const themeUserPreferences = await AsyncStorage.getItem('@Theme');
+    dispatch(setPreferences(themeUserPreferences));
     if (themeUserPreferences === LIGHT) {
       dispatch(setTheme(lightMode));
     } else if (themeUserPreferences === DARK) {

@@ -42,7 +42,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  preferences: 'system',
+  preferences: '',
   theme: lightMode,
 };
 

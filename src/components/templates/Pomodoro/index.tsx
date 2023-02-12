@@ -1,5 +1,5 @@
 import {Dimensions, StyleSheet, View} from 'react-native';
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import AnimationView from '../../atoms/AnimationView';
 import meditation from '../../../assets/LottieFiles/meditation.json';
 import workTime from '../../../assets/LottieFiles/work-on-home.json';
@@ -18,7 +18,11 @@ import {
 import HeaderTimers from '../../organisms/HeaderTimers';
 import {formatDate} from '../../../utils/helpers';
 import TimerToggleButtons from '../../molecules/TimerToggleButtons';
-import {BottomSheetModalProvider, BottomSheetView} from '@gorhom/bottom-sheet';
+import {
+  BottomSheetModalProvider,
+  BottomSheetView,
+  BottomSheetModal,
+} from '@gorhom/bottom-sheet';
 import {
   BREAK_TIME_MINUTES,
   FOCUS_TIME_MINUTES,
@@ -27,7 +31,6 @@ import {
 } from '../../../utils/constants';
 import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
-import {NativeViewGestureHandler} from 'react-native-gesture-handler';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -39,13 +42,16 @@ const Pomodoro = () => {
   );
   const {
     showModal,
-    bottomSheetModalRef,
     handleCloseModalPress,
     handlePresentModalPress,
     handleSheetChanges,
   } = useBottomSheetModal();
+  const customizePomodoro = useRef<BottomSheetModal>(null);
+  const associateTaskRef = useRef<BottomSheetModal>(null);
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  const snapPointsAT = useMemo(() => ['40%', '70%'], []);
 
   const handlerStartTimer = () => {
     const interval = setInterval(() => dispatch(startTimer()), 1000);
@@ -75,7 +81,7 @@ const Pomodoro = () => {
       <BottomSheetModalProvider>
         <HeaderTimers
           timerMode={timerMode}
-          settingsAction={handlePresentModalPress}
+          settingsAction={() => handlePresentModalPress(customizePomodoro)}
         />
         <View style={styles.center}>
           {timerMode === TIMER_MODE_WORK && (
@@ -101,20 +107,35 @@ const Pomodoro = () => {
           <ButtonText
             title="Associate task"
             titleColor={colors.primary}
-            onPress={stopTimer}
+            onPress={() => handlePresentModalPress(associateTaskRef)}
             fontSize={size.font16}
           />
         </View>
         <BottomSheetModalBackground
-          refBottomSheet={bottomSheetModalRef}
+          refBottomSheet={customizePomodoro}
           indexSnapPoints={1}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
-          handleCloseModalPress={handleCloseModalPress}
+          handleCloseModalPress={() => handleCloseModalPress(customizePomodoro)}
           showModalBackground={showModal}>
           <BottomSheetView style={styles.contentContainer}>
             <Title
               title="Customize the pomodoro"
+              fontSize={size.font18}
+              customStyles={{color: colors.onBackground, fontWeight: '500'}}
+            />
+          </BottomSheetView>
+        </BottomSheetModalBackground>
+        <BottomSheetModalBackground
+          refBottomSheet={associateTaskRef}
+          indexSnapPoints={1}
+          snapPoints={snapPointsAT}
+          onChange={handleSheetChanges}
+          handleCloseModalPress={() => handleCloseModalPress(associateTaskRef)}
+          showModalBackground={showModal}>
+          <BottomSheetView style={styles.contentContainer}>
+            <Title
+              title="Asociar tarea"
               fontSize={size.font18}
               customStyles={{color: colors.onBackground, fontWeight: '500'}}
             />

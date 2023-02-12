@@ -1,5 +1,5 @@
 import {Dimensions, Pressable, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import useTheme from '../../../hooks/useTheme';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 
@@ -25,6 +25,7 @@ const BottomSheetModalBackground = ({
   indexSnapPoints,
 }: Props) => {
   const {colors} = useTheme();
+  useState;
   return (
     <>
       {showModalBackground && (
