@@ -1,18 +1,15 @@
 import React from 'react';
 import {Line, Path, Svg} from 'react-native-svg';
+import {PropsIcon} from '../../utils/Interfaces';
 
-interface Props {
-  size: number;
-}
-
-const CloseIcon = ({size}: Props) => {
+const CloseIcon = ({size, fillColor}: PropsIcon) => {
   return (
     <Svg
       width={size}
       height={size}
       viewBox="0 0 24 24"
       strokeWidth="1.5"
-      stroke="#000000"
+      stroke={fillColor}
       fill="none"
       strokeLinecap="round"
       strokeLinejoin="round">

@@ -7,27 +7,40 @@ import {
 } from 'react-native';
 import React from 'react';
 import CloseIcon from '../../../assets/svgs/CloseIcon';
+import useTheme from '../../../hooks/useTheme';
 
 interface Props {
   visible: boolean;
   closeModal: () => void;
   children: React.ReactNode;
+  width: string | number;
 }
 
-const width = Dimensions.get('window').width;
+const {width, height} = Dimensions.get('window');
 
-const ModalContainer = ({visible, closeModal, children}: Props) => {
+const ModalContainer = ({visible, closeModal, children, width}: Props) => {
+  const {colors} = useTheme();
   return (
     <Modal
       animationType="slide"
       visible={visible}
       onRequestClose={closeModal}
       transparent>
-      <View style={styles.modalBackground}>
-        <View style={styles.modalView}>
+      <View
+        style={[
+          styles.modalBackground,
+          {backgroundColor: colors.surfaceVariant, opacity: 0.5},
+        ]}
+      />
+      <View style={styles.containerModal}>
+        <View
+          style={[
+            styles.modalView,
+            {backgroundColor: colors.background, width},
+          ]}>
           {children}
           <TouchableOpacity style={styles.btnClose} onPress={closeModal}>
-            <CloseIcon size={23} />
+            <CloseIcon size={23} fillColor={colors.onBackground} />
           </TouchableOpacity>
         </View>
       </View>
@@ -37,18 +50,27 @@ const ModalContainer = ({visible, closeModal, children}: Props) => {
 
 export default ModalContainer;
 
+ModalContainer.defaultProps = {
+  width: width * 0.9,
+};
+
 const styles = StyleSheet.create({
   modalBackground: {
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    height,
+    left: 0,
+    position: 'absolute',
+    top: 0,
+    width,
+  },
+  containerModal: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   modalView: {
     backgroundColor: '#ffff',
     borderRadius: 10,
     padding: 20,
-    width: width * 0.9,
   },
   btnClose: {
     position: 'absolute',

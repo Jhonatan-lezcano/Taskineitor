@@ -1,10 +1,11 @@
-import {Dimensions, StyleSheet, View} from 'react-native';
-import React, {useEffect, useMemo, useRef} from 'react';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import AnimationView from '../../atoms/AnimationView';
 import meditation from '../../../assets/LottieFiles/meditation.json';
 import workTime from '../../../assets/LottieFiles/work-on-home.json';
 import useTheme from '../../../hooks/useTheme';
 import ButtonText from '../../atoms/ButtonText';
+import ModalContainer from '../../organisms/ModalContainer/Index';
 import {size} from '../../../theme/fonts';
 import Title from '../../atoms/Title';
 import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
@@ -31,12 +32,15 @@ import {
 } from '../../../utils/constants';
 import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
+import {FlatList} from 'react-native-gesture-handler';
+import AssociateTask from '../../organisms/AssociateTask';
 
 const {width, height} = Dimensions.get('screen');
 
 const Pomodoro = () => {
   const {colors} = useTheme();
   const dispatch = useAppDispatch();
+  const {todoList} = useAppSelector(state => state.todoList);
   const {timerCount, timerInterval, timerMode, isTimerRunning} = useAppSelector(
     state => state.pomodoro,
   );
@@ -47,11 +51,9 @@ const Pomodoro = () => {
     handleSheetChanges,
   } = useBottomSheetModal();
   const customizePomodoro = useRef<BottomSheetModal>(null);
-  const associateTaskRef = useRef<BottomSheetModal>(null);
+  const [associateTaskModal, setAssociateTaskModal] = useState(false);
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
-
-  const snapPointsAT = useMemo(() => ['40%', '70%'], []);
 
   const handlerStartTimer = () => {
     const interval = setInterval(() => dispatch(startTimer()), 1000);
@@ -107,7 +109,7 @@ const Pomodoro = () => {
           <ButtonText
             title="Associate task"
             titleColor={colors.primary}
-            onPress={() => handlePresentModalPress(associateTaskRef)}
+            onPress={() => setAssociateTaskModal(!associateTaskModal)}
             fontSize={size.font16}
           />
         </View>
@@ -126,21 +128,12 @@ const Pomodoro = () => {
             />
           </BottomSheetView>
         </BottomSheetModalBackground>
-        <BottomSheetModalBackground
-          refBottomSheet={associateTaskRef}
-          indexSnapPoints={1}
-          snapPoints={snapPointsAT}
-          onChange={handleSheetChanges}
-          handleCloseModalPress={() => handleCloseModalPress(associateTaskRef)}
-          showModalBackground={showModal}>
-          <BottomSheetView style={styles.contentContainer}>
-            <Title
-              title="Asociar tarea"
-              fontSize={size.font18}
-              customStyles={{color: colors.onBackground, fontWeight: '500'}}
-            />
-          </BottomSheetView>
-        </BottomSheetModalBackground>
+        <ModalContainer
+          visible={associateTaskModal}
+          closeModal={() => setAssociateTaskModal(!associateTaskModal)}
+          width={width * 0.95}>
+          <AssociateTask todoList={todoList} />
+        </ModalContainer>
       </BottomSheetModalProvider>
     </>
   );
