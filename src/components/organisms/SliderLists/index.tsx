@@ -38,7 +38,7 @@ const SliderLists = ({data, isLoading, navigate}: Props) => {
         <NoItemsFound
           animation={noListtAnimation}
           sizeAnimation={width * 0.6}
-          text="No lists found, start creating your lists :)"
+          text="No lists found, start creating your lists"
           height="100%"
           width="100%"
         />

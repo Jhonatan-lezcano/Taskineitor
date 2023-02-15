@@ -9,7 +9,7 @@ const CircleCheckIcon = ({fillColor, size}: PropsIcon) => {
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      strokeWidth="1.5"
+      strokeWidth="2"
       stroke={fillColor}
       fill="none"
       strokeLinecap="round"

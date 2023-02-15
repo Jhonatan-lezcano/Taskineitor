@@ -8,8 +8,8 @@ import useTheme from '../../../hooks/useTheme';
 import Button from '../../atoms/Button';
 import {Required} from '../../../utils/validations';
 import {TodoList} from '../../../store/slices/todoList/todoListSlice';
-import useTodoList from '../../../hooks/useTodoList';
 import Spacer from '../../atoms/Spacer';
+import useTasks from '../../../hooks/useTasks';
 
 interface TodoForm {
   description: string;
@@ -23,7 +23,7 @@ interface Props {
 
 const AddTodoForm = ({list, closeModal}: Props) => {
   const {color} = list;
-  const {createTodo} = useTodoList();
+  const {createTodo} = useTasks();
   const {colors} = useTheme();
   const {
     control,

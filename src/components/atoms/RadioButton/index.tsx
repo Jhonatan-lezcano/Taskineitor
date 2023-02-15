@@ -17,6 +17,11 @@ interface Props {
   labelSecondary?: string;
   onPress: () => void;
   width?: string | number;
+  radioButtonOrientation: 'left' | 'right';
+  size: number;
+  fontSize: number;
+  bold: boolean;
+  lines?: number;
 }
 
 const RadioButton = ({
@@ -25,14 +30,35 @@ const RadioButton = ({
   labelSecondary,
   onPress,
   width,
+  radioButtonOrientation,
+  size,
+  fontSize,
+  bold,
+  lines,
 }: Props) => {
   const {colors} = useTheme();
   return (
     <TouchableOpacity
-      style={[styles.radioContainer, {width}]}
+      style={[
+        styles.radioContainer,
+        {
+          flexDirection:
+            radioButtonOrientation === 'right' ? 'row' : 'row-reverse',
+          width,
+        },
+      ]}
       onPress={onPress}>
-      <View>
-        <Text style={[styles.label, {color: colors.onBackground}]}>
+      <View style={{width: '90%'}}>
+        <Text
+          numberOfLines={lines}
+          style={[
+            styles.label,
+            {
+              color: colors.onBackground,
+              fontSize,
+              fontWeight: bold ? '500' : '300',
+            },
+          ]}>
           {label}
         </Text>
         {labelSecondary && (
@@ -42,12 +68,19 @@ const RadioButton = ({
         )}
       </View>
       {status ? (
-        <CircleCheckIcon fillColor={colors.primary} size={24} />
+        <CircleCheckIcon fillColor={colors.primary} size={size} />
       ) : (
-        <CircleIcon fillColor={colors.primary} size={24} />
+        <CircleIcon fillColor={colors.primary} size={size} />
       )}
     </TouchableOpacity>
   );
+};
+
+RadioButton.defaultProps = {
+  radioButtonOrientation: 'right',
+  size: 24,
+  fontSize: size.font16,
+  bold: true,
 };
 
 export default RadioButton;
@@ -55,13 +88,10 @@ export default RadioButton;
 const styles = StyleSheet.create({
   radioContainer: {
     alignItems: 'center',
-    flexDirection: 'row',
+
     justifyContent: 'space-between',
   },
-  label: {
-    fontSize: size.font16,
-    fontWeight: '500',
-  },
+  label: {},
   labelSecondary: {
     fontSize: size.font14,
   },

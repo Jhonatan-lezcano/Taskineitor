@@ -10,7 +10,6 @@ import TodoItem from '../../components/atoms/TodoItem';
 import PlusIcon from '../../assets/svgs/PlusIcon';
 import AddTodoForm from '../../components/organisms/AddTodoForm';
 import {useAppSelector} from '../../store/hooks/hooks';
-import useTodoList from '../../hooks/useTodoList';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NoItemsFound from '../../components/molecules/NoItemsFound';
 import noTasksFound from '../../assets/LottieFiles/checklist.json';
@@ -18,6 +17,7 @@ import {BottomSheetModal, BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 import Button from '../../components/atoms/Button';
+import useTasks from '../../hooks/useTasks';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
@@ -26,7 +26,7 @@ const {height} = Dimensions.get('screen');
 
 const Todos = ({navigation: {navigate}}: Props) => {
   const {colors, containerScreen} = useTheme();
-  const {todoComplete, todoInProcess, deleteTodo} = useTodoList();
+  const {todoComplete, todoInProcess, deleteTodo} = useTasks();
   const {currentTodos} = useAppSelector(state => state.todoList);
   const {name, todos, color} = currentTodos;
   const tasks = todos.length;
@@ -55,7 +55,7 @@ const Todos = ({navigation: {navigate}}: Props) => {
               title={capitalizeFirstLetter(name)}
               textAlign="left"
               fontSize={size.font30}
-              width="78%"
+              width="80%"
               lines={1}
               customStyles={{
                 fontWeight: '800',
@@ -100,7 +100,7 @@ const Todos = ({navigation: {navigate}}: Props) => {
             <NoItemsFound
               animation={noTasksFound}
               sizeAnimation={height * 0.3}
-              text="No to-dos found, start creating your to-dos"
+              text="No tasks found, start creating your tasks"
               height="100%"
               width="100%"
             />

@@ -111,9 +111,7 @@ const HeaderTimers = ({timerMode, settingsAction}: Props) => {
       <Spacer vertical="15%" />
       <Title
         title={
-          timerMode === TIMER_MODE_WORK
-            ? '¡Stay focused! 👨‍💻'
-            : '!Take a break! 💆'
+          timerMode === TIMER_MODE_WORK ? '¡Stay focused!' : '!Take a break!'
         }
         fontSize={size.font18}
         customStyles={{color: colors.onBackground}}
