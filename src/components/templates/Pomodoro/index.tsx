@@ -41,6 +41,7 @@ const Pomodoro = () => {
   const {colors} = useTheme();
   const dispatch = useAppDispatch();
   const {todoList} = useAppSelector(state => state.todoList);
+  const {associatedTask} = useAppSelector(state => state.pomodoro);
   const {timerCount, timerInterval, timerMode, isTimerRunning} = useAppSelector(
     state => state.pomodoro,
   );
@@ -105,13 +106,18 @@ const Pomodoro = () => {
             stopTimer={stopTimer}
             isTimerRunning={isTimerRunning}
           />
-
-          <ButtonText
-            title="Associate task"
-            titleColor={colors.primary}
-            onPress={() => setAssociateTaskModal(!associateTaskModal)}
-            fontSize={size.font16}
-          />
+          {!associatedTask ? (
+            <ButtonText
+              title="Associate task"
+              titleColor={colors.primary}
+              onPress={() => setAssociateTaskModal(!associateTaskModal)}
+              fontSize={size.font16}
+            />
+          ) : (
+            <Text style={[styles.associatedTask, {color: colors.primary}]}>
+              {associatedTask.name}
+            </Text>
+          )}
         </View>
         <BottomSheetModalBackground
           refBottomSheet={customizePomodoro}
@@ -132,7 +138,10 @@ const Pomodoro = () => {
           visible={associateTaskModal}
           closeModal={() => setAssociateTaskModal(!associateTaskModal)}
           width={width * 0.95}>
-          <AssociateTask todoList={todoList} />
+          <AssociateTask
+            todoList={todoList}
+            closeModal={() => setAssociateTaskModal(!associateTaskModal)}
+          />
         </ModalContainer>
       </BottomSheetModalProvider>
     </>
@@ -156,7 +165,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingVertical: 30,
+    paddingVertical: 20,
   },
   backgoundModal: {
     height,
@@ -164,5 +173,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     width,
+  },
+  associatedTask: {
+    fontSize: size.font16,
+    fontWeight: '500',
   },
 });

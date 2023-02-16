@@ -39,7 +39,7 @@ const Home = ({navigation: {navigate}}: Props) => {
     handlePresentModalPress,
   } = useBottomSheetModal();
   const openMenuRef = useRef<BottomSheetModal>(null);
-  const snapPoints = useMemo(() => ['38%', '50%'], []);
+  const snapPoints = ['45%'];
 
   const navigateTodosScreen = (todos: TodoList) => {
     navigate('TodosScreen');
@@ -105,6 +105,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    paddingVertical: 30,
+    paddingVertical: 20,
   },
 });

@@ -57,7 +57,7 @@ export const pomodoroSlice = createSlice({
         isTimerRunning: !state.isTimerRunning,
       };
     },
-    associateTask: (state, action) => {
+    setAssociateTask: (state, action) => {
       return {
         ...state,
         associatedTask: action.payload,
@@ -72,6 +72,7 @@ export const {
   changeTimerValue,
   changeTimerModeValue,
   setIsTimerRunning,
+  setAssociateTask,
 } = pomodoroSlice.actions;
 
 export default pomodoroSlice.reducer;
