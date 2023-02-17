@@ -32,7 +32,6 @@ import {
 } from '../../../utils/constants';
 import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
-import {FlatList} from 'react-native-gesture-handler';
 import AssociateTask from '../../organisms/AssociateTask';
 
 const {width, height} = Dimensions.get('screen');

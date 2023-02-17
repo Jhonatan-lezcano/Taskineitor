@@ -1,11 +1,4 @@
-import {
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {Todo, TodoList} from '../../../store/slices/todoList/todoListSlice';
 import Title from '../../atoms/Title';
@@ -14,7 +7,7 @@ import useTheme from '../../../hooks/useTheme';
 import Spacer from '../../atoms/Spacer';
 import RadioButton from '../../atoms/RadioButton';
 import Button from '../../atoms/Button';
-import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
+import {useAppDispatch} from '../../../store/hooks/hooks';
 import {setAssociateTask} from '../../../store/slices/pomodoro/pomodoroSlice';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import CheckIcon from '../../../assets/svgs/CheckIcon';

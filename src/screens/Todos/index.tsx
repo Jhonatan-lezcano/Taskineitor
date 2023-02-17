@@ -1,15 +1,15 @@
 import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useMemo, useRef} from 'react';
+import React, {useMemo, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import Title from '../../components/atoms/Title';
 import {capitalizeFirstLetter} from '../../utils/helpers';
 import {size} from '../../theme/fonts';
 import useTheme from '../../hooks/useTheme';
-import TodoItem from '../../components/atoms/TodoItem';
+import TodoItem from '../../components/molecules/TodoItem';
 import PlusIcon from '../../assets/svgs/PlusIcon';
 import AddTodoForm from '../../components/organisms/AddTodoForm';
-import {useAppSelector} from '../../store/hooks/hooks';
+import {useAppDispatch, useAppSelector} from '../../store/hooks/hooks';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import NoItemsFound from '../../components/molecules/NoItemsFound';
 import noTasksFound from '../../assets/LottieFiles/checklist.json';
@@ -18,19 +18,23 @@ import BottomSheetModalBackground from '../../components/molecules/BottomSheetMo
 import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 import Button from '../../components/atoms/Button';
 import useTasks from '../../hooks/useTasks';
+import {setTaskPreview, Todo} from '../../store/slices/todoList/todoListSlice';
+import ModalContainer from '../../components/organisms/ModalContainer/Index';
+import TaskPreview from '../../components/organisms/TaskPreview';
+import {HEIGHT} from '../../utils/constants';
 
 interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
-
-const {height} = Dimensions.get('screen');
 
 const Todos = ({navigation: {navigate}}: Props) => {
   const {colors, containerScreen} = useTheme();
   const {todoComplete, todoInProcess, deleteTodo} = useTasks();
   const {currentTodos} = useAppSelector(state => state.todoList);
+  const dispatch = useAppDispatch();
   const {name, todos, color} = currentTodos;
   const tasks = todos.length;
   const tasksCompleted = todos.filter(todo => todo.completed).length;
+  const [showTaskPreview, setShowTaskPreview] = useState(false);
   const {
     showModal,
     handleCloseModalPress,
@@ -45,6 +49,11 @@ const Todos = ({navigation: {navigate}}: Props) => {
   const toggleInProcess = (index: number) => todoInProcess(currentTodos, index);
 
   const toggleDeleteTodo = (index: number) => deleteTodo(currentTodos, index);
+
+  const handleTaskPreview = (todo: Todo) => {
+    dispatch(setTaskPreview(todo));
+    setShowTaskPreview(!showTaskPreview);
+  };
 
   return (
     <BottomSheetModalProvider>
@@ -91,6 +100,7 @@ const Todos = ({navigation: {navigate}}: Props) => {
                   toggleComplete={toggleComplete}
                   toggleInProcess={toggleInProcess}
                   toggleDeleteTodo={toggleDeleteTodo}
+                  handleTaskPreview={handleTaskPreview}
                 />
               )}
             />
@@ -99,7 +109,7 @@ const Todos = ({navigation: {navigate}}: Props) => {
           <View style={[styles.containerTodos, styles.notFoundTodos]}>
             <NoItemsFound
               animation={noTasksFound}
-              sizeAnimation={height * 0.3}
+              sizeAnimation={HEIGHT * 0.3}
               text="No tasks found, start creating your tasks"
               height="100%"
               width="100%"
@@ -120,6 +130,11 @@ const Todos = ({navigation: {navigate}}: Props) => {
             }}
           />
         </BottomSheetModalBackground>
+        <ModalContainer
+          closeModal={() => setShowTaskPreview(!showTaskPreview)}
+          visible={showTaskPreview}>
+          <TaskPreview />
+        </ModalContainer>
       </View>
     </BottomSheetModalProvider>
   );

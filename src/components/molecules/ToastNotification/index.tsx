@@ -1,10 +1,9 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import useTheme from '../../../hooks/useTheme';
 import Spacer from '../../atoms/Spacer';
 import {size} from '../../../theme/fonts';
-
-const {width} = Dimensions.get('screen');
+import {WIDTH} from '../../../utils/constants';
 
 interface Props {
   icon?: React.ElementType;
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    width: width * 0.8,
+    width: WIDTH * 0.8,
   },
   message: {
     width: '84%',

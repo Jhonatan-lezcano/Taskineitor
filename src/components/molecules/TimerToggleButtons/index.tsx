@@ -5,8 +5,7 @@ import useTheme from '../../../hooks/useTheme';
 import PlayIcon from '../../../assets/svgs/PlayIcon';
 import StopIcon from '../../../assets/svgs/StopIcon';
 import PauseIcon from '../../../assets/svgs/PauseIcon';
-
-const {width} = Dimensions.get('screen');
+import {WIDTH} from '../../../utils/constants';
 
 interface Props {
   startTimer: () => void;
@@ -24,7 +23,7 @@ const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
           text="Pause"
           titleColor={colors.onPrimary}
           radius={20}
-          width={width * 0.25}
+          width={WIDTH * 0.25}
           icon={PauseIcon}
           sizeIcon={15}
           colorIcon={colors.onPrimary}
@@ -37,7 +36,7 @@ const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
           text="Start"
           titleColor={colors.onPrimary}
           radius={20}
-          width={width * 0.25}
+          width={WIDTH * 0.25}
           icon={PlayIcon}
           sizeIcon={15}
           colorIcon={colors.onPrimary}
@@ -50,7 +49,7 @@ const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
         text="Stop"
         titleColor={colors.onPrimary}
         radius={20}
-        width={width * 0.25}
+        width={WIDTH * 0.25}
         icon={StopIcon}
         sizeIcon={15}
         colorIcon={colors.onPrimary}

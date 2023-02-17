@@ -27,6 +27,7 @@ interface InitialState {
   isLoading: boolean;
   todoList: TodoList[];
   currentTodos: TodoList;
+  taskPreview: Todo | null;
 }
 
 const initialState: InitialState = {
@@ -40,33 +41,33 @@ const initialState: InitialState = {
     todos: [],
     userId: '',
   },
+  taskPreview: null,
 };
 
 export const todoListSlice = createSlice({
   name: 'todoList',
   initialState,
   reducers: {
-    getTodoList: (state, action) => {
-      return {
-        ...state,
-        todoList: action.payload,
-      };
-    },
-    loading: (state, action) => {
-      return {
-        ...state,
-        isLoading: action.payload,
-      };
-    },
-    addCurrentTodos: (state, action) => {
-      return {
-        ...state,
-        currentTodos: action.payload,
-      };
-    },
+    getTodoList: (state, action) => ({
+      ...state,
+      todoList: action.payload,
+    }),
+    loading: (state, action) => ({
+      ...state,
+      isLoading: action.payload,
+    }),
+    addCurrentTodos: (state, action) => ({
+      ...state,
+      currentTodos: action.payload,
+    }),
+    setTaskPreview: (state, action) => ({
+      ...state,
+      taskPreview: action.payload,
+    }),
   },
 });
 
-export const {getTodoList, loading, addCurrentTodos} = todoListSlice.actions;
+export const {getTodoList, loading, addCurrentTodos, setTaskPreview} =
+  todoListSlice.actions;
 
 export default todoListSlice.reducer;
