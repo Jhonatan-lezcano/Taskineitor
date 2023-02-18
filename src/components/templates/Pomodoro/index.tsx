@@ -24,15 +24,11 @@ import {
   BottomSheetView,
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import {
-  BREAK_TIME_MINUTES,
-  FOCUS_TIME_MINUTES,
-  TIMER_MODE_BREAK,
-  TIMER_MODE_WORK,
-} from '../../../utils/constants';
+import {TIMER_MODE_BREAK, TIMER_MODE_WORK} from '../../../utils/constants';
 import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
 import AssociateTask from '../../organisms/AssociateTask';
+import usePomodoro from '../../../hooks/usePomodoro';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -41,9 +37,6 @@ const Pomodoro = () => {
   const dispatch = useAppDispatch();
   const {todoList} = useAppSelector(state => state.todoList);
   const {associatedTask} = useAppSelector(state => state.pomodoro);
-  const {timerCount, timerInterval, timerMode, isTimerRunning} = useAppSelector(
-    state => state.pomodoro,
-  );
   const {
     showModal,
     handleCloseModalPress,
@@ -51,32 +44,16 @@ const Pomodoro = () => {
     handleSheetChanges,
   } = useBottomSheetModal();
   const customizePomodoro = useRef<BottomSheetModal>(null);
+  const {
+    handlerStartTimer,
+    handlerStopTimer,
+    timerCount,
+    timerMode,
+    isTimerRunning,
+  } = usePomodoro();
   const [associateTaskModal, setAssociateTaskModal] = useState(false);
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
-
-  const handlerStartTimer = () => {
-    const interval = setInterval(() => dispatch(startTimer()), 1000);
-    dispatch(handlerTimerInterval(interval));
-    dispatch(setIsTimerRunning());
-  };
-
-  const stopTimer = () => {
-    clearInterval(timerInterval ?? 0);
-    dispatch(setIsTimerRunning());
-  };
-
-  useEffect(() => {
-    if (timerCount < 0) {
-      if (timerMode === TIMER_MODE_WORK) {
-        dispatch(changeTimerValue(BREAK_TIME_MINUTES));
-        dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
-      } else {
-        dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
-        dispatch(changeTimerModeValue(TIMER_MODE_WORK));
-      }
-    }
-  }, [timerCount]);
 
   return (
     <>
@@ -102,7 +79,7 @@ const Pomodoro = () => {
           />
           <TimerToggleButtons
             startTimer={handlerStartTimer}
-            stopTimer={stopTimer}
+            stopTimer={handlerStopTimer}
             isTimerRunning={isTimerRunning}
           />
           {!associatedTask ? (
