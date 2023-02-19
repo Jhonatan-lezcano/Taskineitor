@@ -3,7 +3,6 @@ import {useAppDispatch, useAppSelector} from '../store/hooks/hooks';
 import {
   changeTimerModeValue,
   changeTimerValue,
-  handlerTimerInterval,
   setIsTimerRunning,
   startTimer,
 } from '../store/slices/pomodoro/pomodoroSlice';
@@ -13,22 +12,35 @@ import {
   TIMER_MODE_BREAK,
   TIMER_MODE_WORK,
 } from '../utils/constants';
+import BackgroundTimer from 'react-native-background-timer';
+import {Vibration} from 'react-native';
 
 const usePomodoro = () => {
   const dispatch = useAppDispatch();
-  const {timerCount, timerInterval, timerMode, isTimerRunning} = useAppSelector(
+  const {timerCount, timerMode, isTimerRunning} = useAppSelector(
     state => state.pomodoro,
   );
-  const handlerStartTimer = () => {
-    const interval = setInterval(() => dispatch(startTimer()), 1000);
-    dispatch(handlerTimerInterval(interval));
+  const handlerStartStopTimer = () => {
     dispatch(setIsTimerRunning());
   };
 
-  const handlerStopTimer = () => {
-    clearInterval(timerInterval ?? 0);
-    dispatch(setIsTimerRunning());
+  const startTimerBackground = () => {
+    BackgroundTimer.runBackgroundTimer(() => {
+      dispatch(startTimer());
+    }, 1000);
   };
+
+  useEffect(() => {
+    console.log(isTimerRunning);
+    if (isTimerRunning) startTimerBackground();
+    else BackgroundTimer.stopBackgroundTimer;
+
+    return () => {
+      BackgroundTimer.stopBackgroundTimer();
+    };
+  }, [isTimerRunning]);
+
+  const startAlarm = () => Vibration.vibrate();
 
   useEffect(() => {
     if (timerCount < 0) {
@@ -40,11 +52,14 @@ const usePomodoro = () => {
         dispatch(changeTimerModeValue(TIMER_MODE_WORK));
       }
     }
+
+    if (timerCount === 0) {
+      console.log('alarma');
+    }
   }, [timerCount]);
 
   return {
-    handlerStartTimer,
-    handlerStopTimer,
+    handlerStartStopTimer,
     timerCount,
     timerMode,
     isTimerRunning,

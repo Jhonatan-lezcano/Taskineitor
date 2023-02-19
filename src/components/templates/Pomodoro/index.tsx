@@ -44,13 +44,8 @@ const Pomodoro = () => {
     handleSheetChanges,
   } = useBottomSheetModal();
   const customizePomodoro = useRef<BottomSheetModal>(null);
-  const {
-    handlerStartTimer,
-    handlerStopTimer,
-    timerCount,
-    timerMode,
-    isTimerRunning,
-  } = usePomodoro();
+  const {handlerStartStopTimer, timerCount, timerMode, isTimerRunning} =
+    usePomodoro();
   const [associateTaskModal, setAssociateTaskModal] = useState(false);
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
@@ -78,8 +73,8 @@ const Pomodoro = () => {
             customStyles={{fontWeight: '200', color: colors.onBackground}}
           />
           <TimerToggleButtons
-            startTimer={handlerStartTimer}
-            stopTimer={handlerStopTimer}
+            startTimer={handlerStartStopTimer}
+            stopTimer={handlerStartStopTimer}
             isTimerRunning={isTimerRunning}
           />
           {!associatedTask ? (
