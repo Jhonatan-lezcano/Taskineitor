@@ -65,7 +65,9 @@ const TodoItem = ({
       }>
       <View
         style={[styles.todoContainer, {backgroundColor: colors.background}]}>
-        <TouchableOpacity onPress={() => toggleComplete(index)}>
+        <TouchableOpacity
+          onPress={() => toggleComplete(index)}
+          style={styles.containerCheckBox}>
           <View
             style={[
               styles.checkBox,
@@ -77,11 +79,7 @@ const TodoItem = ({
           />
         </TouchableOpacity>
         <TouchableOpacity
-          style={{
-            flexDirection: 'row',
-            width: '88%',
-            justifyContent: 'space-between',
-          }}
+          style={styles.containerInfo}
           onPress={() => handleTaskPreview(todo)}>
           <Text
             style={[styles.title, {color: colors.onBackground, width: '80%'}]}
@@ -106,10 +104,19 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     width: '100%',
   },
+  containerCheckBox: {
+    width: '10%',
+    alignItems: 'flex-start',
+  },
   checkBox: {
     borderWidth: 1,
     height: size.font16,
     width: size.font16,
+  },
+  containerInfo: {
+    flexDirection: 'row',
+    width: '88%',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: size.font16,

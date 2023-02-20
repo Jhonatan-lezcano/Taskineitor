@@ -11,14 +11,14 @@ import {
   TodoList,
 } from '../store/slices/todoList/todoListSlice';
 import {showToastMessage} from '../utils/helpers';
-
-const DEFAULT_LABEL = 0;
-const DEFAULT_COMPLETED = false;
-const DEFAULT_CREATEAT = Date.now();
-
-const PENDING = 0;
-const IN_PROCESS = 1;
-const COMPLETE = 2;
+import {
+  COMPLETE,
+  DEFAULT_COMPLETED,
+  DEFAULT_CREATEAT,
+  DEFAULT_LABEL,
+  IN_PROCESS,
+  PENDING,
+} from '../utils/constants';
 
 interface TodoForm {
   description: string;

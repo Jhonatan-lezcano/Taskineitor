@@ -16,4 +16,9 @@ export const WIDTH = Dimensions.get('screen').width;
 export const HEIGHT = Dimensions.get('screen').height;
 
 //topOffset Toast
-export const TOPOFFSET = Platform.OS === 'android' ? 50 : 40;
+export const TOPOFFSET = Platform.OS === 'android' ? 50 : 50;
+
+//Default values create task
+export const DEFAULT_LABEL = 0;
+export const DEFAULT_COMPLETED = false;
+export const DEFAULT_CREATEAT = Date.now();

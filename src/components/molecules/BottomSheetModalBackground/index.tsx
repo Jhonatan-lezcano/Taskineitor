@@ -2,8 +2,7 @@ import {Dimensions, Pressable, StyleSheet} from 'react-native';
 import React, {useState} from 'react';
 import useTheme from '../../../hooks/useTheme';
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-
-const {width, height} = Dimensions.get('screen');
+import {HEIGHT, WIDTH} from '../../../utils/constants';
 
 interface Props {
   children: React.ReactNode;
@@ -60,10 +59,10 @@ export default BottomSheetModalBackground;
 
 const styles = StyleSheet.create({
   backgoundModal: {
-    height,
+    height: HEIGHT,
     left: 0,
     position: 'absolute',
-    top: 0,
-    width,
+    top: -0,
+    width: WIDTH,
   },
 });

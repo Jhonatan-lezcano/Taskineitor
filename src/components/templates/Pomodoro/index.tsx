@@ -24,13 +24,16 @@ import {
   BottomSheetView,
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import {TIMER_MODE_BREAK, TIMER_MODE_WORK} from '../../../utils/constants';
+import {
+  HEIGHT,
+  TIMER_MODE_BREAK,
+  TIMER_MODE_WORK,
+  WIDTH,
+} from '../../../utils/constants';
 import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
 import AssociateTask from '../../organisms/AssociateTask';
 import usePomodoro from '../../../hooks/usePomodoro';
-
-const {width, height} = Dimensions.get('screen');
 
 const Pomodoro = () => {
   const {colors} = useTheme();
@@ -59,10 +62,10 @@ const Pomodoro = () => {
         />
         <View style={styles.center}>
           {timerMode === TIMER_MODE_WORK && (
-            <AnimationView animation={workTime} size={width * 0.8} />
+            <AnimationView animation={workTime} size={WIDTH * 0.8} />
           )}
           {timerMode === TIMER_MODE_BREAK && (
-            <AnimationView animation={meditation} size={width * 0.8} />
+            <AnimationView animation={meditation} size={WIDTH * 0.8} />
           )}
         </View>
 
@@ -108,7 +111,7 @@ const Pomodoro = () => {
         <ModalContainer
           visible={associateTaskModal}
           closeModal={() => setAssociateTaskModal(!associateTaskModal)}
-          width={width * 0.95}>
+          width={WIDTH * 0.95}>
           <AssociateTask
             todoList={todoList}
             closeModal={() => setAssociateTaskModal(!associateTaskModal)}
@@ -137,13 +140,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingVertical: 20,
-  },
-  backgoundModal: {
-    height,
-    left: 0,
-    position: 'absolute',
-    top: 0,
-    width,
   },
   associatedTask: {
     fontSize: size.font16,
