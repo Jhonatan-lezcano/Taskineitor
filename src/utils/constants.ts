@@ -1,4 +1,4 @@
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 
 //Timers Constants
 export const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
@@ -14,3 +14,6 @@ export const COMPLETE = 2;
 //screen measurements
 export const WIDTH = Dimensions.get('screen').width;
 export const HEIGHT = Dimensions.get('screen').height;
+
+//topOffset Toast
+export const TOPOFFSET = Platform.OS === 'android' ? 50 : 40;

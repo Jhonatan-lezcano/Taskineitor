@@ -33,7 +33,7 @@ const usePomodoro = () => {
   useEffect(() => {
     console.log(isTimerRunning);
     if (isTimerRunning) startTimerBackground();
-    else BackgroundTimer.stopBackgroundTimer;
+    else BackgroundTimer.stopBackgroundTimer();
 
     return () => {
       BackgroundTimer.stopBackgroundTimer();

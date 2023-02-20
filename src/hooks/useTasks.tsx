@@ -10,7 +10,7 @@ import {
   addCurrentTodos,
   TodoList,
 } from '../store/slices/todoList/todoListSlice';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {showToastMessage} from '../utils/helpers';
 
 const DEFAULT_LABEL = 0;
 const DEFAULT_COMPLETED = false;
@@ -46,14 +46,11 @@ const useTasks = () => {
         ],
       })
       .then(() => {
-        Toast.show({
-          type: 'customToast',
-          props: {
-            message: 'Task created successfully',
-            borderLeftColor: colors.alertColors.success,
-            icon: CheckIcon,
-          },
-        });
+        showToastMessage(
+          colors.alertColors.success,
+          CheckIcon,
+          'Task created successfully',
+        );
       });
     dispatch(
       addCurrentTodos({
@@ -88,16 +85,13 @@ const useTasks = () => {
       })
       .then(() => {
         const todo = list.todos.filter((item, i) => i === index);
-        Toast.show({
-          type: 'customToast',
-          props: {
-            message: todo[0].completed ? 'Pending task' : 'Task completed',
-            borderLeftColor: todo[0].completed
-              ? colors.alertColors.warning
-              : colors.alertColors.success,
-            icon: todo[0].completed ? AlertTriangleIcon : CheckIcon,
-          },
-        });
+        const color = todo[0].completed
+          ? colors.alertColors.warning
+          : colors.alertColors.success;
+        const icon = todo[0].completed ? AlertTriangleIcon : CheckIcon;
+        const message = todo[0].completed ? 'Pending task' : 'Task completed';
+
+        showToastMessage(color, icon, message);
       });
 
     dispatch(
@@ -132,14 +126,11 @@ const useTasks = () => {
         ),
       })
       .then(() => {
-        Toast.show({
-          type: 'customToast',
-          props: {
-            message: 'Now the task is in process',
-            borderLeftColor: colors.alertColors.update,
-            icon: RefreshCircleIcon,
-          },
-        });
+        showToastMessage(
+          colors.alertColors.update,
+          RefreshCircleIcon,
+          'Now the task is in process',
+        );
       });
 
     dispatch(
@@ -166,14 +157,11 @@ const useTasks = () => {
         todos: list.todos.filter((item, i) => i !== index),
       })
       .then(() => {
-        Toast.show({
-          type: 'customToast',
-          props: {
-            message: 'deleted task',
-            borderLeftColor: colors.alertColors.danger,
-            icon: AlertCircleIcon,
-          },
-        });
+        showToastMessage(
+          colors.alertColors.danger,
+          AlertCircleIcon,
+          'Deleted task',
+        );
       });
 
     dispatch(
