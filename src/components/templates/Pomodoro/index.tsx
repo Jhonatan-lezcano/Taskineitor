@@ -14,6 +14,7 @@ import {
   changeTimerValue,
   handlerTimerInterval,
   setIsTimerRunning,
+  setModalStopPomodoro,
   startTimer,
 } from '../../../store/slices/pomodoro/pomodoroSlice';
 import HeaderTimers from '../../organisms/HeaderTimers';
@@ -34,12 +35,15 @@ import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackgrou
 import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
 import AssociateTask from '../../organisms/AssociateTask';
 import usePomodoro from '../../../hooks/usePomodoro';
+import StopModal from '../../organisms/StopModal';
 
 const Pomodoro = () => {
   const {colors} = useTheme();
   const dispatch = useAppDispatch();
   const {todoList} = useAppSelector(state => state.todoList);
-  const {associatedTask} = useAppSelector(state => state.pomodoro);
+  const {associatedTask, modalStopPomodoro} = useAppSelector(
+    state => state.pomodoro,
+  );
   const {
     showModal,
     handleCloseModalPress,
@@ -47,11 +51,18 @@ const Pomodoro = () => {
     handleSheetChanges,
   } = useBottomSheetModal();
   const customizePomodoro = useRef<BottomSheetModal>(null);
-  const {handlerStartStopTimer, timerCount, timerMode, isTimerRunning} =
-    usePomodoro();
+  const {
+    handleStartPauseTimer,
+    stopPomodoro,
+    timerCount,
+    timerMode,
+    isTimerRunning,
+  } = usePomodoro();
   const [associateTaskModal, setAssociateTaskModal] = useState(false);
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
+
+  console.log(associatedTask);
 
   return (
     <>
@@ -76,8 +87,8 @@ const Pomodoro = () => {
             customStyles={{fontWeight: '200', color: colors.onBackground}}
           />
           <TimerToggleButtons
-            startTimer={handlerStartStopTimer}
-            stopTimer={handlerStartStopTimer}
+            startPauseTimer={handleStartPauseTimer}
+            stopTimer={stopPomodoro}
             isTimerRunning={isTimerRunning}
           />
           {!associatedTask ? (
@@ -89,7 +100,7 @@ const Pomodoro = () => {
             />
           ) : (
             <Text style={[styles.associatedTask, {color: colors.primary}]}>
-              {associatedTask.name}
+              {associatedTask.task?.name}
             </Text>
           )}
         </View>
@@ -116,6 +127,12 @@ const Pomodoro = () => {
             todoList={todoList}
             closeModal={() => setAssociateTaskModal(!associateTaskModal)}
           />
+        </ModalContainer>
+        <ModalContainer
+          visible={modalStopPomodoro}
+          closeModal={() => dispatch(setModalStopPomodoro())}
+          width={WIDTH * 0.95}>
+          {associatedTask && <StopModal taskAssociated={associatedTask} />}
         </ModalContainer>
       </BottomSheetModalProvider>
     </>

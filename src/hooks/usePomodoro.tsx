@@ -4,7 +4,9 @@ import {
   changeTimerModeValue,
   changeTimerValue,
   setIsTimerRunning,
+  setModalStopPomodoro,
   startTimer,
+  setAssociateTask,
 } from '../store/slices/pomodoro/pomodoroSlice';
 import {
   BREAK_TIME_MINUTES,
@@ -13,14 +15,12 @@ import {
   TIMER_MODE_WORK,
 } from '../utils/constants';
 import BackgroundTimer from 'react-native-background-timer';
-import {Vibration} from 'react-native';
 
 const usePomodoro = () => {
   const dispatch = useAppDispatch();
-  const {timerCount, timerMode, isTimerRunning} = useAppSelector(
-    state => state.pomodoro,
-  );
-  const handlerStartStopTimer = () => {
+  const {timerCount, timerMode, isTimerRunning, associatedTask} =
+    useAppSelector(state => state.pomodoro);
+  const handleStartPauseTimer = () => {
     dispatch(setIsTimerRunning());
   };
 
@@ -28,6 +28,20 @@ const usePomodoro = () => {
     BackgroundTimer.runBackgroundTimer(() => {
       dispatch(startTimer());
     }, 1000);
+  };
+
+  const taskCompleted = () => {
+    dispatch(setModalStopPomodoro());
+    dispatch(setAssociateTask(null));
+  };
+
+  const stopPomodoro = () => {
+    if (isTimerRunning) {
+      dispatch(setIsTimerRunning());
+      dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
+      dispatch(changeTimerModeValue(TIMER_MODE_WORK));
+      if (associatedTask) dispatch(setModalStopPomodoro());
+    }
   };
 
   useEffect(() => {
@@ -39,8 +53,6 @@ const usePomodoro = () => {
       BackgroundTimer.stopBackgroundTimer();
     };
   }, [isTimerRunning]);
-
-  const startAlarm = () => Vibration.vibrate();
 
   useEffect(() => {
     if (timerCount < 0) {
@@ -59,10 +71,12 @@ const usePomodoro = () => {
   }, [timerCount]);
 
   return {
-    handlerStartStopTimer,
+    handleStartPauseTimer,
     timerCount,
     timerMode,
     isTimerRunning,
+    stopPomodoro,
+    taskCompleted,
   };
 };
 

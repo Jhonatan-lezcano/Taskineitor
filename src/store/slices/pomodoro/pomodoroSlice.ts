@@ -3,13 +3,19 @@ import {Todo} from '../todoList/todoListSlice';
 
 type TimerMode = 'work' | 'break';
 
+export interface AssociatedTask {
+  index: number;
+  task: Todo | null;
+}
+
 interface InitialState {
   timerCount: number;
   numberOfTimersCompleted: number;
   timerInterval: ReturnType<typeof setInterval> | null;
   isTimerRunning: boolean;
   timerMode: TimerMode;
-  associatedTask: Todo | null;
+  associatedTask: AssociatedTask | null;
+  modalStopPomodoro: boolean;
 }
 
 const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
@@ -21,6 +27,7 @@ const initialState: InitialState = {
   isTimerRunning: false,
   timerMode: 'work',
   associatedTask: null,
+  modalStopPomodoro: false,
 };
 
 export const pomodoroSlice = createSlice({
@@ -51,18 +58,20 @@ export const pomodoroSlice = createSlice({
         timerMode: action.payload,
       };
     },
-    setIsTimerRunning: state => {
-      return {
-        ...state,
-        isTimerRunning: !state.isTimerRunning,
-      };
-    },
+    setIsTimerRunning: state => ({
+      ...state,
+      isTimerRunning: !state.isTimerRunning,
+    }),
     setAssociateTask: (state, action) => {
       return {
         ...state,
         associatedTask: action.payload,
       };
     },
+    setModalStopPomodoro: state => ({
+      ...state,
+      modalStopPomodoro: !state.modalStopPomodoro,
+    }),
   },
 });
 
@@ -73,6 +82,7 @@ export const {
   changeTimerModeValue,
   setIsTimerRunning,
   setAssociateTask,
+  setModalStopPomodoro,
 } = pomodoroSlice.actions;
 
 export default pomodoroSlice.reducer;

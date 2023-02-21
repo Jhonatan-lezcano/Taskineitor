@@ -8,9 +8,13 @@ import Spacer from '../../atoms/Spacer';
 import RadioButton from '../../atoms/RadioButton';
 import Button from '../../atoms/Button';
 import {useAppDispatch} from '../../../store/hooks/hooks';
-import {setAssociateTask} from '../../../store/slices/pomodoro/pomodoroSlice';
+import {
+  AssociatedTask,
+  setAssociateTask,
+} from '../../../store/slices/pomodoro/pomodoroSlice';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import CheckIcon from '../../../assets/svgs/CheckIcon';
+import useTasks from '../../../hooks/useTasks';
 
 const {height} = Dimensions.get('screen');
 
@@ -21,18 +25,18 @@ interface Props {
 
 const AssociateTask = ({todoList, closeModal}: Props) => {
   const {colors} = useTheme();
-  const [selected, setselected] = useState<Todo | {}>({});
+  const [selected, setselected] = useState<AssociatedTask | null>(null);
   const dispatch = useAppDispatch();
 
   const handleCancelAssociation = () => {
-    setselected({});
+    setselected(null);
     closeModal();
   };
 
   const handleAssociateTask = () => {
     dispatch(setAssociateTask(selected));
     closeModal();
-    setselected({});
+    setselected(null);
     Toast.show({
       type: 'customToast',
       props: {
@@ -77,8 +81,10 @@ const AssociateTask = ({todoList, closeModal}: Props) => {
                       <View style={styles.containerRadioButton}>
                         <RadioButton
                           label={item.name}
-                          status={selected === item}
-                          onPress={() => setselected(item)}
+                          status={
+                            selected?.task === item && selected.index === index
+                          }
+                          onPress={() => setselected({index, task: item})}
                           fontSize={size.font14}
                           size={size.font18}
                           lines={1}

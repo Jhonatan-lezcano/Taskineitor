@@ -8,12 +8,16 @@ import PauseIcon from '../../../assets/svgs/PauseIcon';
 import {WIDTH} from '../../../utils/constants';
 
 interface Props {
-  startTimer: () => void;
+  startPauseTimer: () => void;
   stopTimer: () => void;
   isTimerRunning: boolean;
 }
 
-const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
+const TimerToggleButtons = ({
+  startPauseTimer,
+  stopTimer,
+  isTimerRunning,
+}: Props) => {
   const {colors} = useTheme();
   return (
     <View style={styles.container}>
@@ -28,7 +32,7 @@ const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
           sizeIcon={15}
           colorIcon={colors.onPrimary}
           customStyle={{padding: 10}}
-          onPress={stopTimer}
+          onPress={startPauseTimer}
         />
       ) : (
         <Button
@@ -41,7 +45,7 @@ const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
           sizeIcon={15}
           colorIcon={colors.onPrimary}
           customStyle={{padding: 10}}
-          onPress={startTimer}
+          onPress={startPauseTimer}
         />
       )}
       <Button
@@ -54,7 +58,7 @@ const TimerToggleButtons = ({startTimer, stopTimer, isTimerRunning}: Props) => {
         sizeIcon={15}
         colorIcon={colors.onPrimary}
         customStyle={{padding: 10}}
-        onPress={() => {}}
+        onPress={stopTimer}
       />
     </View>
   );
