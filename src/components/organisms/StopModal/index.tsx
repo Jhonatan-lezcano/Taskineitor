@@ -2,27 +2,28 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Title from '../../atoms/Title';
 import useTheme from '../../../hooks/useTheme';
-import {Todo} from '../../../store/slices/todoList/todoListSlice';
+import {Todo, TodoList} from '../../../store/slices/todoList/todoListSlice';
 import StatusTags from '../../atoms/StatusTags';
 import Button from '../../atoms/Button';
 import {WIDTH} from '../../../utils/constants';
 import Spacer from '../../atoms/Spacer';
 import {size} from '../../../theme/fonts';
-import {AssociatedTask} from '../../../store/slices/pomodoro/pomodoroSlice';
 import usePomodoro from '../../../hooks/usePomodoro';
+import {useAppSelector} from '../../../store/hooks/hooks';
 
 interface Props {
-  taskAssociated: AssociatedTask;
+  associatedTask: Todo;
+  list: TodoList;
 }
 
-const StopModal = ({taskAssociated}: Props) => {
+const StopModal = ({associatedTask, list}: Props) => {
   const {colors} = useTheme();
-  const {task} = taskAssociated;
-  const {taskCompleted} = usePomodoro();
+  const {taskCompleted, TaskNotCompleted} = usePomodoro();
+
   return (
     <View style={styles.container}>
       <Title
-        title={`Did you finish the task "${task?.name}"?`}
+        title={`Did you finish the task "${associatedTask.name}"?`}
         customStyles={{color: colors.onBackground}}
         fontSize={size.font24}
       />
@@ -37,13 +38,13 @@ const StopModal = ({taskAssociated}: Props) => {
           Status:
         </Text>
         <Spacer vertical={10} horizontal={5} />
-        <StatusTags label={task?.label ?? 0} />
+        <StatusTags label={associatedTask.label ?? 0} />
       </View>
       <Spacer vertical={30} />
       <View style={styles.containerBtns}>
         <Button
           text="Yes"
-          onPress={taskCompleted}
+          onPress={() => taskCompleted(list, associatedTask.id)}
           backgroundColor={colors.primary}
           titleColor={colors.onPrimary}
           radius={10}
@@ -53,7 +54,7 @@ const StopModal = ({taskAssociated}: Props) => {
         <Spacer vertical={10} horizontal={10} />
         <Button
           text="No"
-          onPress={taskCompleted}
+          onPress={() => TaskNotCompleted()}
           backgroundColor={colors.primary}
           titleColor={colors.onPrimary}
           radius={10}

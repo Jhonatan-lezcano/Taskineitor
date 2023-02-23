@@ -41,7 +41,7 @@ const Pomodoro = () => {
   const {colors} = useTheme();
   const dispatch = useAppDispatch();
   const {todoList} = useAppSelector(state => state.todoList);
-  const {associatedTask, modalStopPomodoro} = useAppSelector(
+  const {associatedTask, modalStopPomodoro, list} = useAppSelector(
     state => state.pomodoro,
   );
   const {
@@ -61,8 +61,6 @@ const Pomodoro = () => {
   const [associateTaskModal, setAssociateTaskModal] = useState(false);
 
   const snapPoints = useMemo(() => ['25%', '50%'], []);
-
-  console.log(associatedTask);
 
   return (
     <>
@@ -91,18 +89,20 @@ const Pomodoro = () => {
             stopTimer={stopPomodoro}
             isTimerRunning={isTimerRunning}
           />
-          {!associatedTask ? (
-            <ButtonText
-              title="Associate task"
-              titleColor={colors.primary}
-              onPress={() => setAssociateTaskModal(!associateTaskModal)}
-              fontSize={size.font16}
-            />
-          ) : (
-            <Text style={[styles.associatedTask, {color: colors.primary}]}>
-              {associatedTask.task?.name}
-            </Text>
-          )}
+          <View style={{height: size.font18}}>
+            {!associatedTask.id.length && !isTimerRunning ? (
+              <ButtonText
+                title="Associate task"
+                titleColor={colors.primary}
+                onPress={() => setAssociateTaskModal(!associateTaskModal)}
+                fontSize={size.font16}
+              />
+            ) : (
+              <Text style={[styles.associatedTask, {color: colors.primary}]}>
+                {associatedTask.name}
+              </Text>
+            )}
+          </View>
         </View>
         <BottomSheetModalBackground
           refBottomSheet={customizePomodoro}
@@ -132,7 +132,7 @@ const Pomodoro = () => {
           visible={modalStopPomodoro}
           closeModal={() => dispatch(setModalStopPomodoro())}
           width={WIDTH * 0.95}>
-          {associatedTask && <StopModal taskAssociated={associatedTask} />}
+          <StopModal associatedTask={associatedTask} list={list} />
         </ModalContainer>
       </BottomSheetModalProvider>
     </>

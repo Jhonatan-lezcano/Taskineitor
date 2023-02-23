@@ -16,6 +16,7 @@ interface Props {
   sizeIcon?: number;
   borderColor?: string;
   customStyle?: {};
+  disable?: boolean;
 }
 
 const Button = ({
@@ -31,6 +32,7 @@ const Button = ({
   sizeIcon,
   borderColor,
   customStyle,
+  disable,
 }: Props) => {
   const {colors} = useTheme();
   const shadowButton = {
@@ -58,7 +60,8 @@ const Button = ({
           width,
         },
       ]}
-      onPress={onPress}>
+      onPress={onPress}
+      disabled={disable}>
       {Icon && <Icon fillColor={colorIcon} size={sizeIcon} />}
       {text && (
         <Text

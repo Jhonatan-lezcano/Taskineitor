@@ -8,10 +8,7 @@ import Spacer from '../../atoms/Spacer';
 import RadioButton from '../../atoms/RadioButton';
 import Button from '../../atoms/Button';
 import {useAppDispatch} from '../../../store/hooks/hooks';
-import {
-  AssociatedTask,
-  setAssociateTask,
-} from '../../../store/slices/pomodoro/pomodoroSlice';
+import {setAssociateTask} from '../../../store/slices/pomodoro/pomodoroSlice';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import CheckIcon from '../../../assets/svgs/CheckIcon';
 import useTasks from '../../../hooks/useTasks';
@@ -23,20 +20,46 @@ interface Props {
   closeModal: () => void;
 }
 
+interface StateRadio {
+  associatedTask: Todo;
+  list: TodoList;
+}
+
+const initialState: StateRadio = {
+  associatedTask: {
+    id: '',
+    completed: false,
+    createAt: 0,
+    description: '',
+    label: 0,
+    name: '',
+  },
+  list: {
+    id: '',
+    color: '',
+    createAt: 0,
+    name: '',
+    todos: [],
+    userId: 'string',
+  },
+};
+
 const AssociateTask = ({todoList, closeModal}: Props) => {
   const {colors} = useTheme();
-  const [selected, setselected] = useState<AssociatedTask | null>(null);
+  const [selected, setSelected] = useState<StateRadio>(initialState);
   const dispatch = useAppDispatch();
+  const {todoInProcess} = useTasks();
 
   const handleCancelAssociation = () => {
-    setselected(null);
+    setSelected(initialState);
     closeModal();
   };
 
   const handleAssociateTask = () => {
     dispatch(setAssociateTask(selected));
+    todoInProcess(selected.list, selected.associatedTask.id);
     closeModal();
-    setselected(null);
+    setSelected(initialState);
     Toast.show({
       type: 'customToast',
       props: {
@@ -45,6 +68,17 @@ const AssociateTask = ({todoList, closeModal}: Props) => {
         icon: CheckIcon,
       },
     });
+  };
+
+  const setStateRadio = (task: Todo) => {
+    const todolist = todoList.filter(list =>
+      list.todos.find(todo => todo.id === task.id),
+    );
+
+    setSelected(() => ({
+      associatedTask: task,
+      list: todolist[0],
+    }));
   };
 
   return (
@@ -81,10 +115,8 @@ const AssociateTask = ({todoList, closeModal}: Props) => {
                       <View style={styles.containerRadioButton}>
                         <RadioButton
                           label={item.name}
-                          status={
-                            selected?.task === item && selected.index === index
-                          }
-                          onPress={() => setselected({index, task: item})}
+                          status={item.id === selected.associatedTask.id}
+                          onPress={() => setStateRadio(item)}
                           fontSize={size.font14}
                           size={size.font18}
                           lines={1}

@@ -15,11 +15,34 @@ import {
   TIMER_MODE_WORK,
 } from '../utils/constants';
 import BackgroundTimer from 'react-native-background-timer';
+import useTasks from './useTasks';
+import {TodoList} from '../store/slices/todoList/todoListSlice';
+
+const initialStateAssociatedTask = {
+  associatedTask: {
+    id: '',
+    completed: false,
+    createAt: 0,
+    description: '',
+    label: 0,
+    name: '',
+  },
+  list: {
+    id: '',
+    color: '',
+    createAt: 0,
+    name: '',
+    todos: [],
+    userId: 'string',
+  },
+};
 
 const usePomodoro = () => {
   const dispatch = useAppDispatch();
   const {timerCount, timerMode, isTimerRunning, associatedTask} =
     useAppSelector(state => state.pomodoro);
+  const {todoComplete} = useTasks();
+
   const handleStartPauseTimer = () => {
     dispatch(setIsTimerRunning());
   };
@@ -30,9 +53,15 @@ const usePomodoro = () => {
     }, 1000);
   };
 
-  const taskCompleted = () => {
+  const taskCompleted = (list: TodoList, idItem: string) => {
+    todoComplete(list, idItem);
     dispatch(setModalStopPomodoro());
-    dispatch(setAssociateTask(null));
+    dispatch(setAssociateTask(initialStateAssociatedTask));
+  };
+
+  const TaskNotCompleted = () => {
+    dispatch(setModalStopPomodoro());
+    dispatch(setAssociateTask(initialStateAssociatedTask));
   };
 
   const stopPomodoro = () => {
@@ -40,7 +69,7 @@ const usePomodoro = () => {
       dispatch(setIsTimerRunning());
       dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
       dispatch(changeTimerModeValue(TIMER_MODE_WORK));
-      if (associatedTask) dispatch(setModalStopPomodoro());
+      if (associatedTask.id.length) dispatch(setModalStopPomodoro());
     }
   };
 
@@ -77,6 +106,7 @@ const usePomodoro = () => {
     isTimerRunning,
     stopPomodoro,
     taskCompleted,
+    TaskNotCompleted,
   };
 };
 
