@@ -1,4 +1,10 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {Todo} from '../../../store/slices/todoList/todoListSlice';
 import {size} from '../../../theme/fonts';
@@ -9,11 +15,11 @@ import StatusTags from '../../atoms/StatusTags';
 
 interface Props {
   todo: Todo;
-  toggleComplete: (index: number) => void;
-  toggleInProcess: (index: number) => void;
-  toggleDeleteTodo: (index: number) => void;
+  toggleComplete: (idItem: string) => void;
+  toggleInProcess: (idItem: string) => void;
+  toggleDeleteTodo: (idItem: string) => void;
   handleTaskPreview: (todo: Todo) => void;
-  index: number;
+  idItem: string;
 }
 
 const TodoItem = ({
@@ -22,7 +28,7 @@ const TodoItem = ({
   toggleInProcess,
   toggleDeleteTodo,
   handleTaskPreview,
-  index,
+  idItem,
 }: Props) => {
   const {name, completed, label} = todo;
   const {colors} = useTheme();
@@ -45,7 +51,7 @@ const TodoItem = ({
           progress,
           colors.alertColors.danger,
           'white',
-          index,
+          todo.id,
           rightInterpolationValue,
           'Delete',
           'right',
@@ -57,7 +63,7 @@ const TodoItem = ({
           progress,
           colors.alertColors.update,
           'white',
-          index,
+          todo.id,
           leftInterpolationValue,
           'In Process',
           'left',
@@ -66,7 +72,7 @@ const TodoItem = ({
       <View
         style={[styles.todoContainer, {backgroundColor: colors.background}]}>
         <TouchableOpacity
-          onPress={() => toggleComplete(index)}
+          onPress={() => toggleComplete(idItem)}
           style={styles.containerCheckBox}>
           <View
             style={[
@@ -78,16 +84,16 @@ const TodoItem = ({
             ]}
           />
         </TouchableOpacity>
-        <TouchableOpacity
+        <Pressable
           style={styles.containerInfo}
-          onPress={() => handleTaskPreview(todo)}>
+          onLongPress={() => handleTaskPreview(todo)}>
           <Text
             style={[styles.title, {color: colors.onBackground, width: '80%'}]}
             numberOfLines={1}>
             {name}
           </Text>
           <StatusTags label={label} />
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </Swipeable>
   );

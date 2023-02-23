@@ -13,12 +13,14 @@ import {
 import {showToastMessage} from '../utils/helpers';
 import {
   COMPLETE,
+  dateNow,
   DEFAULT_COMPLETED,
   DEFAULT_CREATEAT,
   DEFAULT_LABEL,
   IN_PROCESS,
   PENDING,
 } from '../utils/constants';
+import uuid from 'react-native-uuid';
 
 interface TodoForm {
   description: string;
@@ -27,7 +29,6 @@ interface TodoForm {
 
 const useTasks = () => {
   const dispatch = useAppDispatch();
-  const {user} = useAppSelector(state => state.authUser);
   const {colors} = useTheme();
 
   const createTodo = (data: TodoForm, list: TodoList) => {
@@ -35,88 +36,72 @@ const useTasks = () => {
       .collection('list')
       .doc(list.id)
       .update({
-        todos: [
-          ...list.todos,
-          {
-            ...data,
-            label: DEFAULT_LABEL,
-            completed: DEFAULT_COMPLETED,
-            createAt: DEFAULT_CREATEAT,
-          },
-        ],
+        todos: [...list.todos, data],
       })
       .then(() => {
+        dispatch(
+          addCurrentTodos({
+            ...list,
+            todos: [...list.todos, data],
+          }),
+        );
         showToastMessage(
           colors.alertColors.success,
           CheckIcon,
           'Task created successfully',
         );
       });
-    dispatch(
-      addCurrentTodos({
-        ...list,
-        todos: [
-          ...list.todos,
-          {
-            ...data,
-            label: DEFAULT_LABEL,
-            completed: DEFAULT_COMPLETED,
-            createAt: DEFAULT_CREATEAT,
-          },
-        ],
-      }),
-    );
   };
 
-  const todoComplete = (list: TodoList, index: number) => {
+  const todoComplete = (list: TodoList, idItem: string) => {
     firestore()
       .collection('list')
       .doc(list.id)
       .update({
-        todos: list.todos.map((item, i) =>
-          i === index
+        todos: list.todos.map(item =>
+          item.id === idItem
             ? {
                 ...item,
                 completed: !item.completed,
-                label: item.completed === true ? PENDING : COMPLETE,
+                label: item.completed ? PENDING : COMPLETE,
               }
             : {...item},
         ),
       })
       .then(() => {
-        const todo = list.todos.filter((item, i) => i === index);
+        const todo = list.todos.filter(item => item.id === idItem);
         const color = todo[0].completed
           ? colors.alertColors.warning
           : colors.alertColors.success;
         const icon = todo[0].completed ? AlertTriangleIcon : CheckIcon;
         const message = todo[0].completed ? 'Pending task' : 'Task completed';
 
+        dispatch(
+          addCurrentTodos({
+            ...list,
+            todos: list.todos.map(item =>
+              item.id === idItem
+                ? {
+                    ...item,
+                    completed: !item.completed,
+                    label: item.completed ? PENDING : COMPLETE,
+                  }
+                : {...item},
+            ),
+          }),
+        );
+
         showToastMessage(color, icon, message);
       });
-
-    dispatch(
-      addCurrentTodos({
-        ...list,
-        todos: list.todos.map((item, i) =>
-          i === index
-            ? {
-                ...item,
-                completed: !item.completed,
-                label: item.completed === true ? PENDING : COMPLETE,
-              }
-            : {...item},
-        ),
-      }),
-    );
   };
 
-  const todoInProcess = (list: TodoList, index: number) => {
+  const todoInProcess = (list: TodoList, idItem: string) => {
     firestore()
       .collection('list')
       .doc(list.id)
       .update({
-        todos: list.todos.map((item, i) =>
-          i === index
+        todos: list.todos.map(item =>
+          item.id === idItem
             ? {
                 ...item,
                 completed: item.completed ? !item.completed : item.completed,
@@ -126,50 +111,50 @@ const useTasks = () => {
         ),
       })
       .then(() => {
+        dispatch(
+          addCurrentTodos({
+            ...list,
+            todos: list.todos.map(item =>
+              item.id === idItem
+                ? {
+                    ...item,
+                    completed: item.completed
+                      ? !item.completed
+                      : item.completed,
+                    label: IN_PROCESS,
+                  }
+                : {...item},
+            ),
+          }),
+        );
         showToastMessage(
           colors.alertColors.update,
           RefreshCircleIcon,
           'Now the task is in process',
         );
       });
-
-    dispatch(
-      addCurrentTodos({
-        ...list,
-        todos: list.todos.map((item, i) =>
-          i === index
-            ? {
-                ...item,
-                completed: item.completed ? !item.completed : item.completed,
-                label: IN_PROCESS,
-              }
-            : {...item},
-        ),
-      }),
-    );
   };
 
-  const deleteTodo = (list: TodoList, index: number) => {
+  const deleteTodo = (list: TodoList, idItem: string) => {
     firestore()
       .collection('list')
       .doc(list.id)
       .update({
-        todos: list.todos.filter((item, i) => i !== index),
+        todos: list.todos.filter(item => item.id !== idItem),
       })
       .then(() => {
+        dispatch(
+          addCurrentTodos({
+            ...list,
+            todos: list.todos.filter(item => item.id !== idItem),
+          }),
+        );
         showToastMessage(
           colors.alertColors.danger,
           AlertCircleIcon,
           'Deleted task',
         );
       });
-
-    dispatch(
-      addCurrentTodos({
-        ...list,
-        todos: list.todos.filter((item, i) => i !== index),
-      }),
-    );
   };
   return {todoComplete, todoInProcess, deleteTodo, createTodo};
 };

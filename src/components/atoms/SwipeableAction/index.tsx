@@ -3,11 +3,11 @@ import React from 'react';
 import Button from '../Button';
 
 const SwipeableAction = (
-  handlerAction: (index: number) => void,
+  handlerAction: (idItem: string) => void,
   progress: ReturnType<Animated.Value['interpolate']>,
   background: string,
   textColor: string,
-  index: number,
+  idItem: string,
   interpolateValue: any,
   textButton: string,
   direction: 'left' | 'right',
@@ -21,7 +21,7 @@ const SwipeableAction = (
         text={textButton}
         backgroundColor={background}
         radius={5}
-        onPress={() => handlerAction(index)}
+        onPress={() => handlerAction(idItem)}
         titleColor={textColor}
         width="auto"
       />

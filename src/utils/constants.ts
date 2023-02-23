@@ -22,3 +22,7 @@ export const TOPOFFSET = Platform.OS === 'android' ? 50 : 50;
 export const DEFAULT_LABEL = 0;
 export const DEFAULT_COMPLETED = false;
 export const DEFAULT_CREATEAT = Date.now();
+
+export const dateNow = () => {
+  return Date.now();
+};

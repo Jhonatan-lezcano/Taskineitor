@@ -44,11 +44,12 @@ const Todos = ({navigation: {navigate}}: Props) => {
   const addTaskRef = useRef<BottomSheetModal>(null);
   const snapPoints = useMemo(() => ['65%'], []);
 
-  const toggleComplete = (index: number) => todoComplete(currentTodos, index);
+  const toggleComplete = (idItem: string) => todoComplete(currentTodos, idItem);
 
-  const toggleInProcess = (index: number) => todoInProcess(currentTodos, index);
+  const toggleInProcess = (idItem: string) =>
+    todoInProcess(currentTodos, idItem);
 
-  const toggleDeleteTodo = (index: number) => deleteTodo(currentTodos, index);
+  const toggleDeleteTodo = (idItem: string) => deleteTodo(currentTodos, idItem);
 
   const handleTaskPreview = (todo: Todo) => {
     dispatch(setTaskPreview(todo));
@@ -93,10 +94,10 @@ const Todos = ({navigation: {navigate}}: Props) => {
               keyExtractor={(item, index) => `${item.name}-${index}`}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{paddingVertical: 20}}
-              renderItem={({item, index}) => (
+              renderItem={({item}) => (
                 <TodoItem
                   todo={item}
-                  index={index}
+                  idItem={item.id}
                   toggleComplete={toggleComplete}
                   toggleInProcess={toggleInProcess}
                   toggleDeleteTodo={toggleDeleteTodo}

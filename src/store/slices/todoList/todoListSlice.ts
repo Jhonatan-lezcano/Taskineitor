@@ -1,12 +1,7 @@
-import {FirebaseFirestoreTypes} from '@react-native-firebase/firestore';
 import {createSlice} from '@reduxjs/toolkit';
 
-interface date {
-  nanoseconds: number;
-  seconds: number;
-}
-
 export interface Todo {
+  id: string;
   completed: boolean;
   createAt: number;
   description: string;

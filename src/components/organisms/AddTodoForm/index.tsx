@@ -10,6 +10,12 @@ import {Required} from '../../../utils/validations';
 import {TodoList} from '../../../store/slices/todoList/todoListSlice';
 import Spacer from '../../atoms/Spacer';
 import useTasks from '../../../hooks/useTasks';
+import uuid from 'react-native-uuid';
+import {
+  dateNow,
+  DEFAULT_COMPLETED,
+  DEFAULT_LABEL,
+} from '../../../utils/constants';
 
 interface TodoForm {
   description: string;
@@ -37,7 +43,14 @@ const AddTodoForm = ({list, closeModal}: Props) => {
   });
 
   const onSubmit: SubmitHandler<TodoForm> = data => {
-    createTodo(data, list);
+    const taskData = {
+      ...data,
+      id: uuid.v4(),
+      label: DEFAULT_LABEL,
+      completed: DEFAULT_COMPLETED,
+      createAt: dateNow(),
+    };
+    createTodo(taskData, list);
     closeModal();
   };
 

@@ -6,13 +6,7 @@ import AlertTriangleIcon from '../assets/svgs/AlertTriangleIcon';
 import CheckIcon from '../assets/svgs/CheckIcon';
 import RefreshCircleIcon from '../assets/svgs/RefreshCircleIcon';
 import {useAppDispatch, useAppSelector} from '../store/hooks/hooks';
-import {
-  addCurrentTodos,
-  getTodoList,
-  loading,
-  TodoList,
-} from '../store/slices/todoList/todoListSlice';
-import useTheme from './useTheme';
+import {getTodoList, loading} from '../store/slices/todoList/todoListSlice';
 
 const useTodoList = () => {
   const dispatch = useAppDispatch();
