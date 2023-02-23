@@ -1,6 +1,13 @@
 # Taskineitor
 This application will help you organize your tasks and manage your work time with 2 time management methods (the pomodoro technique and the Flowtime technique).
 
+## Stack 
+- React Native
+- React Navigation
+- Redux Toolkit
+- Firebase
+- React Native Testing Library 
+
 # App Flow
 
 - ## Home
