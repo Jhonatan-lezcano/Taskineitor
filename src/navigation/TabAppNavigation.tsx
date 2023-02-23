@@ -1,13 +1,9 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
 import Timers from '../screens/Timers';
 import StackTodosNavigation from './StackTodosNavigation';
 import useTheme from '../hooks/useTheme';
-import {Platform, View} from 'react-native';
-import EyeIcon from '../assets/svgs/EyeIcon';
-import CodePlus from '../assets/svgs/CodePlus';
-import {Text} from 'react-native-svg';
+import {Platform} from 'react-native';
 import {size} from '../theme/fonts';
 import TimerIcon from '../assets/svgs/TimerIcon';
 import ClipboardListIcon from '../assets/svgs/ClipboardListIcon';

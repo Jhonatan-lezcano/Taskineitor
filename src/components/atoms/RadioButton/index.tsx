@@ -1,10 +1,4 @@
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import CircleCheckIcon from '../../../assets/svgs/CircleCheckIcon';
 import useTheme from '../../../hooks/useTheme';
@@ -52,7 +46,6 @@ const RadioButton = ({
         <Text
           numberOfLines={lines}
           style={[
-            styles.label,
             {
               color: colors.onBackground,
               fontSize,
@@ -91,7 +84,6 @@ const styles = StyleSheet.create({
 
     justifyContent: 'space-between',
   },
-  label: {},
   labelSecondary: {
     fontSize: size.font14,
   },

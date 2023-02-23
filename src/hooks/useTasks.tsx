@@ -1,6 +1,6 @@
 import React from 'react';
 import firestore from '@react-native-firebase/firestore';
-import {useAppDispatch, useAppSelector} from '../store/hooks/hooks';
+import {useAppDispatch} from '../store/hooks/hooks';
 import AlertCircleIcon from '../assets/svgs/AlertCircleIcon';
 import AlertTriangleIcon from '../assets/svgs/AlertTriangleIcon';
 import CheckIcon from '../assets/svgs/CheckIcon';
@@ -11,16 +11,7 @@ import {
   TodoList,
 } from '../store/slices/todoList/todoListSlice';
 import {showToastMessage} from '../utils/helpers';
-import {
-  COMPLETE,
-  dateNow,
-  DEFAULT_COMPLETED,
-  DEFAULT_CREATEAT,
-  DEFAULT_LABEL,
-  IN_PROCESS,
-  PENDING,
-} from '../utils/constants';
-import uuid from 'react-native-uuid';
+import {COMPLETE, IN_PROCESS, PENDING} from '../utils/constants';
 
 interface TodoForm {
   description: string;
@@ -76,23 +67,22 @@ const useTasks = () => {
         const icon = todo[0].completed ? AlertTriangleIcon : CheckIcon;
         const message = todo[0].completed ? 'Pending task' : 'Task completed';
 
-        dispatch(
-          addCurrentTodos({
-            ...list,
-            todos: list.todos.map(item =>
-              item.id === idItem
-                ? {
-                    ...item,
-                    completed: !item.completed,
-                    label: item.completed ? PENDING : COMPLETE,
-                  }
-                : {...item},
-            ),
-          }),
-        );
-
         showToastMessage(color, icon, message);
       });
+    dispatch(
+      addCurrentTodos({
+        ...list,
+        todos: list.todos.map(item =>
+          item.id === idItem
+            ? {
+                ...item,
+                completed: !item.completed,
+                label: item.completed ? PENDING : COMPLETE,
+              }
+            : {...item},
+        ),
+      }),
+    );
   };
 
   const todoInProcess = (list: TodoList, idItem: string) => {

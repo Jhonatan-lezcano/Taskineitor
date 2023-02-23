@@ -12,8 +12,7 @@ import {setAssociateTask} from '../../../store/slices/pomodoro/pomodoroSlice';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import CheckIcon from '../../../assets/svgs/CheckIcon';
 import useTasks from '../../../hooks/useTasks';
-
-const {height} = Dimensions.get('screen');
+import {HEIGHT} from '../../../utils/constants';
 
 interface Props {
   todoList: TodoList[];
@@ -161,7 +160,7 @@ export default AssociateTask;
 
 const styles = StyleSheet.create({
   containerParentFlatList: {
-    height: height * 0.5,
+    height: HEIGHT * 0.5,
     paddingVertical: 10,
   },
   containerChildFlatlist: {

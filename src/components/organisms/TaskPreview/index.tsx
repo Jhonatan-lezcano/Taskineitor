@@ -12,19 +12,13 @@ const TaskPreview = () => {
   const {taskPreview} = useAppSelector(state => state.todoList);
 
   return (
-    <View style={{paddingVertical: 20}}>
+    <View style={styles.container}>
       <Title
         title={taskPreview?.name ?? ''}
         customStyles={{color: colors.onBackground}}
         fontSize={size.font24}
       />
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          paddingTop: 10,
-        }}>
+      <View style={styles.containerTag}>
         <Text style={{fontSize: size.font10, color: colors.onBackground}}>
           Status:
         </Text>
@@ -33,12 +27,7 @@ const TaskPreview = () => {
       </View>
 
       <Spacer vertical={20} />
-      <Text
-        style={{
-          color: colors.onBackground,
-          textAlign: 'center',
-          fontSize: size.font16,
-        }}>
+      <Text style={[styles.description, {color: colors.onBackground}]}>
         {taskPreview?.description === '' || !taskPreview
           ? 'this task has no description'
           : taskPreview.description}
@@ -49,4 +38,18 @@ const TaskPreview = () => {
 
 export default TaskPreview;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    paddingVertical: 20,
+  },
+  containerTag: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  description: {
+    textAlign: 'center',
+    fontSize: size.font16,
+  },
+});

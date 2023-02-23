@@ -1,4 +1,4 @@
-import {StyleSheet, View, Dimensions} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import Button from '../../atoms/Button';
 import useTheme from '../../../hooks/useTheme';

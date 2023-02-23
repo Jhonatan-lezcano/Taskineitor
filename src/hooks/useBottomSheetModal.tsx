@@ -1,5 +1,5 @@
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 
 const useBottomSheetModal = () => {
   const [showModal, setShowModal] = useState(false);

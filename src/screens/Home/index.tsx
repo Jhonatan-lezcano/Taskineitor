@@ -1,5 +1,5 @@
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useMemo, useRef} from 'react';
+import {StatusBar, StyleSheet, Text, View, Platform} from 'react-native';
+import React, {useRef} from 'react';
 import useTheme from '../../hooks/useTheme';
 import {useAppDispatch} from '../../store/hooks/hooks';
 import Title from '../../components/atoms/Title';
@@ -39,7 +39,7 @@ const Home = ({navigation: {navigate}}: Props) => {
     handlePresentModalPress,
   } = useBottomSheetModal();
   const openMenuRef = useRef<BottomSheetModal>(null);
-  const snapPoints = ['45%'];
+  const snapPoints = [Platform.OS === 'ios' ? '45%' : '48%'];
 
   const navigateTodosScreen = (todos: TodoList) => {
     navigate('TodosScreen');

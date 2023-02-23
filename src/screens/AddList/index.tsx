@@ -14,7 +14,7 @@ import useColorPalettes from '../../hooks/useColorPalettes';
 import Select from '../../components/atoms/Select';
 import {dataPalettesSelect} from '../../utils/colorPalettes';
 import firestore from '@react-native-firebase/firestore';
-import {useAppDispatch, useAppSelector} from '../../store/hooks/hooks';
+import {useAppSelector} from '../../store/hooks/hooks';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import CheckIcon from '../../assets/svgs/CheckIcon';
 
@@ -27,7 +27,6 @@ interface Props
   extends NativeStackScreenProps<RootStackTodosParams, 'AddListScreen'> {}
 
 const AddList = ({navigation: {navigate}}: Props) => {
-  const dispatch = useAppDispatch();
   const {palette, changeColor, color, changeSelected, selected} =
     useColorPalettes();
   const {user} = useAppSelector(state => state.authUser);

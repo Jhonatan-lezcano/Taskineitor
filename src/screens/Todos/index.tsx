@@ -1,7 +1,5 @@
-import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useMemo, useRef, useState} from 'react';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackTodosParams} from '../../navigation/StackTodosNavigation';
 import Title from '../../components/atoms/Title';
 import {capitalizeFirstLetter} from '../../utils/helpers';
 import {size} from '../../theme/fonts';
@@ -23,10 +21,7 @@ import ModalContainer from '../../components/organisms/ModalContainer/Index';
 import TaskPreview from '../../components/organisms/TaskPreview';
 import {HEIGHT} from '../../utils/constants';
 
-interface Props
-  extends NativeStackScreenProps<RootStackTodosParams, 'TodosScreen'> {}
-
-const Todos = ({navigation: {navigate}}: Props) => {
+const Todos = () => {
   const {colors, containerScreen} = useTheme();
   const {todoComplete, todoInProcess, deleteTodo} = useTasks();
   const {currentTodos} = useAppSelector(state => state.todoList);

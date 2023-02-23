@@ -1,5 +1,5 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import React, {useMemo, useRef, useState} from 'react';
 import AnimationView from '../../atoms/AnimationView';
 import meditation from '../../../assets/LottieFiles/meditation.json';
 import workTime from '../../../assets/LottieFiles/work-on-home.json';
@@ -9,14 +9,7 @@ import ModalContainer from '../../organisms/ModalContainer/Index';
 import {size} from '../../../theme/fonts';
 import Title from '../../atoms/Title';
 import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
-import {
-  changeTimerModeValue,
-  changeTimerValue,
-  handlerTimerInterval,
-  setIsTimerRunning,
-  setModalStopPomodoro,
-  startTimer,
-} from '../../../store/slices/pomodoro/pomodoroSlice';
+import {setModalStopPomodoro} from '../../../store/slices/pomodoro/pomodoroSlice';
 import HeaderTimers from '../../organisms/HeaderTimers';
 import {formatDate} from '../../../utils/helpers';
 import TimerToggleButtons from '../../molecules/TimerToggleButtons';
@@ -26,7 +19,6 @@ import {
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
 import {
-  HEIGHT,
   TIMER_MODE_BREAK,
   TIMER_MODE_WORK,
   WIDTH,

@@ -1,24 +1,17 @@
-import {
-  ActivityIndicator,
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  View,
-} from 'react-native';
+import {ActivityIndicator, FlatList, StyleSheet, View} from 'react-native';
 import React from 'react';
 import CardList from '../../molecules/CardList';
 import {TodoList} from '../../../store/slices/todoList/todoListSlice';
 import useTheme from '../../../hooks/useTheme';
 import noListtAnimation from '../../../assets/LottieFiles/not-found.json';
 import NoItemsFound from '../../molecules/NoItemsFound';
+import {HEIGHT, WIDTH} from '../../../utils/constants';
 
 interface Props {
   data: TodoList[];
   isLoading: boolean;
   navigate: (todos: TodoList) => void;
 }
-
-const {width, height} = Dimensions.get('screen');
 
 const SliderLists = ({data, isLoading, navigate}: Props) => {
   const {colors} = useTheme();
@@ -37,7 +30,7 @@ const SliderLists = ({data, isLoading, navigate}: Props) => {
       ) : !isLoading && data.length === 0 ? (
         <NoItemsFound
           animation={noListtAnimation}
-          sizeAnimation={width * 0.6}
+          sizeAnimation={WIDTH * 0.6}
           text="No lists found, start creating your lists"
           height="100%"
           width="100%"
@@ -63,7 +56,7 @@ export default SliderLists;
 
 const styles = StyleSheet.create({
   container: {
-    height: height * 0.38,
+    height: HEIGHT * 0.38,
     width: '100%',
   },
 });

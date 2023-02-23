@@ -1,13 +1,8 @@
-import {
-  Dimensions,
-  Modal,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Modal, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import CloseIcon from '../../../assets/svgs/CloseIcon';
 import useTheme from '../../../hooks/useTheme';
+import {HEIGHT, WIDTH} from '../../../utils/constants';
 
 interface Props {
   visible: boolean;
@@ -15,8 +10,6 @@ interface Props {
   children: React.ReactNode;
   width: string | number;
 }
-
-const {width, height} = Dimensions.get('window');
 
 const ModalContainer = ({visible, closeModal, children, width}: Props) => {
   const {colors} = useTheme();
@@ -51,16 +44,16 @@ const ModalContainer = ({visible, closeModal, children, width}: Props) => {
 export default ModalContainer;
 
 ModalContainer.defaultProps = {
-  width: width * 0.9,
+  width: WIDTH * 0.9,
 };
 
 const styles = StyleSheet.create({
   modalBackground: {
-    height,
+    height: HEIGHT,
     left: 0,
     position: 'absolute',
     top: 0,
-    width,
+    width: WIDTH,
   },
   containerModal: {
     flex: 1,

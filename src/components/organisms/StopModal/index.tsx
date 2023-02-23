@@ -9,7 +9,6 @@ import {WIDTH} from '../../../utils/constants';
 import Spacer from '../../atoms/Spacer';
 import {size} from '../../../theme/fonts';
 import usePomodoro from '../../../hooks/usePomodoro';
-import {useAppSelector} from '../../../store/hooks/hooks';
 
 interface Props {
   associatedTask: Todo;

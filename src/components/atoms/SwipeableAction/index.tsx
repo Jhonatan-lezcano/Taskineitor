@@ -1,4 +1,4 @@
-import {Animated, StyleSheet, Text, View} from 'react-native';
+import {Animated, StyleSheet} from 'react-native';
 import React from 'react';
 import Button from '../Button';
 
@@ -30,5 +30,3 @@ const SwipeableAction = (
 };
 
 export default SwipeableAction;
-
-const styles = StyleSheet.create({});

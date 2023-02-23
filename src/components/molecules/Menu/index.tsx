@@ -4,8 +4,7 @@ import Button from '../../atoms/Button';
 import useTheme from '../../../hooks/useTheme';
 import MenuIcon from '../../../assets/svgs/MenuIcon';
 import {size} from '../../../theme/fonts';
-
-const {width, height} = Dimensions.get('screen');
+import {HEIGHT, WIDTH} from '../../../utils/constants';
 
 interface Props {
   openMenu: () => void;
@@ -46,18 +45,18 @@ const styles = StyleSheet.create({
     top: Platform.OS === 'android' ? 55 : 55,
   },
   closeMenu: {
-    height,
+    height: HEIGHT,
     position: 'absolute',
     right: -20,
     top: -20,
-    width,
+    width: WIDTH,
   },
   menuContainer: {
     borderRadius: 5,
     position: 'absolute',
     top: 55,
     right: 20,
-    width: width * 0.45,
+    width: WIDTH * 0.45,
 
     shadowOffset: {
       width: 0,

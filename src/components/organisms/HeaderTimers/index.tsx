@@ -1,4 +1,4 @@
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Spacer from '../../atoms/Spacer';
 import Button from '../../atoms/Button';
@@ -7,10 +7,11 @@ import MusicIcon from '../../../assets/svgs/MusicIcon';
 import SettingsIcon from '../../../assets/svgs/SettingsIcon';
 import {size} from '../../../theme/fonts';
 import Title from '../../atoms/Title';
-
-const {width} = Dimensions.get('screen');
-const TIMER_MODE_WORK = 'work';
-const TIMER_MODE_BREAK = 'break';
+import {
+  TIMER_MODE_BREAK,
+  TIMER_MODE_WORK,
+  WIDTH,
+} from '../../../utils/constants';
 
 interface Props {
   timerMode: 'work' | 'break';
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: width * 0.5,
+    width: WIDTH * 0.5,
   },
   radiusIndicatorLeft: {
     borderBottomLeftRadius: 10,

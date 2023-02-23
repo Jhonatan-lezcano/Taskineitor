@@ -1,10 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
 import React, {useEffect} from 'react';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
-import AlertCircleIcon from '../assets/svgs/AlertCircleIcon';
-import AlertTriangleIcon from '../assets/svgs/AlertTriangleIcon';
-import CheckIcon from '../assets/svgs/CheckIcon';
-import RefreshCircleIcon from '../assets/svgs/RefreshCircleIcon';
 import {useAppDispatch, useAppSelector} from '../store/hooks/hooks';
 import {getTodoList, loading} from '../store/slices/todoList/todoListSlice';
 
