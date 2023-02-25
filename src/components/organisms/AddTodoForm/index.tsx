@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {KeyboardAvoidingView, Platform, StyleSheet, View} from 'react-native';
 import React from 'react';
 import Title from '../../atoms/Title';
 import {size} from '../../../theme/fonts';
@@ -55,7 +55,9 @@ const AddTodoForm = ({list, closeModal}: Props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}>
       <Title
         title="New Todo"
         fontSize={size.font26}
@@ -93,7 +95,7 @@ const AddTodoForm = ({list, closeModal}: Props) => {
         radius={10}
         onPress={handleSubmit(onSubmit)}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -1,4 +1,10 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import useTheme from '../../hooks/useTheme';
 import Title from '../../components/atoms/Title';
@@ -65,7 +71,9 @@ const AddList = ({navigation: {navigate}}: Props) => {
       });
   };
   return (
-    <View style={[containerScreen.container, {paddingHorizontal: 42}]}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={[containerScreen.container, {paddingHorizontal: 42}]}>
       <Title
         title="Create Todo List"
         fontSize={size.font28}
@@ -112,7 +120,7 @@ const AddList = ({navigation: {navigate}}: Props) => {
         titleColor="white"
         onPress={handleSubmit(onSubmit)}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

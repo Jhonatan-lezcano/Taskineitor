@@ -22,6 +22,7 @@ const TabAppNavigation = () => {
         tabBarLabelStyle: {
           fontSize: size.font12,
         },
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           height: Platform.OS === 'android' ? 60 : 80,
           paddingBottom: Platform.OS === 'android' ? 10 : 30,
