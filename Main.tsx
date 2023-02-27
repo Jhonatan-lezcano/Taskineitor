@@ -10,6 +10,7 @@ import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import useTheme from './src/hooks/useTheme';
 import ToastNotification from './src/components/molecules/ToastNotification';
 import SplashScreen from 'react-native-splash-screen';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const Main = () => {
   const dispatch = useAppDispatch();
@@ -48,10 +49,12 @@ const Main = () => {
   }, []);
 
   return (
-    <NavigationContainer>
-      {userAuth ? <TabAppNavigation /> : <StackAuthNavigation />}
-      <Toast config={toastConfig} visibilityTime={2500} />
-    </NavigationContainer>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <NavigationContainer>
+        {userAuth ? <TabAppNavigation /> : <StackAuthNavigation />}
+        <Toast config={toastConfig} visibilityTime={2500} />
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 
