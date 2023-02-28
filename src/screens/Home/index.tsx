@@ -72,7 +72,7 @@ const Home = ({navigation: {navigate}}: Props) => {
           onPress={() => navigate('AddListScreen')}
         />
         <Text style={[styles.labelBtn, {color: colors.primary}]}>Add List</Text>
-        <Spacer vertical={30} />
+        <Spacer vertical={50} />
 
         <SliderLists
           data={todoList}
