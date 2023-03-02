@@ -1,36 +1,32 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useMemo, useRef, useState} from 'react';
-import AnimationView from '../../atoms/AnimationView';
-import meditation from '../../../assets/LottieFiles/meditation.json';
-import workTime from '../../../assets/LottieFiles/work-on-home.json';
-import useTheme from '../../../hooks/useTheme';
-import ButtonText from '../../atoms/ButtonText';
-import ModalContainer from '../../organisms/ModalContainer/Index';
-import {size} from '../../../theme/fonts';
-import Title from '../../atoms/Title';
-import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
-import {setModalStopPomodoro} from '../../../store/slices/pomodoro/pomodoroSlice';
-import HeaderTimers from '../../organisms/HeaderTimers';
-import {formatDate} from '../../../utils/helpers';
-import TimerToggleButtons from '../../molecules/TimerToggleButtons';
+import AnimationView from '../../components/atoms/AnimationView';
+import meditation from '../../assets/LottieFiles/meditation.json';
+import workTime from '../../assets/LottieFiles/work-on-home.json';
+import useTheme from '../../hooks/useTheme';
+import ButtonText from '../../components/atoms/ButtonText';
+import ModalContainer from '../../components/organisms/ModalContainer/Index';
+import {size} from '../../theme/fonts';
+import Title from '../../components/atoms/Title';
+import {useAppDispatch, useAppSelector} from '../../store/hooks/hooks';
+import {setModalStopPomodoro} from '../../store/slices/pomodoro/pomodoroSlice';
+import HeaderTimers from '../../components/organisms/HeaderTimers';
+import {formatDate} from '../../utils/helpers';
+import TimerToggleButtons from '../../components/molecules/TimerToggleButtons';
 import {
   BottomSheetModalProvider,
   BottomSheetView,
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import {
-  TIMER_MODE_BREAK,
-  TIMER_MODE_WORK,
-  WIDTH,
-} from '../../../utils/constants';
-import BottomSheetModalBackground from '../../molecules/BottomSheetModalBackground';
-import useBottomSheetModal from '../../../hooks/useBottomSheetModal';
-import AssociateTask from '../../organisms/AssociateTask';
-import usePomodoro from '../../../hooks/usePomodoro';
-import StopModal from '../../organisms/StopModal';
+import {TIMER_MODE_BREAK, TIMER_MODE_WORK, WIDTH} from '../../utils/constants';
+import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
+import useBottomSheetModal from '../../hooks/useBottomSheetModal';
+import AssociateTask from '../../components/organisms/AssociateTask';
+import usePomodoro from '../../hooks/usePomodoro';
+import StopModal from '../../components/organisms/StopModal';
 
 const Pomodoro = () => {
-  const {colors} = useTheme();
+  const {colors, containerScreen} = useTheme();
   const dispatch = useAppDispatch();
   const {todoList} = useAppSelector(state => state.todoList);
   const {associatedTask, modalStopPomodoro, list} = useAppSelector(
@@ -55,7 +51,7 @@ const Pomodoro = () => {
   const snapPoints = useMemo(() => ['25%', '50%'], []);
 
   return (
-    <>
+    <View style={containerScreen.container}>
       <BottomSheetModalProvider>
         <HeaderTimers
           timerMode={timerMode}
@@ -127,7 +123,7 @@ const Pomodoro = () => {
           <StopModal associatedTask={associatedTask} list={list} />
         </ModalContainer>
       </BottomSheetModalProvider>
-    </>
+    </View>
   );
 };
 

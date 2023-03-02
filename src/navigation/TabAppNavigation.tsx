@@ -7,6 +7,7 @@ import {Platform} from 'react-native';
 import {size} from '../theme/fonts';
 import TimerIcon from '../assets/svgs/TimerIcon';
 import ClipboardListIcon from '../assets/svgs/ClipboardListIcon';
+import TopTabsTimersNavigation from './TopTabsNavigation';
 
 const Tab = createBottomTabNavigator();
 
@@ -56,7 +57,7 @@ const TabAppNavigation = () => {
       />
       <Tab.Screen
         name="TimersScreen"
-        component={Timers}
+        component={TopTabsTimersNavigation}
         options={{title: 'Timers'}}
       />
     </Tab.Navigator>

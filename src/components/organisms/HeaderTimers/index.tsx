@@ -22,7 +22,7 @@ const HeaderTimers = ({timerMode, settingsAction}: Props) => {
   const {colors} = useTheme();
   return (
     <View style={styles.header}>
-      <Spacer vertical={45} />
+      <Spacer vertical={5} />
       <View style={styles.btnHeader}>
         <Button
           backgroundColor={colors.background}
@@ -126,11 +126,10 @@ export default HeaderTimers;
 const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
-    flex: 3,
+    flex: 2.2,
     width: '100%',
   },
   btnHeader: {
-    alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 15,

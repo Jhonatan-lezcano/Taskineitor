@@ -1,8 +1,8 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import useTheme from '../../hooks/useTheme';
-import Pomodoro from '../../components/templates/Pomodoro';
-import FlowTime from '../../components/templates/FlowTime';
+import Pomodoro from '../Pomodoro';
+import FlowTime from '../FlowTime';
 import {useAppSelector} from '../../store/hooks/hooks';
 import {NativeViewGestureHandler} from 'react-native-gesture-handler';
 import {TIMER_POMODORO} from '../../utils/constants';
