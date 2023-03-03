@@ -7,6 +7,7 @@ import {
   setModalStopPomodoro,
   startTimer,
   setAssociateTask,
+  setNumberOfTimersCompleted,
 } from '../store/slices/pomodoro/pomodoroSlice';
 import {
   BREAK_TIME_MINUTES,
@@ -39,8 +40,13 @@ const initialStateAssociatedTask = {
 
 const usePomodoro = () => {
   const dispatch = useAppDispatch();
-  const {timerCount, timerMode, isTimerRunning, associatedTask} =
-    useAppSelector(state => state.pomodoro);
+  const {
+    timerCount,
+    timerMode,
+    isTimerRunning,
+    associatedTask,
+    numberOfTimersCompleted,
+  } = useAppSelector(state => state.pomodoro);
   const {todoComplete} = useTasks();
 
   const handleStartPauseTimer = () => {
@@ -88,6 +94,7 @@ const usePomodoro = () => {
       if (timerMode === TIMER_MODE_WORK) {
         dispatch(changeTimerValue(BREAK_TIME_MINUTES));
         dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
+        dispatch(setNumberOfTimersCompleted(numberOfTimersCompleted + 1));
       } else {
         dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
         dispatch(changeTimerModeValue(TIMER_MODE_WORK));

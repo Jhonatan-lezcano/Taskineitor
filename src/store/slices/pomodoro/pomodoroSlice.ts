@@ -81,6 +81,10 @@ export const pomodoroSlice = createSlice({
       ...state,
       modalStopPomodoro: !state.modalStopPomodoro,
     }),
+    setNumberOfTimersCompleted: (state, action) => ({
+      ...state,
+      numberOfTimersCompleted: action.payload,
+    }),
   },
 });
 
@@ -92,6 +96,7 @@ export const {
   setIsTimerRunning,
   setAssociateTask,
   setModalStopPomodoro,
+  setNumberOfTimersCompleted,
 } = pomodoroSlice.actions;
 
 export default pomodoroSlice.reducer;
