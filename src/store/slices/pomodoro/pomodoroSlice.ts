@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {FOCUS_TIME_MINUTES} from '../../../utils/constants';
 import {Todo, TodoList} from '../todoList/todoListSlice';
 
 type TimerMode = 'work' | 'break';
@@ -12,8 +13,6 @@ interface InitialState {
   associatedTask: Todo;
   modalStopPomodoro: boolean;
 }
-
-const FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
 
 const initialState: InitialState = {
   timerCount: FOCUS_TIME_MINUTES,

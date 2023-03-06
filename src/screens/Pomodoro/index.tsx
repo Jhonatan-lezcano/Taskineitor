@@ -24,6 +24,7 @@ import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 import AssociateTask from '../../components/organisms/AssociateTask';
 import usePomodoro from '../../hooks/usePomodoro';
 import StopModal from '../../components/organisms/StopModal';
+import SettingsTimers from '../../components/organisms/SettingsTimers';
 
 const Pomodoro = () => {
   const {colors, containerScreen} = useTheme();
@@ -100,11 +101,7 @@ const Pomodoro = () => {
           handleCloseModalPress={() => handleCloseModalPress(customizePomodoro)}
           showModalBackground={showModal}>
           <BottomSheetView style={styles.contentContainer}>
-            <Title
-              title="Customize the pomodoro"
-              fontSize={size.font18}
-              customStyles={{color: colors.onBackground, fontWeight: '500'}}
-            />
+            <SettingsTimers />
           </BottomSheetView>
         </BottomSheetModalBackground>
         <ModalContainer

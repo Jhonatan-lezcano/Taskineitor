@@ -12,6 +12,7 @@ import {
 import {
   BREAK_TIME_MINUTES,
   FOCUS_TIME_MINUTES,
+  LONG_BREAK_TIME_MINUTES,
   TIMER_MODE_BREAK,
   TIMER_MODE_WORK,
 } from '../utils/constants';
@@ -75,6 +76,7 @@ const usePomodoro = () => {
       dispatch(setIsTimerRunning());
       dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
       dispatch(changeTimerModeValue(TIMER_MODE_WORK));
+      dispatch(setNumberOfTimersCompleted(0));
       if (associatedTask.id.length) dispatch(setModalStopPomodoro());
     }
   };
@@ -90,16 +92,27 @@ const usePomodoro = () => {
   }, [isTimerRunning]);
 
   useEffect(() => {
-    if (timerCount < 0) {
-      if (timerMode === TIMER_MODE_WORK) {
-        dispatch(changeTimerValue(BREAK_TIME_MINUTES));
-        dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
-        dispatch(setNumberOfTimersCompleted(numberOfTimersCompleted + 1));
-      } else {
-        dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
-        dispatch(changeTimerModeValue(TIMER_MODE_WORK));
-      }
+    console.log(numberOfTimersCompleted);
+
+    if (timerCount < 0 && timerMode === TIMER_MODE_WORK) {
+      dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
+      dispatch(
+        changeTimerValue(
+          numberOfTimersCompleted === 4
+            ? LONG_BREAK_TIME_MINUTES
+            : BREAK_TIME_MINUTES,
+        ),
+      );
+    } else if (timerCount < 0 && timerMode === TIMER_MODE_BREAK) {
+      dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
+      dispatch(changeTimerModeValue(TIMER_MODE_WORK));
     }
+
+    if (numberOfTimersCompleted === 4 && timerMode === TIMER_MODE_BREAK)
+      dispatch(setNumberOfTimersCompleted(0));
+
+    if (timerCount === 0 && timerMode === TIMER_MODE_WORK)
+      dispatch(setNumberOfTimersCompleted(numberOfTimersCompleted + 1));
 
     if (timerCount === 0) {
       console.log('alarma');
@@ -118,3 +131,21 @@ const usePomodoro = () => {
 };
 
 export default usePomodoro;
+
+// if (timerCount < 0) {
+//   if (timerMode === TIMER_MODE_WORK) {
+//     dispatch(setNumberOfTimersCompleted(numberOfTimersCompleted + 1));
+//     dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
+//     if (numberOfTimersCompleted === 4) {
+//       dispatch(changeTimerValue(LONG_BREAK_TIME_MINUTES));
+//     } else {
+//       dispatch(changeTimerValue(BREAK_TIME_MINUTES));
+//     }
+//   } else {
+//     dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
+//     dispatch(changeTimerModeValue(TIMER_MODE_WORK));
+//   }
+// }
+// if (timerCount === 0) {
+//   console.log('alarma');
+// }
