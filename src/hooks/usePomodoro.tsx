@@ -9,13 +9,7 @@ import {
   setAssociateTask,
   setNumberOfTimersCompleted,
 } from '../store/slices/pomodoro/pomodoroSlice';
-import {
-  BREAK_TIME_MINUTES,
-  FOCUS_TIME_MINUTES,
-  LONG_BREAK_TIME_MINUTES,
-  TIMER_MODE_BREAK,
-  TIMER_MODE_WORK,
-} from '../utils/constants';
+import {TIMER_MODE_BREAK, TIMER_MODE_WORK} from '../utils/constants';
 import BackgroundTimer from 'react-native-background-timer';
 import useTasks from './useTasks';
 import {TodoList} from '../store/slices/todoList/todoListSlice';
@@ -47,6 +41,7 @@ const usePomodoro = () => {
     isTimerRunning,
     associatedTask,
     numberOfTimersCompleted,
+    preferences: {workingTime, breakTime, longBreakTime},
   } = useAppSelector(state => state.pomodoro);
   const {todoComplete} = useTasks();
 
@@ -74,7 +69,7 @@ const usePomodoro = () => {
   const stopPomodoro = () => {
     if (isTimerRunning) {
       dispatch(setIsTimerRunning());
-      dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
+      dispatch(changeTimerValue(workingTime));
       dispatch(changeTimerModeValue(TIMER_MODE_WORK));
       dispatch(setNumberOfTimersCompleted(0));
       if (associatedTask.id.length) dispatch(setModalStopPomodoro());
@@ -92,19 +87,15 @@ const usePomodoro = () => {
   }, [isTimerRunning]);
 
   useEffect(() => {
-    console.log(numberOfTimersCompleted);
-
     if (timerCount < 0 && timerMode === TIMER_MODE_WORK) {
       dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
       dispatch(
         changeTimerValue(
-          numberOfTimersCompleted === 4
-            ? LONG_BREAK_TIME_MINUTES
-            : BREAK_TIME_MINUTES,
+          numberOfTimersCompleted === 4 ? longBreakTime : breakTime,
         ),
       );
     } else if (timerCount < 0 && timerMode === TIMER_MODE_BREAK) {
-      dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
+      dispatch(changeTimerValue(workingTime));
       dispatch(changeTimerModeValue(TIMER_MODE_WORK));
     }
 
@@ -131,21 +122,3 @@ const usePomodoro = () => {
 };
 
 export default usePomodoro;
-
-// if (timerCount < 0) {
-//   if (timerMode === TIMER_MODE_WORK) {
-//     dispatch(setNumberOfTimersCompleted(numberOfTimersCompleted + 1));
-//     dispatch(changeTimerModeValue(TIMER_MODE_BREAK));
-//     if (numberOfTimersCompleted === 4) {
-//       dispatch(changeTimerValue(LONG_BREAK_TIME_MINUTES));
-//     } else {
-//       dispatch(changeTimerValue(BREAK_TIME_MINUTES));
-//     }
-//   } else {
-//     dispatch(changeTimerValue(FOCUS_TIME_MINUTES));
-//     dispatch(changeTimerModeValue(TIMER_MODE_WORK));
-//   }
-// }
-// if (timerCount === 0) {
-//   console.log('alarma');
-// }

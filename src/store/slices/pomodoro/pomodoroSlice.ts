@@ -1,8 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {FOCUS_TIME_MINUTES} from '../../../utils/constants';
+import {
+  DEFAULT_BREAK_TIME_MINUTES,
+  DEFAULT_FOCUS_TIME_MINUTES,
+} from '../../../utils/constants';
 import {Todo, TodoList} from '../todoList/todoListSlice';
+import {LONG_BREAK_TIME_MINUTES} from '../../../utils/constants';
 
 type TimerMode = 'work' | 'break';
+
+interface PreferencesTimers {
+  workingTime: number;
+  breakTime: number;
+  longBreakTime: number;
+}
 
 interface InitialState {
   timerCount: number;
@@ -12,10 +22,11 @@ interface InitialState {
   list: TodoList;
   associatedTask: Todo;
   modalStopPomodoro: boolean;
+  preferences: PreferencesTimers;
 }
 
 const initialState: InitialState = {
-  timerCount: FOCUS_TIME_MINUTES,
+  timerCount: DEFAULT_FOCUS_TIME_MINUTES,
   numberOfTimersCompleted: 0,
   isTimerRunning: false,
   timerMode: 'work',
@@ -36,6 +47,11 @@ const initialState: InitialState = {
     name: '',
   },
   modalStopPomodoro: false,
+  preferences: {
+    workingTime: DEFAULT_FOCUS_TIME_MINUTES,
+    breakTime: DEFAULT_BREAK_TIME_MINUTES,
+    longBreakTime: LONG_BREAK_TIME_MINUTES,
+  },
 };
 
 export const pomodoroSlice = createSlice({
@@ -84,6 +100,27 @@ export const pomodoroSlice = createSlice({
       ...state,
       numberOfTimersCompleted: action.payload,
     }),
+    setWorkingTimePreference: (state, action) => ({
+      ...state,
+      preferences: {
+        ...state.preferences,
+        workingTime: action.payload,
+      },
+    }),
+    setBreakTimePreference: (state, action) => ({
+      ...state,
+      preferences: {
+        ...state.preferences,
+        breakTime: action.payload,
+      },
+    }),
+    setLongBreakTimePreference: (state, action) => ({
+      ...state,
+      preferences: {
+        ...state.preferences,
+        longBreakTime: action.payload,
+      },
+    }),
   },
 });
 
@@ -96,6 +133,9 @@ export const {
   setAssociateTask,
   setModalStopPomodoro,
   setNumberOfTimersCompleted,
+  setWorkingTimePreference,
+  setBreakTimePreference,
+  setLongBreakTimePreference,
 } = pomodoroSlice.actions;
 
 export default pomodoroSlice.reducer;
