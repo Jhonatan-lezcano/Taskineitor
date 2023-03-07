@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Title from '../../atoms/Title';
 import {size} from '../../../theme/fonts';
 import Select from '../../atoms/Select';
@@ -15,24 +15,35 @@ import {
 } from '../../../store/slices/pomodoro/pomodoroSlice';
 import Button from '../../atoms/Button';
 
-const SettingsTimers = () => {
+interface Props {
+  closeModal: () => void;
+}
+
+const SettingsPomodoro = ({closeModal}: Props) => {
   const {colors} = useTheme();
+  const dispatch = useAppDispatch();
   const {
     preferences: {workingTime, breakTime, longBreakTime},
   } = useAppSelector(state => state.pomodoro);
-  const dispatch = useAppDispatch();
+  const [selects, setSelects] = useState({
+    workingTime,
+    breakTime,
+    longBreakTime,
+  });
 
-  const onChangeWorkingTime = (value: number) =>
-    dispatch(setWorkingTimePreference(value));
-
-  const onChangeBreakTime = (value: number) =>
-    dispatch(setBreakTimePreference(value));
-
-  const onChangeLongBreakTime = (value: number) =>
-    dispatch(setLongBreakTimePreference(value));
+  const onChangeValue = (name: string, value: number) => {
+    setSelects(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const applyChanges = () => {
-    dispatch(changeTimerValue(workingTime));
+    dispatch(changeTimerValue(selects.workingTime));
+    dispatch(setWorkingTimePreference(selects.workingTime));
+    dispatch(setBreakTimePreference(selects.breakTime));
+    dispatch(setLongBreakTimePreference(selects.longBreakTime));
+    closeModal();
   };
 
   return (
@@ -51,9 +62,10 @@ const SettingsTimers = () => {
             customStyles={{color: colors.onBackground, fontWeight: '500'}}
           />
           <Select
+            name="workingTime"
             options={TIME_SELECT}
-            onChange={onChangeWorkingTime}
-            valueSelect={workingTime}
+            onChange={onChangeValue}
+            valueSelect={selects.workingTime}
           />
         </View>
         <View style={styles.options}>
@@ -63,9 +75,10 @@ const SettingsTimers = () => {
             customStyles={{color: colors.onBackground, fontWeight: '500'}}
           />
           <Select
+            name="breakTime"
             options={TIME_SELECT}
-            onChange={onChangeBreakTime}
-            valueSelect={breakTime}
+            onChange={onChangeValue}
+            valueSelect={selects.breakTime}
           />
         </View>
         <View style={styles.options}>
@@ -75,9 +88,10 @@ const SettingsTimers = () => {
             customStyles={{color: colors.onBackground, fontWeight: '500'}}
           />
           <Select
+            name="longBreakTime"
             options={TIME_SELECT}
-            onChange={onChangeLongBreakTime}
-            valueSelect={longBreakTime}
+            onChange={onChangeValue}
+            valueSelect={selects.longBreakTime}
           />
         </View>
       </View>
@@ -92,7 +106,7 @@ const SettingsTimers = () => {
   );
 };
 
-export default SettingsTimers;
+export default SettingsPomodoro;
 
 const styles = StyleSheet.create({
   containerOptions: {

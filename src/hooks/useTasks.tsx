@@ -58,17 +58,17 @@ const useTasks = () => {
               }
             : {...item},
         ),
-      })
-      .then(() => {
-        const todo = list.todos.filter(item => item.id === idItem);
-        const color = todo[0].completed
-          ? colors.alertColors.warning
-          : colors.alertColors.success;
-        const icon = todo[0].completed ? AlertTriangleIcon : CheckIcon;
-        const message = todo[0].completed ? 'Pending task' : 'Task completed';
-
-        showToastMessage(color, icon, message);
       });
+
+    const todo = list.todos.filter(item => item.id === idItem);
+    const color = todo[0].completed
+      ? colors.alertColors.warning
+      : colors.alertColors.success;
+    const icon = todo[0].completed ? AlertTriangleIcon : CheckIcon;
+    const message = todo[0].completed ? 'Pending task' : 'Task completed';
+
+    showToastMessage(color, icon, message);
+
     dispatch(
       addCurrentTodos({
         ...list,
@@ -117,12 +117,12 @@ const useTasks = () => {
             ),
           }),
         );
-        showToastMessage(
-          colors.alertColors.update,
-          RefreshCircleIcon,
-          'Now the task is in process',
-        );
       });
+    showToastMessage(
+      colors.alertColors.update,
+      RefreshCircleIcon,
+      'Now the task is in process',
+    );
   };
 
   const deleteTodo = (list: TodoList, idItem: string) => {
@@ -139,12 +139,12 @@ const useTasks = () => {
             todos: list.todos.filter(item => item.id !== idItem),
           }),
         );
-        showToastMessage(
-          colors.alertColors.danger,
-          AlertCircleIcon,
-          'Deleted task',
-        );
       });
+    showToastMessage(
+      colors.alertColors.danger,
+      AlertCircleIcon,
+      'Deleted task',
+    );
   };
   return {todoComplete, todoInProcess, deleteTodo, createTodo};
 };

@@ -24,15 +24,19 @@ import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 import AssociateTask from '../../components/organisms/AssociateTask';
 import usePomodoro from '../../hooks/usePomodoro';
 import StopModal from '../../components/organisms/StopModal';
-import SettingsTimers from '../../components/organisms/SettingsTimers';
+import SettingsPomodoro from '../../components/organisms/SettingsPomodoro';
 
 const Pomodoro = () => {
   const {colors, containerScreen} = useTheme();
   const dispatch = useAppDispatch();
   const {todoList} = useAppSelector(state => state.todoList);
-  const {associatedTask, modalStopPomodoro, list} = useAppSelector(
-    state => state.pomodoro,
-  );
+  const {
+    associatedTask,
+    modalStopPomodoro,
+    list,
+    preferences,
+    numberOfTimersCompleted,
+  } = useAppSelector(state => state.pomodoro);
   const {
     showModal,
     handleCloseModalPress,
@@ -79,14 +83,17 @@ const Pomodoro = () => {
             isTimerRunning={isTimerRunning}
           />
           <View style={{height: size.font18}}>
-            {!associatedTask.id.length && !isTimerRunning ? (
+            {timerCount === preferences.workingTime &&
+            !associatedTask.id.length &&
+            numberOfTimersCompleted === 0 ? (
               <ButtonText
                 title="Associate task"
                 titleColor={colors.primary}
                 onPress={() => setAssociateTaskModal(!associateTaskModal)}
                 fontSize={size.font16}
               />
-            ) : (
+            ) : null}
+            {associatedTask.id.length > 0 && (
               <Text style={[styles.associatedTask, {color: colors.primary}]}>
                 {associatedTask.name}
               </Text>
@@ -101,7 +108,9 @@ const Pomodoro = () => {
           handleCloseModalPress={() => handleCloseModalPress(customizePomodoro)}
           showModalBackground={showModal}>
           <BottomSheetView style={styles.contentContainer}>
-            <SettingsTimers />
+            <SettingsPomodoro
+              closeModal={() => handleCloseModalPress(customizePomodoro)}
+            />
           </BottomSheetView>
         </BottomSheetModalBackground>
         <ModalContainer

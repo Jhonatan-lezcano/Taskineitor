@@ -1,9 +1,9 @@
 import {Dimensions, Platform} from 'react-native';
 
 //Timers Constants
-export const DEFAULT_FOCUS_TIME_MINUTES = 25 * 60 * 1000;
-export const DEFAULT_BREAK_TIME_MINUTES = 5 * 60 * 1000;
-export const LONG_BREAK_TIME_MINUTES = 15 * 60 * 1000;
+export const DEFAULT_FOCUS_TIME_MINUTES = 0.2 * 60 * 1000;
+export const DEFAULT_BREAK_TIME_MINUTES = 0.1 * 60 * 1000;
+export const LONG_BREAK_TIME_MINUTES = 0.15 * 60 * 1000;
 export const TIMER_MODE_WORK = 'work';
 export const TIMER_MODE_BREAK = 'break';
 export const TIMER_POMODORO = 'pomodoro';

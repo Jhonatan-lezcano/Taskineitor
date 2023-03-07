@@ -56,7 +56,9 @@ const Select = ({
       ) : (
         <Picker
           selectedValue={valueSelect}
-          onValueChange={itemValue => onChange(itemValue)}
+          onValueChange={itemValue =>
+            name ? onChange(name, itemValue) : onChange(itemValue)
+          }
           itemStyle={{fontSize: size.font16}}
           style={{backgroundColor: colors.background, height: 200}}
           dropdownIconColor={colors.onBackground}>

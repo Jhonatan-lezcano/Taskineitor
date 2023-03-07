@@ -67,8 +67,8 @@ const usePomodoro = () => {
   };
 
   const stopPomodoro = () => {
-    if (isTimerRunning) {
-      dispatch(setIsTimerRunning());
+    if (isTimerRunning || timerCount !== workingTime) {
+      isTimerRunning && dispatch(setIsTimerRunning());
       dispatch(changeTimerValue(workingTime));
       dispatch(changeTimerModeValue(TIMER_MODE_WORK));
       dispatch(setNumberOfTimersCompleted(0));
@@ -77,7 +77,6 @@ const usePomodoro = () => {
   };
 
   useEffect(() => {
-    console.log(isTimerRunning);
     if (isTimerRunning) startTimerBackground();
     else BackgroundTimer.stopBackgroundTimer();
 

@@ -6,6 +6,7 @@ import PlayIcon from '../../../assets/svgs/PlayIcon';
 import StopIcon from '../../../assets/svgs/StopIcon';
 import PauseIcon from '../../../assets/svgs/PauseIcon';
 import {WIDTH} from '../../../utils/constants';
+import {PreferencesTimers} from '../../../store/slices/pomodoro/pomodoroSlice';
 
 interface Props {
   startPauseTimer: () => void;
@@ -19,35 +20,21 @@ const TimerToggleButtons = ({
   isTimerRunning,
 }: Props) => {
   const {colors} = useTheme();
+
   return (
     <View style={styles.container}>
-      {isTimerRunning ? (
-        <Button
-          backgroundColor={colors.primary}
-          text="Pause"
-          titleColor={colors.onPrimary}
-          radius={20}
-          width={WIDTH * 0.25}
-          icon={PauseIcon}
-          sizeIcon={15}
-          colorIcon={colors.onPrimary}
-          customStyle={{padding: 10}}
-          onPress={startPauseTimer}
-        />
-      ) : (
-        <Button
-          backgroundColor={colors.primary}
-          text="Start"
-          titleColor={colors.onPrimary}
-          radius={20}
-          width={WIDTH * 0.25}
-          icon={PlayIcon}
-          sizeIcon={15}
-          colorIcon={colors.onPrimary}
-          customStyle={{padding: 10}}
-          onPress={startPauseTimer}
-        />
-      )}
+      <Button
+        backgroundColor={colors.primary}
+        text={isTimerRunning ? 'Pause' : 'Start'}
+        titleColor={colors.onPrimary}
+        radius={20}
+        width={WIDTH * 0.25}
+        icon={isTimerRunning ? PauseIcon : PlayIcon}
+        sizeIcon={15}
+        colorIcon={colors.onPrimary}
+        customStyle={{padding: 10}}
+        onPress={startPauseTimer}
+      />
       <Button
         backgroundColor={colors.primary}
         text="Stop"

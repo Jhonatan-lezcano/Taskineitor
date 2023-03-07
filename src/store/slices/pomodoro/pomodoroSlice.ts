@@ -8,7 +8,7 @@ import {LONG_BREAK_TIME_MINUTES} from '../../../utils/constants';
 
 type TimerMode = 'work' | 'break';
 
-interface PreferencesTimers {
+export interface PreferencesTimers {
   workingTime: number;
   breakTime: number;
   longBreakTime: number;
