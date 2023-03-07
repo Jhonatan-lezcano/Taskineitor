@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View} from 'react-native';
 import React, {useMemo, useRef, useState} from 'react';
 import AnimationView from '../../components/atoms/AnimationView';
 import meditation from '../../assets/LottieFiles/meditation.json';
@@ -49,7 +49,7 @@ const Pomodoro = () => {
   } = usePomodoro();
   const [associateTaskModal, setAssociateTaskModal] = useState(false);
 
-  const snapPoints = useMemo(() => ['25%', '50%'], []);
+  const snapPoints = Platform.OS === 'android' ? ['50%'] : ['95%'];
 
   return (
     <View style={containerScreen.container}>
@@ -95,7 +95,7 @@ const Pomodoro = () => {
         </View>
         <BottomSheetModalBackground
           refBottomSheet={customizePomodoro}
-          indexSnapPoints={1}
+          indexSnapPoints={0}
           snapPoints={snapPoints}
           onChange={handleSheetChanges}
           handleCloseModalPress={() => handleCloseModalPress(customizePomodoro)}
