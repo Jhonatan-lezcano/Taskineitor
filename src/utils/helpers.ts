@@ -7,10 +7,14 @@ export const capitalizeFirstLetter = (str: string) => {
 };
 
 export const formatDate = (date: Date) => {
+  const HH = date.getUTCHours();
   const MM = date.getMinutes();
   const SS = date.getSeconds();
 
-  return `${MM.toString().padStart(2, '0')}:${SS.toString().padStart(2, '0')}`;
+  return `${HH.toString().padStart(2, '0')}:${MM.toString().padStart(
+    2,
+    '0',
+  )}:${SS.toString().padStart(2, '0')}`;
 };
 
 export const showToastMessage = (

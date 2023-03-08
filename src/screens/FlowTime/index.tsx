@@ -8,8 +8,9 @@ import {
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
 import AnimationView from '../../components/atoms/AnimationView';
-import workTime from '../../assets/LottieFiles/work-on-home.json';
-import {WIDTH} from '../../utils/constants';
+import workTime from '../../assets/LottieFiles/man-working-on-laptop-in-office.json';
+import breakTime from '../../assets/LottieFiles/girl-meditating.json';
+import {TIMER_MODE_BREAK, TIMER_MODE_WORK, WIDTH} from '../../utils/constants';
 import useBottomSheetModal from '../../hooks/useBottomSheetModal';
 import Title from '../../components/atoms/Title';
 import {formatDate} from '../../utils/helpers';
@@ -18,7 +19,6 @@ import {size} from '../../theme/fonts';
 import TimerToggleButtons from '../../components/molecules/TimerToggleButtons';
 import ButtonText from '../../components/atoms/ButtonText';
 import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
-import SettingsPomodoro from '../../components/organisms/SettingsPomodoro';
 import ModalContainer from '../../components/organisms/ModalContainer/Index';
 import {useAppSelector, useAppDispatch} from '../../store/hooks/hooks';
 import AssociateTask, {
@@ -29,6 +29,7 @@ import {
   setModalStopFlowtime,
 } from '../../store/slices/flowtime/flowtimeSlice';
 import StopModal from '../../components/organisms/StopModal';
+import SettingsFlowtime from '../../components/organisms/SettingsFlowtime';
 
 const FlowTime = () => {
   const {containerScreen, colors} = useTheme();
@@ -53,9 +54,10 @@ const FlowTime = () => {
     list,
     taskCompleted,
     taskNotCompleted,
+    timerMode,
   } = useFlowtime();
 
-  const snapPoints = Platform.OS === 'android' ? ['50%'] : ['95%'];
+  const snapPoints = Platform.OS === 'android' ? ['40%'] : ['60%'];
 
   const associateTask = (select: StateRadio) =>
     dispatch(setAssociateTask(select));
@@ -64,11 +66,16 @@ const FlowTime = () => {
     <View style={containerScreen.container}>
       <BottomSheetModalProvider>
         <HeaderTimers
-          timerMode="work"
+          timerMode={timerMode}
           settingsAction={() => handlePresentModalPress(settingsFlowtime)}
         />
         <View style={styles.center}>
-          <AnimationView animation={workTime} size={WIDTH * 0.8} />
+          {timerMode === TIMER_MODE_WORK && (
+            <AnimationView animation={workTime} size={WIDTH * 0.8} />
+          )}
+          {timerMode === TIMER_MODE_BREAK && (
+            <AnimationView animation={breakTime} size={WIDTH * 0.8} />
+          )}
         </View>
         <View style={styles.timerAndActions}>
           <Title
@@ -83,7 +90,8 @@ const FlowTime = () => {
           />
           <View style={{height: size.font18}}>
             {timerCount === preferences.workingTime &&
-            !associatedTask.id.length ? (
+            !associatedTask.id.length &&
+            !isTimerRunning ? (
               <ButtonText
                 title="Associate task"
                 titleColor={colors.primary}
@@ -106,7 +114,7 @@ const FlowTime = () => {
           handleCloseModalPress={() => handleCloseModalPress(settingsFlowtime)}
           showModalBackground={showModal}>
           <BottomSheetView style={styles.contentContainer}>
-            <SettingsPomodoro
+            <SettingsFlowtime
               closeModal={() => handleCloseModalPress(settingsFlowtime)}
             />
           </BottomSheetView>

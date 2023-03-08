@@ -76,6 +76,12 @@ const useFlowtime = () => {
     }
   };
 
+  const alertFlowtime = () => {
+    handleStartPauseTimer();
+    console.log('desea continuar trabajando?');
+    dispatch(changeTimerValue(workingTime));
+  };
+
   useEffect(() => {
     if (isTimerRunning) startTimerBackground();
     else BackgroundTimer.stopBackgroundTimer();
@@ -95,6 +101,7 @@ const useFlowtime = () => {
     }
 
     if (timerCount === 0) {
+      alertFlowtime();
       console.log('alarma');
     }
   }, [timerCount]);

@@ -2,33 +2,31 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import Title from '../../atoms/Title';
 import {size} from '../../../theme/fonts';
-import Select from '../../atoms/Select';
-import {TIME_SELECT, TIME_SELECT_LONG} from '../../../utils/constants';
 import useTheme from '../../../hooks/useTheme';
 import Spacer from '../../atoms/Spacer';
-import {useAppSelector, useAppDispatch} from '../../../store/hooks/hooks';
+import Select from '../../atoms/Select';
+import {TIME_SELECT, TIME_SELECT_LONG} from '../../../utils/constants';
+import {useAppDispatch, useAppSelector} from '../../../store/hooks/hooks';
 import {
   changeTimerValue,
   setBreakTimePreference,
-  setLongBreakTimePreference,
   setWorkingTimePreference,
-} from '../../../store/slices/pomodoro/pomodoroSlice';
+} from '../../../store/slices/flowtime/flowtimeSlice';
 import Button from '../../atoms/Button';
 
 interface Props {
   closeModal: () => void;
 }
 
-const SettingsPomodoro = ({closeModal}: Props) => {
+const SettingsFlowtime = ({closeModal}: Props) => {
   const {colors} = useTheme();
   const dispatch = useAppDispatch();
   const {
-    preferences: {workingTime, breakTime, longBreakTime},
+    preferences: {workingTime, breakTime},
   } = useAppSelector(state => state.pomodoro);
   const [selects, setSelects] = useState({
     workingTime,
     breakTime,
-    longBreakTime,
   });
 
   const onChangeValue = (name: string, value: number) => {
@@ -42,14 +40,13 @@ const SettingsPomodoro = ({closeModal}: Props) => {
     dispatch(changeTimerValue(selects.workingTime));
     dispatch(setWorkingTimePreference(selects.workingTime));
     dispatch(setBreakTimePreference(selects.breakTime));
-    dispatch(setLongBreakTimePreference(selects.longBreakTime));
     closeModal();
   };
 
   return (
     <View>
       <Title
-        title="Customize the pomodoro"
+        title="Customize the flowtime"
         fontSize={size.font20}
         customStyles={{color: colors.onBackground, fontWeight: '500'}}
       />
@@ -81,19 +78,6 @@ const SettingsPomodoro = ({closeModal}: Props) => {
             valueSelect={selects.breakTime}
           />
         </View>
-        <View style={styles.options}>
-          <Title
-            title="Long break time"
-            fontSize={size.font16}
-            customStyles={{color: colors.onBackground, fontWeight: '500'}}
-          />
-          <Select
-            name="longBreakTime"
-            options={TIME_SELECT_LONG}
-            onChange={onChangeValue}
-            valueSelect={selects.longBreakTime}
-          />
-        </View>
       </View>
       <Spacer vertical={10} />
       <Button
@@ -107,7 +91,7 @@ const SettingsPomodoro = ({closeModal}: Props) => {
   );
 };
 
-export default SettingsPomodoro;
+export default SettingsFlowtime;
 
 const styles = StyleSheet.create({
   containerOptions: {

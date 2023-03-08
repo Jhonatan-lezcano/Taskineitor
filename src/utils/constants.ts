@@ -22,6 +22,15 @@ export const TIME_SELECT = [
   {label: '55', value: 55 * 60 * 1000},
   {label: '60', value: 60 * 60 * 1000},
 ];
+export const TIME_SELECT_LONG = [
+  ...TIME_SELECT,
+  {label: '65', value: 65 * 60 * 1000},
+  {label: '70', value: 70 * 60 * 1000},
+  {label: '75', value: 75 * 60 * 1000},
+  {label: '80', value: 80 * 60 * 1000},
+  {label: '85', value: 85 * 60 * 1000},
+  {label: '90', value: 90 * 60 * 1000},
+];
 
 //Tags Constans
 export const PENDING = 0;
