@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {View, Platform} from 'react-native';
 import React from 'react';
 import {Controller} from 'react-hook-form';
 import {Picker} from '@react-native-picker/picker';
@@ -60,7 +60,10 @@ const Select = ({
             name ? onChange(name, itemValue) : onChange(itemValue)
           }
           itemStyle={{fontSize: size.font16}}
-          style={{backgroundColor: colors.background, height: 200}}
+          style={{
+            backgroundColor: colors.background,
+            height: Platform.OS === 'ios' ? 200 : 50,
+          }}
           dropdownIconColor={colors.onBackground}>
           {options.map(item => (
             <Picker.Item

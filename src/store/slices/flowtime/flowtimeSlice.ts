@@ -1,35 +1,32 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {Todo, TodoList} from '../todoList/todoListSlice';
 import {
   DEFAULT_BREAK_TIME_MINUTES,
   DEFAULT_FOCUS_TIME_MINUTES,
+  TIMER_MODE_WORK,
 } from '../../../utils/constants';
-import {Todo, TodoList} from '../todoList/todoListSlice';
-import {LONG_BREAK_TIME_MINUTES} from '../../../utils/constants';
 
 type TimerMode = 'work' | 'break';
 
-export interface PreferencesTimers {
+interface PreferencesFlowtime {
   workingTime: number;
   breakTime: number;
-  longBreakTime: number;
 }
 
 interface InitialState {
   timerCount: number;
-  numberOfTimersCompleted: number;
   isTimerRunning: boolean;
   timerMode: TimerMode;
   list: TodoList;
   associatedTask: Todo;
-  modalStopPomodoro: boolean;
-  preferences: PreferencesTimers;
+  modalStopFlowtime: boolean;
+  preferences: PreferencesFlowtime;
 }
 
 const initialState: InitialState = {
   timerCount: DEFAULT_FOCUS_TIME_MINUTES,
-  numberOfTimersCompleted: 0,
   isTimerRunning: false,
-  timerMode: 'work',
+  timerMode: TIMER_MODE_WORK,
   list: {
     id: '',
     color: '',
@@ -46,16 +43,15 @@ const initialState: InitialState = {
     label: 0,
     name: '',
   },
-  modalStopPomodoro: false,
+  modalStopFlowtime: false,
   preferences: {
     workingTime: DEFAULT_FOCUS_TIME_MINUTES,
     breakTime: DEFAULT_BREAK_TIME_MINUTES,
-    longBreakTime: LONG_BREAK_TIME_MINUTES,
   },
 };
 
-export const pomodoroSlice = createSlice({
-  name: 'Pomodoro',
+export const flowtimeSlice = createSlice({
+  name: 'Flowtime',
   initialState,
   reducers: {
     startTimer: state => {
@@ -86,13 +82,9 @@ export const pomodoroSlice = createSlice({
         ...action.payload,
       };
     },
-    setModalStopPomodoro: state => ({
+    setModalStopFlowtime: state => ({
       ...state,
-      modalStopPomodoro: !state.modalStopPomodoro,
-    }),
-    setNumberOfTimersCompleted: (state, action) => ({
-      ...state,
-      numberOfTimersCompleted: action.payload,
+      modalStopFlowtime: !state.modalStopFlowtime,
     }),
     setWorkingTimePreference: (state, action) => ({
       ...state,
@@ -108,13 +100,6 @@ export const pomodoroSlice = createSlice({
         breakTime: action.payload,
       },
     }),
-    setLongBreakTimePreference: (state, action) => ({
-      ...state,
-      preferences: {
-        ...state.preferences,
-        longBreakTime: action.payload,
-      },
-    }),
   },
 });
 
@@ -124,11 +109,9 @@ export const {
   changeTimerModeValue,
   setIsTimerRunning,
   setAssociateTask,
-  setModalStopPomodoro,
-  setNumberOfTimersCompleted,
+  setModalStopFlowtime,
   setWorkingTimePreference,
   setBreakTimePreference,
-  setLongBreakTimePreference,
-} = pomodoroSlice.actions;
+} = flowtimeSlice.actions;
 
-export default pomodoroSlice.reducer;
+export default flowtimeSlice.reducer;

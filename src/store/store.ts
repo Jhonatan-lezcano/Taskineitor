@@ -1,5 +1,6 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import authSlice from './slices/auth/authSlice';
+import flowtimeSlice from './slices/flowtime/flowtimeSlice';
 import pomodoroSlice from './slices/pomodoro/pomodoroSlice';
 import themeSlice from './slices/theme/themeSlice';
 import timersSlice from './slices/timers/timersSlice';
@@ -9,6 +10,7 @@ const rootReducer = combineReducers({
   todoList: todoListSlice,
   theme: themeSlice,
   pomodoro: pomodoroSlice,
+  flowtime: flowtimeSlice,
   timers: timersSlice,
 });
 
