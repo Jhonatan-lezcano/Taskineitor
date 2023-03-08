@@ -13,11 +13,17 @@ import usePomodoro from '../../../hooks/usePomodoro';
 interface Props {
   associatedTask: Todo;
   list: TodoList;
+  taskCompleted: (list: TodoList, id: string) => void;
+  taskNotCompleted: () => void;
 }
 
-const StopModal = ({associatedTask, list}: Props) => {
+const StopModal = ({
+  associatedTask,
+  list,
+  taskCompleted,
+  taskNotCompleted,
+}: Props) => {
   const {colors} = useTheme();
-  const {taskCompleted, TaskNotCompleted} = usePomodoro();
 
   return (
     <View style={styles.container}>
@@ -53,7 +59,7 @@ const StopModal = ({associatedTask, list}: Props) => {
         <Spacer vertical={10} horizontal={10} />
         <Button
           text="No"
-          onPress={() => TaskNotCompleted()}
+          onPress={taskNotCompleted}
           backgroundColor={colors.primary}
           titleColor={colors.onPrimary}
           radius={10}

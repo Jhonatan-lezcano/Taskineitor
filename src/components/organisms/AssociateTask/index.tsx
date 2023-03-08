@@ -17,9 +17,10 @@ import {HEIGHT} from '../../../utils/constants';
 interface Props {
   todoList: TodoList[];
   closeModal: () => void;
+  dispatchAssociateTask: (selected: StateRadio) => void;
 }
 
-interface StateRadio {
+export interface StateRadio {
   associatedTask: Todo;
   list: TodoList;
 }
@@ -43,7 +44,11 @@ const initialState: StateRadio = {
   },
 };
 
-const AssociateTask = ({todoList, closeModal}: Props) => {
+const AssociateTask = ({
+  todoList,
+  closeModal,
+  dispatchAssociateTask,
+}: Props) => {
   const {colors} = useTheme();
   const [selected, setSelected] = useState<StateRadio>(initialState);
   const dispatch = useAppDispatch();
@@ -55,7 +60,8 @@ const AssociateTask = ({todoList, closeModal}: Props) => {
   };
 
   const handleAssociateTask = () => {
-    dispatch(setAssociateTask(selected));
+    dispatchAssociateTask(selected);
+    // dispatch(setAssociateTask(selected));
     todoInProcess(selected.list, selected.associatedTask.id);
     closeModal();
     setSelected(initialState);

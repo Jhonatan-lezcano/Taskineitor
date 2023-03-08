@@ -21,8 +21,13 @@ import BottomSheetModalBackground from '../../components/molecules/BottomSheetMo
 import SettingsPomodoro from '../../components/organisms/SettingsPomodoro';
 import ModalContainer from '../../components/organisms/ModalContainer/Index';
 import {useAppSelector, useAppDispatch} from '../../store/hooks/hooks';
-import AssociateTask from '../../components/organisms/AssociateTask';
-import {setModalStopFlowtime} from '../../store/slices/flowtime/flowtimeSlice';
+import AssociateTask, {
+  StateRadio,
+} from '../../components/organisms/AssociateTask';
+import {
+  setAssociateTask,
+  setModalStopFlowtime,
+} from '../../store/slices/flowtime/flowtimeSlice';
 import StopModal from '../../components/organisms/StopModal';
 
 const FlowTime = () => {
@@ -46,9 +51,14 @@ const FlowTime = () => {
     associatedTask,
     modalStopFlowtime,
     list,
+    taskCompleted,
+    taskNotCompleted,
   } = useFlowtime();
 
   const snapPoints = Platform.OS === 'android' ? ['50%'] : ['95%'];
+
+  const associateTask = (select: StateRadio) =>
+    dispatch(setAssociateTask(select));
 
   return (
     <View style={containerScreen.container}>
@@ -108,13 +118,19 @@ const FlowTime = () => {
           <AssociateTask
             todoList={todoList}
             closeModal={() => setAssociateTaskModal(!associateTaskModal)}
+            dispatchAssociateTask={associateTask}
           />
         </ModalContainer>
         <ModalContainer
           visible={modalStopFlowtime}
           closeModal={() => dispatch(setModalStopFlowtime())}
           width={WIDTH * 0.95}>
-          <StopModal associatedTask={associatedTask} list={list} />
+          <StopModal
+            associatedTask={associatedTask}
+            list={list}
+            taskCompleted={taskCompleted}
+            taskNotCompleted={taskNotCompleted}
+          />
         </ModalContainer>
       </BottomSheetModalProvider>
     </View>

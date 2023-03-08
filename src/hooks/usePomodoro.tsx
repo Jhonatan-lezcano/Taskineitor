@@ -61,7 +61,7 @@ const usePomodoro = () => {
     dispatch(setAssociateTask(initialStateAssociatedTask));
   };
 
-  const TaskNotCompleted = () => {
+  const taskNotCompleted = () => {
     dispatch(setModalStopPomodoro());
     dispatch(setAssociateTask(initialStateAssociatedTask));
   };
@@ -116,7 +116,7 @@ const usePomodoro = () => {
     isTimerRunning,
     stopPomodoro,
     taskCompleted,
-    TaskNotCompleted,
+    taskNotCompleted,
   };
 };
 

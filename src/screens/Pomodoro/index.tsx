@@ -9,7 +9,10 @@ import ModalContainer from '../../components/organisms/ModalContainer/Index';
 import {size} from '../../theme/fonts';
 import Title from '../../components/atoms/Title';
 import {useAppDispatch, useAppSelector} from '../../store/hooks/hooks';
-import {setModalStopPomodoro} from '../../store/slices/pomodoro/pomodoroSlice';
+import {
+  setAssociateTask,
+  setModalStopPomodoro,
+} from '../../store/slices/pomodoro/pomodoroSlice';
 import HeaderTimers from '../../components/organisms/HeaderTimers';
 import {formatDate} from '../../utils/helpers';
 import TimerToggleButtons from '../../components/molecules/TimerToggleButtons';
@@ -21,7 +24,9 @@ import {
 import {TIMER_MODE_BREAK, TIMER_MODE_WORK, WIDTH} from '../../utils/constants';
 import BottomSheetModalBackground from '../../components/molecules/BottomSheetModalBackground';
 import useBottomSheetModal from '../../hooks/useBottomSheetModal';
-import AssociateTask from '../../components/organisms/AssociateTask';
+import AssociateTask, {
+  StateRadio,
+} from '../../components/organisms/AssociateTask';
 import usePomodoro from '../../hooks/usePomodoro';
 import StopModal from '../../components/organisms/StopModal';
 import SettingsPomodoro from '../../components/organisms/SettingsPomodoro';
@@ -50,10 +55,15 @@ const Pomodoro = () => {
     timerCount,
     timerMode,
     isTimerRunning,
+    taskCompleted,
+    taskNotCompleted,
   } = usePomodoro();
   const [associateTaskModal, setAssociateTaskModal] = useState(false);
 
   const snapPoints = Platform.OS === 'android' ? ['50%'] : ['95%'];
+
+  const associateTask = (select: StateRadio) =>
+    dispatch(setAssociateTask(select));
 
   return (
     <View style={containerScreen.container}>
@@ -120,13 +130,19 @@ const Pomodoro = () => {
           <AssociateTask
             todoList={todoList}
             closeModal={() => setAssociateTaskModal(!associateTaskModal)}
+            dispatchAssociateTask={associateTask}
           />
         </ModalContainer>
         <ModalContainer
           visible={modalStopPomodoro}
           closeModal={() => dispatch(setModalStopPomodoro())}
           width={WIDTH * 0.95}>
-          <StopModal associatedTask={associatedTask} list={list} />
+          <StopModal
+            associatedTask={associatedTask}
+            list={list}
+            taskCompleted={taskCompleted}
+            taskNotCompleted={taskNotCompleted}
+          />
         </ModalContainer>
       </BottomSheetModalProvider>
     </View>
