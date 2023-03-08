@@ -6,7 +6,6 @@ This application will help you organize your tasks and manage your work time wit
 - React Navigation
 - Redux Toolkit
 - Firebase
-- React Native Testing Library 
 
 # App Flow
 
