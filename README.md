@@ -18,13 +18,13 @@ https://user-images.githubusercontent.com/65751128/224209844-8a6ae2e3-784e-4466-
 - ## Tasks 
 https://user-images.githubusercontent.com/65751128/224210206-1d3b8fda-8ae2-4e5d-905f-493656ce70ad.mp4
 
-- ### Create Task
+   - ### Create Task
 https://user-images.githubusercontent.com/65751128/224210441-23903a70-fcd2-4245-8e81-4c7fe7ecc765.mp4
 
-- ### Actions
+   - ### Actions
 https://user-images.githubusercontent.com/65751128/224210887-3f7da4f5-6b7b-461e-8f71-60c2212bae77.mp4
 
-- ### More information about the task (LongPress task)
+   - ### More information about the task (LongPress task)
 https://user-images.githubusercontent.com/65751128/224211299-27d63adf-68eb-4439-bd9e-83eabcca871e.mp4
 
 - ## Timers
